@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens — the locked visual identity (docs/DESIGN-SYSTEM.md)  */
+/*  Never hardcode hex in components. Use these tokens.                 */
+/* ------------------------------------------------------------------ */
+:root {
+  --bg: #0a0a0c; /* cool near-black, page background */
+  --bg-2: #101014; /* raised surfaces, cards */
+  --fg: #ecece6; /* warm off-white, primary text */
+  --muted: #7e7e78; /* secondary text, metadata */
+  --line: rgba(236, 236, 230, 0.12); /* dividers, borders */
+  --line-soft: rgba(236, 236, 230, 0.06); /* faint dividers */
+  --accent: #c8f24e; /* electric lime, the only accent */
+  --accent-dim: rgba(200, 242, 78, 0.12); /* accent washes / hover bleeds */
+
+  /* default ease + container */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --maxw: 1280px;
+}
+
+/* Map tokens into Tailwind so utilities (bg-bg, text-fg, text-accent,
+   border-line, font-display, font-mono, …) resolve to the tokens.      */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+
+  --font-display: var(--font-fraunces), serif;
+  --font-body: var(--font-hanken), sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-hanken), sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Visible focus ring (a11y non-negotiable) — lime outline. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Layout helpers                                                     */
+/* ------------------------------------------------------------------ */
+.wrap {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 30px;
+}
+
+@media (max-width: 760px) {
+  .wrap {
+    padding-inline: 24px;
+  }
+}
+
+.disp {
+  font-family: var(--font-fraunces), serif;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Type scale (fluid, mobile-first) — docs/DESIGN-SYSTEM.md           */
+/* ------------------------------------------------------------------ */
+.t-wordmark {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(72px, 21vw, 300px);
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+}
+
+.t-h1 {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(56px, 13vw, 180px);
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+}
+
+.t-h2 {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.t-project {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(36px, 5.5vw, 72px);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+}
+
+.t-lead {
+  font-size: clamp(16px, 2vw, 19px);
+  line-height: 1.55;
+}
+
+.t-mono {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.accent-italic {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Film-grain overlay (rendered by <Grain />)                         */
+/* ------------------------------------------------------------------ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Pulsing status dot in the Nav. */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(200, 242, 78, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(200, 242, 78, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(200, 242, 78, 0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Respect reduced motion everywhere.                                 */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
