@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 //   ghost   — hairline border, lime border + text on hover
 // Mono label, uppercase, slight tracking. Wrappable in <Magnetic> later.
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2.5 rounded-[2px] px-6 py-[15px] font-mono text-[13px] font-medium uppercase tracking-[0.015em] transition-[color,background-color,border-color] duration-300 ease-brand",
+  "inline-flex items-center justify-center gap-2.5 rounded-[2px] px-6 py-[15px] font-body text-[13px] font-semibold uppercase tracking-[0.05em] transition-[color,background-color,border-color] duration-300 ease-brand",
   {
     variants: {
       variant: {
