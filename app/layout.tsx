@@ -4,6 +4,7 @@ import { fontVariables } from "@/lib/fonts";
 import { Grain } from "@/components/layout/Grain";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
+import { Cursor } from "@/components/motion/Cursor";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <body>
         <Grain />
+        <Cursor />
         <Nav />
         <SmoothScroll>
           {children}

@@ -1,38 +1,92 @@
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/motion/Reveal";
+import { Magnetic } from "@/components/motion/Magnetic";
+import { WorkIndex } from "@/components/work/WorkIndex";
 
-// Phase 1 placeholder home. The full editorial index, marquee and motion
-// land in Phase 3 — this keeps `main` shippable and on-brand in the meantime.
+// Marquee tech list. Duplicated inline so the CSS translateX(-50%) loop is
+// seamless. Decorative, so the whole strip is aria-hidden.
+const tech = [
+  "Next.js",
+  "TypeScript",
+  "Tailwind",
+  "shadcn/ui",
+  "Framer Motion",
+  "Supabase",
+  "API Integration",
+  "Vercel",
+];
+const strong = new Set(["TypeScript", "shadcn/ui", "API Integration"]);
+
+function TechRun() {
+  return (
+    <>
+      {tech.map((t, i) => (
+        <span key={`${t}-${i}`} className="contents">
+          <span>{strong.has(t) ? <b>{t}</b> : t}</span>
+          <span>·</span>
+        </span>
+      ))}
+    </>
+  );
+}
+
 export default function Home() {
   return (
-    <main className="wrap pt-[140px] pb-[60px]">
-      <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
-        Frontend developer · Bilingual EN/ES · San José, CR ·{" "}
-        <b className="font-medium text-accent">Open to remote</b>
-      </p>
-
-      <h1 className="t-wordmark mt-5">RANDALL</h1>
-
-      <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
-        <h2 className="t-h2 max-w-[16ch]">
-          Polished frontends for people doing{" "}
-          <em className="accent-italic">real work.</em>
-        </h2>
-
-        <div className="max-w-[38ch]">
-          <p className="t-lead text-fg/80">
-            A decade across legal, executive, and customer-facing roles, now
-            building web apps that hold up under real workflows.
+    <main>
+      <section className="wrap pt-[140px] pb-[60px]">
+        <Reveal>
+          <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
+            Frontend developer · Bilingual EN/ES · San José, CR ·{" "}
+            <b className="font-medium text-accent">Open to remote</b>
           </p>
-          <div className="mt-[34px] flex flex-wrap gap-3.5">
-            <Button href="/work" dataCursor="View">
-              See my work →
-            </Button>
-            <Button href="/about" variant="ghost">
-              The crossover
-            </Button>
+        </Reveal>
+
+        <Reveal delay={0.05}>
+          <h1 className="t-wordmark mt-5">RANDALL</h1>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div className="hero-sub">
+            <h2 className="h-head">
+              Polished frontends for people doing{" "}
+              <em>real work.</em>
+            </h2>
+
+            <p className="h-lead">
+              A decade across legal, executive, and customer-facing roles, now
+              building web apps that hold up under real workflows.
+            </p>
+
+            <div className="h-cta">
+              <Magnetic>
+                <Button href="/work" dataCursor="View">
+                  See my work →
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button href="/contact" variant="ghost">
+                  Get in touch
+                </Button>
+              </Magnetic>
+            </div>
           </div>
+        </Reveal>
+      </section>
+
+      <div className="strip" aria-hidden="true">
+        <div className="marquee">
+          <TechRun />
+          <TechRun />
         </div>
       </div>
+
+      <section className="work" id="work">
+        <div className="wrap">
+          <Reveal>
+            <WorkIndex />
+          </Reveal>
+        </div>
+      </section>
     </main>
   );
 }
