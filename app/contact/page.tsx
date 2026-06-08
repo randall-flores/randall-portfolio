@@ -9,11 +9,16 @@ export const metadata: Metadata = {
 
 const EMAIL = "randall.floresespinoza@gmail.com";
 
-// TODO(Randall): replace the "#" placeholders with your real profile URLs.
 const links = [
-  { label: "GitHub", href: "#" }, // TODO: GitHub profile URL
-  { label: "LinkedIn", href: "#" }, // TODO: LinkedIn profile URL
-  { label: "Contra", href: "#" }, // TODO: Contra profile URL
+  { label: "GitHub", href: "https://github.com/randallfloresespinoza-coder" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/randallflores1493/",
+  },
+  {
+    label: "Contra",
+    href: "https://contra.com/randall_flores_n1w62fvm/work?r=randall_flores_n1w62fvm",
+  },
 ];
 
 export default function ContactPage() {

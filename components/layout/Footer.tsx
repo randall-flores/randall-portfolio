@@ -1,11 +1,19 @@
 import Link from "next/link";
 
 const social = [
-  { label: "hello@randall.dev", href: "mailto:hello@randall.dev" },
-  { label: "GitHub", href: "#" },
-  { label: "LinkedIn", href: "#" },
-  { label: "Contra", href: "#" },
-  { label: "Download CV ↓", href: "#" },
+  {
+    label: "randall.floresespinoza@gmail.com",
+    href: "mailto:randall.floresespinoza@gmail.com",
+  },
+  { label: "GitHub", href: "https://github.com/randallfloresespinoza-coder" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/randallflores1493/",
+  },
+  {
+    label: "Contra",
+    href: "https://contra.com/randall_flores_n1w62fvm/work?r=randall_flores_n1w62fvm",
+  },
 ];
 
 export function Footer() {
@@ -27,13 +35,15 @@ export function Footer() {
 
         <ul className="mt-[46px] flex flex-wrap justify-between gap-5 font-mono text-xs uppercase tracking-[0.05em] text-muted">
           {social.map((s) => {
-            const external = s.href.startsWith("mailto:");
+            const external = s.href.startsWith("http");
             return (
               <li key={s.label}>
                 <a
                   href={s.href}
                   className="transition-colors hover:text-accent"
-                  {...(external ? {} : { rel: "noopener" })}
+                  {...(external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                 >
                   {s.label}
                 </a>
