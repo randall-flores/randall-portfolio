@@ -996,6 +996,212 @@ a {
 }
 
 /* ------------------------------------------------------------------ */
+/*  /about — the crossover story                                       */
+/* ------------------------------------------------------------------ */
+.ab {
+  padding-top: 140px;
+  padding-bottom: 30px;
+}
+.ab-kick {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.ab-title {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(44px, 9vw, 120px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.ab-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.ab-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 0.9fr;
+  gap: 60px;
+  margin-top: 54px;
+  align-items: start;
+}
+.ab-lead {
+  font-size: clamp(19px, 2.4vw, 26px);
+  line-height: 1.5;
+  color: #d6d6d0;
+  letter-spacing: -0.01em;
+}
+.ab-prose p {
+  max-width: 62ch;
+  font-size: clamp(16px, 1.7vw, 18px);
+  line-height: 1.7;
+  color: #c8c8c2;
+  margin-top: 24px;
+}
+.ab-aside {
+  position: sticky;
+  top: 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.ab-portrait {
+  aspect-ratio: 4 / 5;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  background: var(--bg-2);
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  margin: 0;
+}
+.ab-portrait figcaption {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ab-facts {
+  display: flex;
+  flex-direction: column;
+}
+.ab-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.ab-facts dt {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ab-facts dd {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  color: var(--fg);
+  text-align: right;
+}
+.ab-look {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.ab-look .k {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.ab-look .t {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(24px, 3.4vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+}
+.ab-look .t em {
+  font-style: italic;
+  color: var(--accent);
+}
+@media (max-width: 860px) {
+  .ab-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .ab-aside {
+    position: static;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  /contact                                                           */
+/* ------------------------------------------------------------------ */
+.ct {
+  padding-top: 150px;
+  padding-bottom: 70px;
+}
+.ct-kick {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.ct-title {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(48px, 11vw, 150px);
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.ct-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.ct-lead {
+  font-size: clamp(17px, 2.2vw, 21px);
+  line-height: 1.5;
+  color: #c8c8c2;
+  margin-top: 28px;
+  max-width: 46ch;
+}
+.ct-email {
+  display: inline-block;
+  margin-top: 46px;
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(24px, 5vw, 58px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 8px;
+  transition: color 0.3s;
+  word-break: break-word;
+}
+.ct-email:hover {
+  color: var(--accent);
+}
+.ct-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 30px;
+  margin-top: 60px;
+  padding-top: 34px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ct-links a {
+  transition: color 0.25s;
+}
+.ct-links a:hover {
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ */
 /*  Respect reduced motion everywhere.                                 */
 /* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
