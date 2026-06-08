@@ -57,7 +57,6 @@ export default function ContactPage() {
               {l.label} ↗
             </a>
           ))}
-          {/* TODO(Randall): drop your CV at public/cv.pdf — this link 404s until then. */}
           <a href="/cv.pdf" download data-cursor="Download">
             Download CV ↓
           </a>
