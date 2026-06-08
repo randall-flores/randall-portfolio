@@ -6,6 +6,10 @@
 export type Capability = "ai" | "fullstack" | "design" | "client";
 export type Visibility = "public" | "confidential";
 
+// Status shown on the /work card media: a live site, or a guardrail marker for
+// confidential projects (anonymized screens / fully confidential).
+export type ProjectStatus = "live" | "anonymized" | "confidential";
+
 export type Project = {
   slug: string;
   title: string;
@@ -25,6 +29,12 @@ export type Project = {
   tags: string[]; // short display tags (the case study carries the full stack)
   gradient: string; // placeholder visual until real screenshots land (Phase 7)
   wide?: boolean; // spans full width in the Gallery view
+  // /work page display fields
+  description: string; // one-to-two sentence card blurb
+  category: string; // mono category line, e.g. "AI Product · Full-Stack"
+  initials: string; // ghosted monogram on the app-screenshot visual
+  mediaCaption: string; // small caption inside the visual
+  status?: ProjectStatus; // dot marker on the visual (omit for none)
 };
 
 export const projects: Project[] = [
@@ -47,6 +57,11 @@ export const projects: Project[] = [
     year: 2025,
     tags: ["AI Product", "Claude API", "SerpApi"],
     gradient: "linear-gradient(135deg,#1a2030,#0d1118)",
+    description:
+      "An AI-powered flight search that turns plain-language travel intent into real fare options. Built on the Claude API for reasoning and SerpApi for live results.",
+    category: "AI Product · Full-Stack · API Integration",
+    initials: "FW",
+    mediaCaption: "FareWise — AI flight results",
   },
   {
     slug: "leonie-dubuc",
@@ -68,6 +83,12 @@ export const projects: Project[] = [
     live: true,
     tags: ["Client", "Design System", "EN/DE"],
     gradient: "linear-gradient(135deg,#171225,#241b33)",
+    description:
+      "Production site for a German voice-over actress. A custom liquid-glass design system, magnetic interactions, bilingual routing, and German legal compliance pages.",
+    category: "Client · Design System · EN/DE",
+    initials: "LD",
+    mediaCaption: "Leonie Dubuc — Live",
+    status: "live",
   },
   {
     slug: "hollow-ronin",
@@ -89,6 +110,11 @@ export const projects: Project[] = [
     tags: ["Headless Shopify", "Printify", "Brand"],
     gradient: "linear-gradient(120deg,#161616,#21201a,#101010)",
     wide: true,
+    description:
+      "A drop-based streetwear brand built end to end on headless Shopify and Printify, with AI-generated art driving the visual identity.",
+    category: "Brand · Headless Commerce · Design",
+    initials: "HR",
+    mediaCaption: "Hollow Ronin — Drop store",
   },
   {
     slug: "sana",
@@ -108,6 +134,12 @@ export const projects: Project[] = [
     year: 2025,
     tags: ["Full-stack", "Supabase RLS", "next-intl"],
     gradient: "linear-gradient(135deg,#0f1a17,#13241f)",
+    description:
+      "A bilingual personal-injury companion app. Next.js front to back, Supabase auth with row-level security, and next-intl for EN/ES. Screens anonymized.",
+    category: "Full-Stack · Auth · i18n",
+    initials: "SA",
+    mediaCaption: "Sana — Anonymized",
+    status: "anonymized",
   },
   {
     slug: "shaked-law-tool",
@@ -128,5 +160,11 @@ export const projects: Project[] = [
     year: 2024,
     tags: ["Internal", "Doc Automation", "Confidential"],
     gradient: "linear-gradient(135deg,#1a1518,#231a1d)",
+    description:
+      "Case management and records-request automation for a law firm. Generates documents and removes repetitive manual steps from a real legal workflow. Fully anonymized.",
+    category: "Internal · Workflow · Document Automation",
+    initials: "SL",
+    mediaCaption: "Internal tool — Confidential",
+    status: "confidential",
   },
 ];

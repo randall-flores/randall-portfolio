@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const links = [
@@ -10,6 +11,8 @@ const links = [
 ];
 
 export function Nav() {
+  const pathname = usePathname();
+
   // Live Costa Rica clock. Rendered client-side only to avoid a
   // server/client time mismatch; falls back to "CR" before mount.
   const [time, setTime] = useState<string | null>(null);
@@ -49,11 +52,24 @@ export function Nav() {
           aria-label="Primary"
           className="hidden gap-[26px] font-mono text-xs uppercase tracking-[0.04em] text-muted md:flex"
         >
-          {links.map((l) => (
-            <Link key={l.href} href={l.href} className="transition-colors hover:text-fg">
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const active =
+              pathname === l.href || pathname.startsWith(`${l.href}/`);
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                aria-current={active ? "page" : undefined}
+                className={
+                  active
+                    ? "text-accent transition-colors"
+                    : "transition-colors hover:text-fg"
+                }
+              >
+                {l.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.05em] text-muted">
