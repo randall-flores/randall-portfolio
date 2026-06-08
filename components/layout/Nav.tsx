@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { MobileMenu } from "@/components/layout/MobileMenu";
 
 const links = [
   { label: "Work", href: "/work" },
@@ -72,14 +73,17 @@ export function Nav() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.05em] text-muted">
-          <span
-            aria-hidden="true"
-            className="size-[7px] rounded-full bg-accent [animation:pulse_2.4s_infinite]"
-          />
-          <span suppressHydrationWarning>
-            Available · {time ? `${time} ` : ""}CR
-          </span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.05em] text-muted">
+            <span
+              aria-hidden="true"
+              className="size-[7px] rounded-full bg-accent [animation:pulse_2.4s_infinite]"
+            />
+            <span suppressHydrationWarning>
+              Available · {time ? `${time} ` : ""}CR
+            </span>
+          </div>
+          <MobileMenu />
         </div>
       </div>
     </header>

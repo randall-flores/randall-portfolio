@@ -51,6 +51,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Safety net only — real overflow sources are fixed at the element level. */
+  overflow-x: hidden;
 }
 
 body {
@@ -305,6 +307,14 @@ a {
 }
 .hero-wordmark {
   animation: wordmark-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* "RANDALL" is ~4.2em wide; the 72px floor of t-wordmark overflows the
+   content box on narrow phones. Ease the scale below 480px so the single
+   word always fits inside .wrap (the source of the few-px sideways scroll). */
+@media (max-width: 480px) {
+  .hero-wordmark {
+    font-size: clamp(56px, 19vw, 300px);
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -1229,6 +1239,91 @@ a {
   transition: color 0.25s;
 }
 .ct-links a:hover {
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Mobile menu (rendered by <MobileMenu />). Button shows only on small */
+/*  screens; the overlay panel is portalled to <body>.                   */
+/* ------------------------------------------------------------------ */
+.menu-btn {
+  display: none;
+}
+@media (max-width: 760px) {
+  .menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-right: -8px;
+    color: var(--fg);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.25s;
+  }
+  .menu-btn:hover {
+    color: var(--accent);
+  }
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90; /* below the fixed header (z-100) so the toggle stays tappable */
+  overflow: hidden; /* clip the off-screen (translated) panel — no page overflow */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.menu-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.menu-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 12, 0.6);
+  backdrop-filter: blur(4px);
+  border: none;
+  cursor: pointer;
+}
+.menu-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(82vw, 360px);
+  background: var(--bg-2);
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  padding: 96px 28px 40px;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.menu-overlay.is-open .menu-panel {
+  transform: none;
+}
+.menu-panel a {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  font-size: clamp(28px, 7.5vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-soft);
+  transition: color 0.25s;
+}
+.menu-panel a:hover,
+.menu-panel a:focus-visible {
+  color: var(--accent);
+}
+.menu-panel a.active {
   color: var(--accent);
 }
 
