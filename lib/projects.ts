@@ -64,8 +64,8 @@ export const projects: Project[] = [
     mediaCaption: "FareWise — AI flight results",
   },
   {
-    slug: "leonie-dubuc",
-    title: "Leonie Dubuc",
+    slug: "vox",
+    title: "Vox",
     tagline:
       "Production site for a German voice-over actress. A custom liquid-glass design system, bilingual, shipped.",
     capabilities: ["design", "client"],
@@ -81,13 +81,13 @@ export const projects: Project[] = [
     visibility: "public",
     year: 2025,
     live: true,
-    tags: ["Client", "Design System", "EN/DE"],
+    tags: ["Voice-over", "Design System", "EN/DE"],
     gradient: "linear-gradient(135deg,#171225,#241b33)",
     description:
       "Production site for a German voice-over actress. A custom liquid-glass design system, magnetic interactions, bilingual routing, and German legal compliance pages.",
     category: "Client · Design System · EN/DE",
-    initials: "LD",
-    mediaCaption: "Leonie Dubuc — Live",
+    initials: "VX",
+    mediaCaption: "Vox — Live",
     status: "live",
   },
   {

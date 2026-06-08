@@ -23,9 +23,9 @@ Fill the blanks marked TODO with Randall before publishing.
 - **links:** live TODO, repo TODO
 - **visibility:** public
 
-## 2. Leonie Dubuc
+## 2. Vox
 
-- **slug:** leonie-dubuc
+- **slug:** vox
 - **tagline:** Production site for a German voice-over actress. A custom liquid-glass design system, bilingual, shipped.
 - **capabilities:** design, client
 - **stack:** Next.js, Tailwind, framer-motion, i18n (EN/DE), Vercel

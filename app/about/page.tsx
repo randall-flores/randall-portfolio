@@ -54,7 +54,7 @@ export default function AboutPage() {
                 that waste people&apos;s time, and turn them into tools that hold
                 up in production. FareWise turns plain-language travel intent
                 into real fares. Caseflow removes repetitive steps from a legal
-                records workflow. Leonie Dubuc shipped as a bilingual production
+                records workflow. Vox shipped as a bilingual production
                 site for a real client.
               </p>
               <p>
