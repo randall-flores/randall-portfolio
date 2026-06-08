@@ -49,7 +49,7 @@ Content for each project lives in `docs/PROJECTS.md` and should be modeled as ty
 
 ## Client-data guardrail (important)
 
-Some projects touch a real law firm and sensitive personal-injury data. For Sana and the Shaked Law Tool: anonymized screenshots only, dummy content only, never real case data, names, or client details. When in doubt, leave it out and ask Randall. Mark each project public or confidential in `lib/projects.ts`.
+Some projects touch a real law firm and sensitive personal-injury data. For Sana and Caseflow: anonymized screenshots only, dummy content only, never real case data, names, or client details. When in doubt, leave it out and ask Randall. Mark each project public or confidential in `lib/projects.ts`.
 
 ## How to work with Randall
 

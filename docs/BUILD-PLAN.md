@@ -38,7 +38,7 @@ Work phase by phase. Each phase ends in something that builds, deploys, and is t
 
 - [ ] Typed project data in `lib/projects.ts` from `docs/PROJECTS.md`.
 - [ ] One reusable case-study template: problem, what I built, stack, my role, outcomes, live + repo links, next/prev project.
-- [ ] Apply the client-data guardrail to Sana and Shaked (anonymized, dummy data only).
+- [ ] Apply the client-data guardrail to Sana and Caseflow (anonymized, dummy data only).
 
 ## Phase 6 — About and Contact
 
@@ -66,4 +66,4 @@ Work phase by phase. Each phase ends in something that builds, deploys, and is t
 - [ ] Final email address and the GitHub / LinkedIn / Contra URLs.
 - [ ] Headshot or photo (optional).
 - [ ] Final CV PDF.
-- [ ] Confirm exactly what is safe to show for Sana and the Shaked Law Tool.
+- [ ] Confirm exactly what is safe to show for Sana and Caseflow.

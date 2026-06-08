@@ -142,8 +142,8 @@ export const projects: Project[] = [
     status: "anonymized",
   },
   {
-    slug: "shaked-law-tool",
-    title: "Shaked Law Tool",
+    slug: "caseflow",
+    title: "Caseflow",
     tagline:
       "Case management and records-request automation. An internal tool that removes manual steps from a real legal workflow.",
     capabilities: ["fullstack", "client"],
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     description:
       "Case management and records-request automation for a law firm. Generates documents and removes repetitive manual steps from a real legal workflow. Fully anonymized.",
     category: "Internal · Workflow · Document Automation",
-    initials: "SL",
+    initials: "CF",
     mediaCaption: "Internal tool — Confidential",
     status: "confidential",
   },

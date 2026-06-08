@@ -62,9 +62,9 @@ Fill the blanks marked TODO with Randall before publishing.
 - **links:** live TODO (confirm if public), repo TODO
 - **visibility:** confidential — anonymized screenshots and dummy content only, no real case data or client details. Confirm with Randall what is safe to show.
 
-## 5. Shaked Law Tool
+## 5. Caseflow
 
-- **slug:** shaked-law-tool
+- **slug:** caseflow
 - **tagline:** Case management and records-request automation. An internal tool that removes manual steps from a real legal workflow.
 - **capabilities:** fullstack, client
 - **stack:** Next.js, React, TypeScript, Tailwind, PDF generation / document automation, Vercel
