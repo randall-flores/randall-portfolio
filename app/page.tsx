@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/Reveal";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { WorkIndex } from "@/components/work/WorkIndex";
+
+const description =
+  "Portfolio of Randall Flores, a bilingual frontend and full-stack developer in Costa Rica. AI products, client sites, and internal tools built to hold up under real workflows.";
+
+export const metadata: Metadata = {
+  description,
+  openGraph: { title: "Randall — Frontend & Full-Stack Developer", description },
+  twitter: { title: "Randall — Frontend & Full-Stack Developer", description },
+};
 
 // Marquee tech list. Duplicated inline so the CSS translateX(-50%) loop is
 // seamless. Decorative, so the whole strip is aria-hidden.

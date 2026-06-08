@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { Reveal } from "@/components/motion/Reveal";
 import { EmailCopy } from "@/components/contact/EmailCopy";
 
+const description =
+  "Get in touch with Randall. Open to remote frontend and full-stack roles. Email, GitHub, LinkedIn, Contra, and CV.";
+
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Get in touch with Randall. Open to remote frontend and full-stack roles. Email, GitHub, LinkedIn, Contra, and CV.",
+  description,
+  openGraph: { title: "Contact", description, type: "website" },
+  twitter: { title: "Contact", description },
 };
 
 const links = [

@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { Reveal } from "@/components/motion/Reveal";
 import { WorkList } from "@/components/work/WorkList";
 
+const description =
+  "Selected work, 2024–2026. Frontend, full-stack, design systems, AI integration, and i18n, filterable by capability.";
+
 export const metadata: Metadata = {
   title: "Work",
-  description:
-    "Selected work, 2024–2026. Frontend, full-stack, design systems, AI integration, and i18n, filterable by capability.",
+  description,
+  openGraph: { title: "Work", description, type: "website" },
+  twitter: { title: "Work", description },
 };
 
 const range = [

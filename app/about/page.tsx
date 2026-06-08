@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/Reveal";
 
+const description =
+  "Randall is a bilingual (EN/ES) frontend and full-stack developer in Costa Rica, with a decade in legal, executive, and customer-facing roles. The crossover: he ships tools people actually use.";
+
 export const metadata: Metadata = {
   title: "About",
-  description:
-    "Randall is a bilingual (EN/ES) frontend and full-stack developer in Costa Rica, with a decade in legal, executive, and customer-facing roles. The crossover: he ships tools people actually use.",
+  description,
+  openGraph: { title: "About", description, type: "profile" },
+  twitter: { title: "About", description },
 };
 
 const facts = [

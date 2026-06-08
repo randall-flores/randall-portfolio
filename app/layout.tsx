@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { fontVariables } from "@/lib/fonts";
+import { SITE_URL, SITE_NAME, SITE_TITLE, SITE_DESCRIPTION } from "@/lib/site";
 import { Grain } from "@/components/layout/Grain";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
@@ -8,20 +9,26 @@ import { Cursor } from "@/components/motion/Cursor";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://randall-portfolio.vercel.app"),
+  // metadataBase resolves relative URLs (OG images, etc). Set from lib/site.ts
+  // — update SITE_URL there when a custom domain is added.
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Randall — Frontend & Full-Stack Developer",
+    default: SITE_TITLE,
     template: "%s — Randall",
   },
-  description:
-    "Bilingual (EN/ES) frontend and full-stack developer in Costa Rica. Polished web apps that hold up under real workflows.",
+  description: SITE_DESCRIPTION,
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Randall",
-    title: "Randall — Frontend & Full-Stack Developer",
-    description:
-      "Bilingual (EN/ES) frontend and full-stack developer in Costa Rica. Polished web apps that hold up under real workflows.",
+    siteName: SITE_NAME,
+    url: "/",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
 };
 

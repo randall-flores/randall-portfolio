@@ -40,7 +40,17 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   if (!project) return {};
-  return { title: project.title, description: project.tagline };
+  return {
+    title: project.title,
+    description: project.tagline,
+    openGraph: {
+      title: project.title,
+      description: project.tagline,
+      type: "article",
+      url: `/work/${project.slug}`,
+    },
+    twitter: { title: project.title, description: project.tagline },
+  };
 }
 
 export default async function CaseStudyPage({ params }: Params) {
