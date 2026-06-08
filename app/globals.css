@@ -1164,9 +1164,11 @@ a {
   margin-top: 28px;
   max-width: 46ch;
 }
+.ct-email-wrap {
+  margin-top: 46px;
+}
 .ct-email {
   display: inline-block;
-  margin-top: 46px;
   font-family: var(--font-fraunces), serif;
   font-weight: 500;
   font-size: clamp(24px, 5vw, 58px);
@@ -1179,6 +1181,16 @@ a {
   word-break: break-word;
 }
 .ct-email:hover {
+  color: var(--accent);
+}
+.ct-copied {
+  display: block;
+  margin-top: 14px;
+  min-height: 1em;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--accent);
 }
 .ct-links {

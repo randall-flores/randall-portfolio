@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion/Reveal";
+import { EmailCopy } from "@/components/contact/EmailCopy";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Get in touch with Randall. Open to remote frontend and full-stack roles. Email, GitHub, LinkedIn, Contra, and CV.",
 };
-
-const EMAIL = "randall.floresespinoza@gmail.com";
 
 const links = [
   { label: "GitHub", href: "https://github.com/randallfloresespinoza-coder" },
@@ -42,9 +41,7 @@ export default function ContactPage() {
       </Reveal>
 
       <Reveal delay={0.15}>
-        <a className="ct-email" href={`mailto:${EMAIL}`} data-cursor="Email">
-          {EMAIL}
-        </a>
+        <EmailCopy />
       </Reveal>
 
       <Reveal>
