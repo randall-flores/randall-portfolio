@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 // Private proof-of-system page. Not linked in nav, kept out of search.
@@ -130,7 +131,7 @@ export default function StyleGuide() {
 
       {/* Sample project index row */}
       <Section label="Project index row">
-        <a
+        <Link
           href="/work/farewise"
           data-cursor="View case"
           className="group grid grid-cols-1 items-center gap-3 border-b border-line-soft px-3 py-7 transition-[padding,background] duration-300 ease-brand hover:bg-[linear-gradient(90deg,var(--accent-dim),transparent_55%)] hover:pl-6 sm:grid-cols-[60px_1fr_auto] sm:gap-5"
@@ -154,7 +155,7 @@ export default function StyleGuide() {
             </span>
             <span className="font-mono text-xs text-muted">2025</span>
           </span>
-        </a>
+        </Link>
       </Section>
     </main>
   );
