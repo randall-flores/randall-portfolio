@@ -2,7 +2,7 @@
 // robots, and absolute OG image URLs.
 // TODO(Randall): change this to the custom domain once it's connected. Until
 // then it's the Vercel deployment URL.
-export const SITE_URL = "https://randall-portfolio.vercel.app";
+export const SITE_URL = "https://randall-portfolio-six.vercel.app";
 
 export const SITE_NAME = "Randall Flores";
 export const SITE_TITLE = "Randall — Frontend & Full-Stack Developer";
