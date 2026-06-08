@@ -292,6 +292,21 @@ a {
   }
 }
 
+/* Hero wordmark entrance. Transform only, opacity stays 1, so the text is
+   painted from the first frame and counts as LCP immediately. The global
+   reduced-motion rule disables the animation. */
+@keyframes wordmark-in {
+  from {
+    transform: translateY(12px);
+  }
+  to {
+    transform: none;
+  }
+}
+.hero-wordmark {
+  animation: wordmark-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Tech marquee strip                                                 */
 /* ------------------------------------------------------------------ */

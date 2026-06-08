@@ -51,9 +51,10 @@ export default function Home() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.05}>
-          <h1 className="t-wordmark mt-5">RANDALL</h1>
-        </Reveal>
+        {/* Server-rendered, visible in the initial HTML so it paints as the
+            LCP element without waiting for JS. CSS entrance below animates
+            transform only (opacity stays 1), so it never blocks first paint. */}
+        <h1 className="t-wordmark hero-wordmark mt-5">RANDALL</h1>
 
         <Reveal delay={0.1}>
           <div className="hero-sub">
