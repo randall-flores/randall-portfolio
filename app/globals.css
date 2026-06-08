@@ -13,6 +13,9 @@
   --line-soft: rgba(236, 236, 230, 0.06); /* faint dividers */
   --accent: #c8f24e; /* electric lime, the only accent */
   --accent-dim: rgba(200, 242, 78, 0.12); /* accent washes / hover bleeds */
+  --accent-btn: #b8e63c; /* slightly deeper lime, BUTTON FILLS ONLY — cuts the
+                            halation that makes near-black label text shimmer on
+                            the bright accent. Do not use elsewhere. */
 
   /* default ease + container */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -30,6 +33,7 @@
   --color-line-soft: var(--line-soft);
   --color-accent: var(--accent);
   --color-accent-dim: var(--accent-dim);
+  --color-accent-btn: var(--accent-btn);
 
   --font-display: var(--font-fraunces), serif;
   --font-body: var(--font-hanken), sans-serif;
@@ -1211,6 +1215,17 @@ a {
 }
 .ct-links a:hover {
   color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Touch targets — meet the 44px minimum on coarse pointers without    */
+/*  changing the desktop look.                                          */
+/* ------------------------------------------------------------------ */
+@media (pointer: coarse) {
+  .fpills button,
+  .toggle button {
+    min-height: 44px;
+  }
 }
 
 /* ------------------------------------------------------------------ */

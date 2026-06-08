@@ -6,14 +6,15 @@ import { cn } from "@/lib/utils";
 //   primary — lime fill, near-black text
 //   ghost   — hairline border, lime border + text on hover
 // Body-font label (Hanken), uppercase, tracked. Primary runs heavier (700)
-// so the near-black text holds its strokes on the bright lime fill.
+// in near-black (--bg) on a slightly deeper button-only lime (--accent-btn),
+// so the label stays crisp without the bright-accent halation.
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2.5 rounded-[2px] px-6 py-[15px] font-body text-[13px] font-semibold uppercase tracking-[0.05em] transition-[color,background-color,border-color] duration-300 ease-brand",
   {
     variants: {
       variant: {
         primary:
-          "border border-accent bg-accent font-bold text-bg hover:brightness-110",
+          "border border-accent-btn bg-accent-btn font-bold text-bg hover:brightness-105",
         ghost:
           "border border-line text-fg hover:border-accent hover:text-accent",
       },
