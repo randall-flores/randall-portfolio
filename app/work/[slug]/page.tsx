@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/motion/Reveal";
+import { CardVideo } from "@/components/work/CardVideo";
 import {
   projects,
   type Capability,
@@ -121,18 +122,30 @@ export default async function CaseStudyPage({ params }: Params) {
       <Reveal delay={0.1}>
         <div className="cs-hero">
           <div
-            className="p-visual"
+            className={
+              project.slug === "hollow-ronin" ? "p-visual dark" : "p-visual"
+            }
             role="img"
-            aria-label={`${project.title} interface preview (placeholder visual)`}
+            aria-label={`${project.title} interface preview`}
           >
             <div className="p-chrome" aria-hidden="true">
               <i />
               <i />
               <i />
             </div>
-            <div className="p-ghost" aria-hidden="true">
-              {project.initials}
-            </div>
+            {project.video ? (
+              <CardVideo
+                slug={project.slug}
+                poster={`/cards/${project.slug}-poster.jpg`}
+                dark={project.slug === "hollow-ronin"}
+                autoplayInView
+                preload="metadata"
+              />
+            ) : (
+              <div className="p-ghost" aria-hidden="true">
+                {project.initials}
+              </div>
+            )}
             <div className="p-cap">
               {project.status ? (
                 <span

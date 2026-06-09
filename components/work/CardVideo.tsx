@@ -2,21 +2,28 @@
 
 import { useEffect, useRef } from "react";
 
-// Preview video that lives inside a Work card's .p-visual media area. The poster
-// is the resting state, so initial load stays light (preload="none", no
-// autoplay). Playback is opt-in:
-//   - Fine pointer (desktop): play on card hover, pause + reset on leave.
-//   - Coarse pointer (touch): play while the card is in view (Intersection
-//     observer), pause + reset when it scrolls away.
-//   - prefers-reduced-motion: never play. The poster is all the user sees.
+// Preview video that fills a .p-visual media area. Two playback modes, both
+// respecting prefers-reduced-motion (never play, poster only):
+//   - Default (Work cards): light. preload="none", no autoplay. Fine pointer
+//     plays on card hover; coarse pointer plays while the card is in view.
+//   - autoplayInView (case-study hero): the video is the focus of the page, so
+//     it autoplays the loop whenever it's in view regardless of pointer.
 // webm is listed first so capable browsers pick the lighter file over the mp4.
 type Props = {
   slug: string;
   poster: string;
   dark?: boolean; // hairline border for near-black media on the near-black page
+  autoplayInView?: boolean; // play whenever in view (not just on hover)
+  preload?: "none" | "metadata";
 };
 
-export function CardVideo({ slug, poster, dark }: Props) {
+export function CardVideo({
+  slug,
+  poster,
+  dark,
+  autoplayInView = false,
+  preload = "none",
+}: Props) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -35,7 +42,9 @@ export function CardVideo({ slug, poster, dark }: Props) {
 
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-    if (fine) {
+    // Cards on a fine pointer: hover drives playback. Everything else (touch
+    // cards, and the always-autoplay hero) plays while in view.
+    if (fine && !autoplayInView) {
       const card = video.closest(".project");
       if (!card) return;
       card.addEventListener("mouseenter", play);
@@ -55,7 +64,7 @@ export function CardVideo({ slug, poster, dark }: Props) {
     );
     io.observe(video);
     return () => io.disconnect();
-  }, []);
+  }, [autoplayInView]);
 
   return (
     <video
@@ -65,7 +74,7 @@ export function CardVideo({ slug, poster, dark }: Props) {
       muted
       loop
       playsInline
-      preload="none"
+      preload={preload}
       aria-hidden="true"
     >
       <source src={`/cards/${slug}.webm`} type="video/webm" />
