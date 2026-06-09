@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -67,14 +68,17 @@ export default function AboutPage() {
             </div>
           </div>
 
+          <figure className="ab-portrait">
+            <Image
+              src="/randall.jpg"
+              alt="Randall Flores, frontend and full-stack developer"
+              width={500}
+              height={749}
+              sizes="(max-width: 860px) 100vw, 360px"
+            />
+          </figure>
+
           <aside className="ab-aside">
-            {/* Headshot placeholder — drop a real photo in later (Phase 7). */}
-            <figure
-              className="ab-portrait"
-              aria-label="Headshot placeholder, photo coming later"
-            >
-              <figcaption>Headshot · coming soon</figcaption>
-            </figure>
             <dl className="ab-facts">
               {facts.map((f) => (
                 <div key={f.label}>

@@ -1068,9 +1068,16 @@ a {
 .ab-grid {
   display: grid;
   grid-template-columns: 1.5fr 0.9fr;
-  gap: 60px;
+  grid-template-areas:
+    "main portrait"
+    "main facts";
+  column-gap: 60px;
+  row-gap: 26px;
   margin-top: 54px;
   align-items: start;
+}
+.ab-main {
+  grid-area: main;
 }
 .ab-lead {
   font-size: clamp(19px, 2.4vw, 26px);
@@ -1086,28 +1093,24 @@ a {
   margin-top: 24px;
 }
 .ab-aside {
-  position: sticky;
-  top: 90px;
+  grid-area: facts;
   display: flex;
   flex-direction: column;
-  gap: 26px;
 }
 .ab-portrait {
-  aspect-ratio: 4 / 5;
-  border: 1px dashed var(--line);
-  border-radius: 14px;
-  background: var(--bg-2);
-  display: flex;
-  align-items: flex-end;
-  padding: 18px;
+  grid-area: portrait;
   margin: 0;
+  max-width: 360px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--bg-2);
 }
-.ab-portrait figcaption {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
+.ab-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 .ab-facts {
   display: flex;
@@ -1166,10 +1169,15 @@ a {
 @media (max-width: 860px) {
   .ab-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "portrait"
+      "main"
+      "facts";
     gap: 36px;
   }
-  .ab-aside {
-    position: static;
+  .ab-portrait {
+    width: 100%;
+    max-width: 420px; /* full-width in the column, capped below the 500px source */
   }
 }
 
