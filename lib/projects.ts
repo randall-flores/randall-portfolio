@@ -93,6 +93,7 @@ export const projects: Project[] = [
     initials: "VX",
     mediaCaption: "Vox — Live",
     status: "live",
+    video: true,
   },
   {
     slug: "hollow-ronin",
