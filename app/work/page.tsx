@@ -3,7 +3,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { WorkList } from "@/components/work/WorkList";
 
 const description =
-  "Selected work, 2024–2026. Frontend, full-stack, design systems, AI integration, and i18n, filterable by capability.";
+  "Selected work, 2025–2026. Frontend, full-stack, design systems, AI integration, and i18n, filterable by capability.";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -26,7 +26,7 @@ export default function WorkPage() {
       <section className="phead">
         <div className="wrap">
           <Reveal>
-            <p className="kick">Selected work · 2024 — 2026</p>
+            <p className="kick">Selected work · 2025 — 2026</p>
           </Reveal>
           <Reveal delay={0.05}>
             <h1>
