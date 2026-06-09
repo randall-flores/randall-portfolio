@@ -26,7 +26,6 @@ export function Footer() {
           worth{" "}
           <Link
             href="/contact"
-            data-cursor="Say hi"
             className="border-b-[3px] border-accent transition-colors hover:text-accent"
           >
             shipping →

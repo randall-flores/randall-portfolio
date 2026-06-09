@@ -6,8 +6,7 @@ import { projects } from "@/lib/projects";
 
 // The editorial Work index: a typographic list by default, a card Gallery on
 // toggle. Same project data either way; the CSS in globals.css owns the two
-// layouts (.track / .track.gallery). Each row carries the "View case" cursor
-// label and links to the case study.
+// layouts (.track / .track.gallery). Each row links to the case study.
 export function WorkIndex() {
   const [view, setView] = useState<"index" | "gallery">("index");
 
@@ -41,7 +40,6 @@ export function WorkIndex() {
             key={p.slug}
             href={`/work/${p.slug}`}
             className={p.wide ? "item wide" : "item"}
-            data-cursor="View case"
             aria-label={`${p.title} case study`}
           >
             <div className="num">{String(i + 1).padStart(2, "0")}</div>

@@ -5,12 +5,12 @@ import { Magnetic } from "@/components/motion/Magnetic";
 import { WorkIndex } from "@/components/work/WorkIndex";
 
 const description =
-  "Portfolio of Randall Flores, a bilingual frontend and full-stack developer in Costa Rica. AI products, client sites, and internal tools built to hold up under real workflows.";
+  "Portfolio of Randall Flores, a bilingual full-stack developer in Costa Rica. AI products, client sites, and internal tools built to hold up under real workflows.";
 
 export const metadata: Metadata = {
   description,
-  openGraph: { title: "Randall — Frontend & Full-Stack Developer", description },
-  twitter: { title: "Randall — Frontend & Full-Stack Developer", description },
+  openGraph: { title: "Randall — Full-Stack Developer", description },
+  twitter: { title: "Randall — Full-Stack Developer", description },
 };
 
 // Marquee tech list. Duplicated inline so the CSS translateX(-50%) loop is
@@ -46,7 +46,7 @@ export default function Home() {
       <section className="wrap pt-[140px] pb-[60px]">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
-            Frontend developer · Bilingual EN/ES · San José, CR ·{" "}
+            Full-stack developer · Bilingual EN/ES · San José, CR ·{" "}
             <b className="font-medium text-accent">Open to remote</b>
           </p>
         </Reveal>
@@ -70,7 +70,7 @@ export default function Home() {
 
             <div className="h-cta">
               <Magnetic>
-                <Button href="/work" dataCursor="View">
+                <Button href="/work">
                   See my work →
                 </Button>
               </Magnetic>

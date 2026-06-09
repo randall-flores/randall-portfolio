@@ -120,7 +120,7 @@ export default function StyleGuide() {
       {/* Buttons */}
       <Section label="Buttons">
         <div className="flex flex-wrap items-center gap-3.5">
-          <Button href="/work" dataCursor="View">
+          <Button href="/work">
             See my work →
           </Button>
           <Button href="/about" variant="ghost">
@@ -133,7 +133,6 @@ export default function StyleGuide() {
       <Section label="Project index row">
         <Link
           href="/work/farewise"
-          data-cursor="View case"
           className="group grid grid-cols-1 items-center gap-3 border-b border-line-soft px-3 py-7 transition-[padding,background] duration-300 ease-brand hover:bg-[linear-gradient(90deg,var(--accent-dim),transparent_55%)] hover:pl-6 sm:grid-cols-[60px_1fr_auto] sm:gap-5"
         >
           <span className="font-mono text-[13px] text-muted transition-colors group-hover:text-accent">

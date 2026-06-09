@@ -181,65 +181,6 @@ a {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Custom cursor (rendered by <Cursor />, fine pointers only)         */
-/* ------------------------------------------------------------------ */
-.cur,
-.cur-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 400;
-  border-radius: 50%;
-  mix-blend-mode: difference;
-}
-.cur {
-  width: 7px;
-  height: 7px;
-  background: #fff;
-  transform: translate(-50%, -50%);
-}
-.cur-ring {
-  width: 34px;
-  height: 34px;
-  border: 1.5px solid #fff;
-  transform: translate(-50%, -50%);
-  transition: width 0.25s, height 0.25s, background 0.25s, opacity 0.25s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.cur-ring .lbl {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--bg);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.cur-ring.lg {
-  width: 78px;
-  height: 78px;
-  background: var(--accent);
-  border-color: var(--accent);
-  mix-blend-mode: normal;
-}
-.cur-ring.lg .lbl {
-  opacity: 1;
-}
-.cur-ring.sm {
-  width: 54px;
-  height: 54px;
-}
-@media (hover: none), (pointer: coarse) {
-  .cur,
-  .cur-ring {
-    display: none !important;
-  }
-}
-
-/* ------------------------------------------------------------------ */
 /*  Hero sub-grid — positioning line + CTAs left, lead right.          */
 /*  DOM order (head, lead, cta) doubles as the mobile reading order.   */
 /* ------------------------------------------------------------------ */
@@ -673,8 +614,8 @@ a {
   transition: transform 0.5s var(--ease), border-color 0.4s;
 }
 .project:hover .p-visual {
-  transform: scale(0.985);
-  border-color: rgba(200, 242, 78, 0.35);
+  transform: scale(1.02);
+  border-color: rgba(200, 242, 78, 0.6);
 }
 .p-chrome {
   position: absolute;
@@ -747,6 +688,28 @@ a {
 }
 .p-cap .sdot.muted {
   background: var(--muted);
+}
+/* Hover affordance: a small "View case" label in the media corner. Hidden
+   until the card is hovered (fades and slides up), so touch users rely on the
+   card itself being the link. Decorative: the Link carries the aria-label. */
+.p-view {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  z-index: 3;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.project:hover .p-view,
+.project:focus-visible .p-view {
+  opacity: 1;
+  transform: none;
 }
 .p-num {
   font-family: var(--font-jetbrains), monospace;
@@ -1372,8 +1335,11 @@ a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .cur,
-  .cur-ring {
-    display: none !important;
+  /* Card hover: no movement, the "View case" label still appears. */
+  .project:hover .p-visual {
+    transform: none;
+  }
+  .p-view {
+    transform: none;
   }
 }

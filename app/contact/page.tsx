@@ -3,7 +3,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { EmailCopy } from "@/components/contact/EmailCopy";
 
 const description =
-  "Get in touch with Randall. Open to remote frontend and full-stack roles. Email, GitHub, LinkedIn, Contra, and CV.";
+  "Get in touch with Randall. Open to remote full-stack roles. Email, GitHub, LinkedIn, Contra, and CV.";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -39,7 +39,7 @@ export default function ContactPage() {
 
       <Reveal delay={0.1}>
         <p className="ct-lead">
-          Open to remote frontend and full-stack roles, freelance builds, and
+          Open to remote full-stack roles, freelance builds, and
           good problems. The fastest way to reach me is email.
         </p>
       </Reveal>
@@ -56,12 +56,11 @@ export default function ContactPage() {
               href={l.href}
               target="_blank"
               rel="noopener noreferrer"
-              data-cursor="Open"
             >
               {l.label} ↗
             </a>
           ))}
-          <a href="/cv.pdf" download data-cursor="Download">
+          <a href="/cv.pdf" download>
             Download CV ↓
           </a>
         </nav>

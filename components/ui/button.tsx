@@ -27,7 +27,6 @@ type ButtonProps = VariantProps<typeof buttonVariants> & {
   children: React.ReactNode;
   className?: string;
   href?: string;
-  dataCursor?: string;
   ariaLabel?: string;
 };
 
@@ -36,7 +35,6 @@ export function Button({
   className,
   children,
   href,
-  dataCursor,
   ariaLabel,
 }: ButtonProps) {
   const cls = cn(buttonVariants({ variant }), className);
@@ -49,7 +47,6 @@ export function Button({
         <a
           href={href}
           className={cls}
-          data-cursor={dataCursor}
           aria-label={ariaLabel}
           {...(isHttp ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
@@ -58,14 +55,14 @@ export function Button({
       );
     }
     return (
-      <Link href={href} className={cls} data-cursor={dataCursor} aria-label={ariaLabel}>
+      <Link href={href} className={cls} aria-label={ariaLabel}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button type="button" className={cls} data-cursor={dataCursor} aria-label={ariaLabel}>
+    <button type="button" className={cls} aria-label={ariaLabel}>
       {children}
     </button>
   );

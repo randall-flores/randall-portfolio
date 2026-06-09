@@ -27,12 +27,7 @@ export function EmailCopy() {
 
   return (
     <div className="ct-email-wrap">
-      <a
-        className="ct-email"
-        href={`mailto:${EMAIL}`}
-        onClick={handleCopy}
-        data-cursor="Copy"
-      >
+      <a className="ct-email" href={`mailto:${EMAIL}`} onClick={handleCopy}>
         {EMAIL}
       </a>
       <span className="ct-copied" role="status" aria-live="polite">

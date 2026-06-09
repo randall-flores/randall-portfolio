@@ -70,7 +70,7 @@ export default async function CaseStudyPage({ params }: Params) {
   return (
     <main className="cs wrap">
       <Reveal>
-        <Link href="/work" className="cs-back" data-cursor="Back">
+        <Link href="/work" className="cs-back">
           ← All work
         </Link>
       </Reveal>
@@ -98,7 +98,6 @@ export default async function CaseStudyPage({ params }: Params) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cs-act"
-                data-cursor="Open"
               >
                 Visit live site →
               </a>
@@ -110,7 +109,6 @@ export default async function CaseStudyPage({ params }: Params) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cs-act ghost"
-                data-cursor="Open"
               >
                 View repo →
               </a>
@@ -225,11 +223,11 @@ export default async function CaseStudyPage({ params }: Params) {
 
       <Reveal>
         <nav className="cs-nav" aria-label="More projects">
-          <Link href={`/work/${prev.slug}`} data-cursor="View case">
+          <Link href={`/work/${prev.slug}`}>
             <span className="dir">← Previous</span>
             <span className="nm">{prev.title}</span>
           </Link>
-          <Link href={`/work/${next.slug}`} className="next" data-cursor="View case">
+          <Link href={`/work/${next.slug}`} className="next">
             <span className="dir">Next →</span>
             <span className="nm">{next.title}</span>
           </Link>

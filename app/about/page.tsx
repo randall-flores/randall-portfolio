@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/Reveal";
 
 const description =
-  "Randall is a bilingual (EN/ES) frontend and full-stack developer in Costa Rica, with a decade in legal, executive, and customer-facing roles. The crossover: he ships tools people actually use.";
+  "Randall is a bilingual (EN/ES) full-stack developer in Costa Rica, with a decade in legal, executive, and customer-facing roles. The crossover: he ships tools people actually use.";
 
 export const metadata: Metadata = {
   title: "About",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const facts = [
   { label: "Location", value: "San José, Costa Rica" },
   { label: "Languages", value: "English · Spanish" },
-  { label: "Focus", value: "Frontend & full-stack" },
+  { label: "Focus", value: "Full-stack" },
 ];
 
 export default function AboutPage() {
@@ -38,7 +38,7 @@ export default function AboutPage() {
         <div className="ab-grid">
           <div className="ab-main">
             <p className="ab-lead">
-              I&apos;m Randall, a bilingual frontend and full-stack developer
+              I&apos;m Randall, a bilingual full-stack developer
               based in Costa Rica. Before code, I spent about a decade in legal
               assistance, executive support, customer service, and hospitality.
             </p>
@@ -71,7 +71,7 @@ export default function AboutPage() {
           <figure className="ab-portrait">
             <Image
               src="/randall.jpg"
-              alt="Randall Flores, frontend and full-stack developer"
+              alt="Randall Flores, full-stack developer"
               width={500}
               height={749}
               sizes="(max-width: 860px) 100vw, 360px"
@@ -96,11 +96,11 @@ export default function AboutPage() {
           <div>
             <p className="k">What I&apos;m looking for</p>
             <p className="t">
-              Open to remote frontend and full-stack roles where the{" "}
+              Open to remote full-stack roles where the{" "}
               <em>crossover</em> matters.
             </p>
           </div>
-          <Button href="/contact" dataCursor="Say hi">
+          <Button href="/contact">
             Get in touch →
           </Button>
         </section>

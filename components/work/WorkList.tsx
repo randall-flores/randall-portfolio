@@ -9,8 +9,9 @@ import { projects, type Capability } from "@/lib/projects";
 
 // Sticky capability filter + the editorial project spread. Client-side because
 // the filter holds state and drives the live count and reflow. Scroll reveal
-// reuses <Reveal>; the cursor "View case" label reuses the global <Cursor />
-// via data-cursor. Featured project (FareWise) renders first, full-width.
+// reuses <Reveal>; hovering a card scales the media up and reveals a
+// "View case →" label in the media corner. Featured project (FareWise)
+// renders first, full-width.
 type Filter = "all" | Capability;
 
 const FILTERS: { value: Filter; label: string }[] = [
@@ -103,7 +104,6 @@ export function WorkList() {
                   <Link
                     href={`/work/${p.slug}`}
                     className={className}
-                    data-cursor="View case"
                     aria-label={`${p.title} case study`}
                   >
                     <div className="p-media">
@@ -130,6 +130,9 @@ export function WorkList() {
                             {p.initials}
                           </div>
                         )}
+                        <span className="p-view" aria-hidden="true">
+                          View case →
+                        </span>
                         <div className="p-cap">
                           {p.status ? (
                             <span
