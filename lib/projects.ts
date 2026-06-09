@@ -35,6 +35,9 @@ export type Project = {
   initials: string; // ghosted monogram on the app-screenshot visual
   mediaCaption: string; // small caption inside the visual
   status?: ProjectStatus; // dot marker on the visual (omit for none)
+  // Preview video in the Work card media area. Assets live in public/cards/ as
+  // {slug}.webm, {slug}.mp4, {slug}-poster.jpg. Omit to keep the static poster.
+  video?: boolean;
 };
 
 export const projects: Project[] = [
@@ -62,6 +65,7 @@ export const projects: Project[] = [
     category: "AI Product · Full-Stack · API Integration",
     initials: "FW",
     mediaCaption: "FareWise — AI flight results",
+    video: true,
   },
   {
     slug: "vox",
@@ -115,6 +119,7 @@ export const projects: Project[] = [
     category: "Brand · Headless Commerce · Design",
     initials: "HR",
     mediaCaption: "Hollow Ronin — Drop store",
+    video: true,
   },
   {
     slug: "sana",
@@ -140,6 +145,7 @@ export const projects: Project[] = [
     initials: "SA",
     mediaCaption: "Sana — Anonymized",
     status: "anonymized",
+    video: true,
   },
   {
     slug: "caseflow",
@@ -166,5 +172,6 @@ export const projects: Project[] = [
     initials: "CF",
     mediaCaption: "Internal tool — Confidential",
     status: "confidential",
+    video: true,
   },
 ];

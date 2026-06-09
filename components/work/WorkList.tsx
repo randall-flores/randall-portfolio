@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
+import { CardVideo } from "@/components/work/CardVideo";
 import { projects, type Capability } from "@/lib/projects";
 
 // Sticky capability filter + the editorial project spread. Client-side because
@@ -106,15 +107,29 @@ export function WorkList() {
                     aria-label={`${p.title} case study`}
                   >
                     <div className="p-media">
-                      <div className="p-visual">
+                      <div
+                        className={
+                          p.slug === "hollow-ronin"
+                            ? "p-visual dark"
+                            : "p-visual"
+                        }
+                      >
                         <div className="p-chrome" aria-hidden="true">
                           <i />
                           <i />
                           <i />
                         </div>
-                        <div className="p-ghost" aria-hidden="true">
-                          {p.initials}
-                        </div>
+                        {p.video ? (
+                          <CardVideo
+                            slug={p.slug}
+                            poster={`/cards/${p.slug}-poster.jpg`}
+                            dark={p.slug === "hollow-ronin"}
+                          />
+                        ) : (
+                          <div className="p-ghost" aria-hidden="true">
+                            {p.initials}
+                          </div>
+                        )}
                         <div className="p-cap">
                           {p.status ? (
                             <span
