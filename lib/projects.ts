@@ -81,7 +81,7 @@ export const projects: Project[] = [
       "A custom liquid-glass design system, magnetic hover interactions, bilingual EN/DE routing, and German legal compliance pages (Impressum, Datenschutz).",
     outcomes:
       "Design craft, internationalization, a real client site live in production.",
-    links: { live: "https://leonie-dubuc.vercel.app" },
+    links: { live: "https://vox-voiceover.vercel.app" },
     visibility: "public",
     year: 2026,
     tags: ["Voice-over", "Design System", "EN/DE"],
@@ -107,7 +107,7 @@ export const projects: Project[] = [
       "A headless Shopify + Printify storefront, the brand identity, and an AI-driven art pipeline for the drops.",
     outcomes:
       "Headless commerce, full brand build, AI in a real production pipeline.",
-    links: {},
+    links: { live: "https://hollowronin.com" },
     visibility: "public",
     year: 2026,
     tags: ["Headless Shopify", "Printify", "Brand"],

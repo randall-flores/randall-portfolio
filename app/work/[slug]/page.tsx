@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/motion/Reveal";
+import { Button } from "@/components/ui/button";
 import { CardVideo } from "@/components/work/CardVideo";
 import {
   projects,
@@ -82,7 +83,14 @@ export default async function CaseStudyPage({ params }: Params) {
           <p className="cs-tagline">{project.tagline}</p>
 
           <div className="cs-actions">
-            {project.status ? (
+            {/* Caseflow gets one combined note instead of the status pill so
+                "Confidential" doesn't render twice in the same row. */}
+            {project.slug === "caseflow" ? (
+              <span className="cs-status">
+                <span className="sdot muted" aria-hidden="true" />
+                Internal tool · Confidential
+              </span>
+            ) : project.status ? (
               <span className="cs-status">
                 <span
                   className={`sdot ${project.status === "live" ? "live" : "muted"}`}
@@ -93,14 +101,12 @@ export default async function CaseStudyPage({ params }: Params) {
             ) : null}
 
             {liveUrl ? (
-              <a
+              <Button
                 href={liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cs-act"
+                ariaLabel={`Visit the live ${project.title} site (opens in a new tab)`}
               >
-                Visit live site →
-              </a>
+                Visit live site ↗
+              </Button>
             ) : null}
 
             {repoUrl ? (
