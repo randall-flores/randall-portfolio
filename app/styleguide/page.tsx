@@ -62,7 +62,7 @@ function Section({
 
 export default function StyleGuide() {
   return (
-    <main className="wrap pt-[120px] pb-10">
+    <main className="wrap pt-30 pb-10">
       <header className="pb-10">
         <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
           Internal · not indexed
@@ -80,9 +80,9 @@ export default function StyleGuide() {
           {colorTokens.map((t) => (
             <li
               key={t.name}
-              className="rounded-[8px] border border-line-soft bg-bg-2 p-3"
+              className="rounded-lg border border-line-soft bg-bg-2 p-3"
             >
-              <div className={`h-20 w-full rounded-[4px] ${t.cls}`} />
+              <div className={`h-20 w-full rounded-sm ${t.cls}`} />
               <div className="mt-3 font-mono text-[11px] uppercase tracking-[0.04em]">
                 <span className="text-fg">{t.name}</span>
               </div>
@@ -146,7 +146,7 @@ export default function StyleGuide() {
               {["AI Product", "Claude API", "SerpApi"].map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-[2px] border border-line px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.04em] text-muted"
+                  className="rounded-xs border border-line px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.04em] text-muted"
                 >
                   {tag}
                 </span>

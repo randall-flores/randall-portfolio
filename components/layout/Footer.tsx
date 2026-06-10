@@ -19,7 +19,7 @@ const social = [
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-line">
-      <div className="wrap py-[110px]">
+      <div className="wrap py-27.5">
         <h2 className="font-display text-[clamp(34px,6.5vw,84px)] font-medium leading-[0.95] tracking-[-0.02em]">
           Let&apos;s build something
           <br />
@@ -32,7 +32,7 @@ export function Footer() {
           </Link>
         </h2>
 
-        <ul className="mt-[46px] flex flex-wrap justify-between gap-5 font-mono text-xs uppercase tracking-[0.05em] text-muted">
+        <ul className="mt-11.5 flex flex-wrap justify-between gap-5 font-mono text-xs uppercase tracking-wider text-muted">
           {social.map((s) => {
             const external = s.href.startsWith("http");
             return (

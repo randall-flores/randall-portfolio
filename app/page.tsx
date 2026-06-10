@@ -43,7 +43,7 @@ function TechRun() {
 export default function Home() {
   return (
     <main>
-      <section className="wrap pt-[140px] pb-[60px]">
+      <section className="wrap pt-35 pb-15">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
             Full-stack developer · Bilingual EN/ES · San José, CR ·{" "}
