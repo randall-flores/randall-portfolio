@@ -23,6 +23,10 @@ export function Reveal({ children, className, delay = 0, y = 22 }: RevealProps) 
   return (
     <motion.div
       className={className}
+      // data-reveal lets the <noscript> rule in the root layout force this
+      // visible when JS is off (the SSR inline opacity: 0 would otherwise
+      // hide content forever).
+      data-reveal=""
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}

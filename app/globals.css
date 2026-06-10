@@ -1335,6 +1335,12 @@ a {
   .toggle button {
     min-height: 44px;
   }
+  /* Text links on touch: pad the hit area to ~44px without moving the
+     layout (inline padding is clickable but doesn't grow line boxes). */
+  .ct-links a,
+  footer ul a {
+    padding-block: 13px;
+  }
 }
 
 /* ------------------------------------------------------------------ */

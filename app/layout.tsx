@@ -37,6 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <body>
+        {/* Reveal renders SSR content at opacity 0 and animates it in with
+            JS. Without JS that would blank every section, so force-visible
+            (stylesheet !important beats the inline style). */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         <Grain />
         <Nav />
         <SmoothScroll>
