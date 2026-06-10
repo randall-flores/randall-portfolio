@@ -33,6 +33,9 @@ export function CardVideo({
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const play = () => {
+      // Skip when the media area is display:none (e.g. the home Index view
+      // hides .vis on desktop) so hovering a hidden card never loads video.
+      if (video.offsetParent === null) return;
       void video.play().catch(() => {});
     };
     const reset = () => {
@@ -43,9 +46,10 @@ export function CardVideo({
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     // Cards on a fine pointer: hover drives playback. Everything else (touch
-    // cards, and the always-autoplay hero) plays while in view.
+    // cards, and the always-autoplay hero) plays while in view. `.project` is
+    // the /work spread card, `.item` the home Index/Gallery card.
     if (fine && !autoplayInView) {
-      const card = video.closest(".project");
+      const card = video.closest(".project, .item");
       if (!card) return;
       card.addEventListener("mouseenter", play);
       card.addEventListener("mouseleave", reset);

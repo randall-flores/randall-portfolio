@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { CardVideo } from "@/components/work/CardVideo";
 import { projects } from "@/lib/projects";
 
 // The editorial Work index: a typographic list by default, a card Gallery on
@@ -49,7 +50,16 @@ export function WorkIndex() {
                 className="vis"
                 style={{ background: p.gradient }}
                 aria-hidden="true"
-              />
+              >
+                {p.video ? (
+                  <CardVideo
+                    slug={p.slug}
+                    poster={`/cards/${p.slug}-poster.jpg`}
+                    dark={p.slug === "hollow-ronin"}
+                  />
+                ) : null}
+                <span className="p-view">View case →</span>
+              </div>
             </div>
             <div className="meta">
               <div className="tags">
