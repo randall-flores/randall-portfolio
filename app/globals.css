@@ -422,6 +422,12 @@ a {
   background: var(--bg-2);
   gap: 0;
 }
+/* Children must span the card. align-items: flex-start shrink-wraps the
+   name+media wrapper to the title's text width, which collapses the 16:9
+   media (its video is absolute and adds no in-flow width). */
+.track.gallery .item > * {
+  width: 100%;
+}
 .track.gallery .item:hover {
   padding-left: 24px;
   background: #121218;
