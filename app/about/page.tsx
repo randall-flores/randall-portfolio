@@ -22,19 +22,18 @@ const facts = [
 export default function AboutPage() {
   return (
     <main id="main" className="ab wrap">
-      <Reveal>
-        <p className="ab-kick">About</p>
-      </Reveal>
-
-      <Reveal delay={0.05}>
+      {/* No "ABOUT" kicker — the nav already says where we are, and the
+          title carries the page. Label-only eyebrows read as scaffolding.
+          Above-the-fold entrances are CSS (.rise), never JS-gated. */}
+      <div className="rise">
         <h1 className="ab-title">
           Half developer,
           <br />
           half <em>operator.</em>
         </h1>
-      </Reveal>
+      </div>
 
-      <Reveal delay={0.1}>
+      <div className="rise rise-1">
         <div className="ab-grid">
           <div className="ab-main">
             <p className="ab-lead">
@@ -89,7 +88,7 @@ export default function AboutPage() {
             </dl>
           </aside>
         </div>
-      </Reveal>
+      </div>
 
       <Reveal>
         <section className="ab-look" aria-label="What I'm looking for">

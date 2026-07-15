@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/motion/Reveal";
 import { WorkList } from "@/components/work/WorkList";
 
 const description =
@@ -25,15 +24,16 @@ export default function WorkPage() {
     <main id="main">
       <section className="phead">
         <div className="wrap">
-          <Reveal>
+          {/* CSS entrance (.rise) — above the fold, so no JS-gated reveal. */}
+          <div className="rise">
             <p className="kick">Selected work · 2025 — 2026</p>
-          </Reveal>
-          <Reveal delay={0.05}>
+          </div>
+          <div className="rise rise-1">
             <h1>
               Things I&apos;ve <em>built.</em>
             </h1>
-          </Reveal>
-          <Reveal delay={0.1}>
+          </div>
+          <div className="rise rise-2">
             <div className="range">
               {range.map((r) => (
                 <span key={r}>
@@ -41,7 +41,7 @@ export default function WorkPage() {
                 </span>
               ))}
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 

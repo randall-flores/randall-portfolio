@@ -70,13 +70,15 @@ export default async function CaseStudyPage({ params }: Params) {
 
   return (
     <main id="main" className="cs wrap">
-      <Reveal>
+      {/* Above-the-fold entrances are CSS (.rise), never JS-gated — the h1
+          here is the LCP element. */}
+      <div className="rise">
         <Link href="/work" className="cs-back">
           ← All work
         </Link>
-      </Reveal>
+      </div>
 
-      <Reveal delay={0.05}>
+      <div className="rise rise-1">
         <header className="cs-head">
           <p className="cs-num">{String(index + 1).padStart(2, "0")}</p>
           <h1 className="cs-title">{project.title}</h1>
@@ -121,9 +123,9 @@ export default async function CaseStudyPage({ params }: Params) {
             ) : null}
           </div>
         </header>
-      </Reveal>
+      </div>
 
-      <Reveal delay={0.1}>
+      <div className="rise rise-2">
         <div className="cs-hero">
           <div
             className={
@@ -161,7 +163,7 @@ export default async function CaseStudyPage({ params }: Params) {
             </div>
           </div>
         </div>
-      </Reveal>
+      </div>
 
       <Reveal>
         <dl className="cs-meta">

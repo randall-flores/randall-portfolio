@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/motion/Reveal";
 import { EmailCopy } from "@/components/contact/EmailCopy";
 
 const description =
@@ -27,28 +26,26 @@ const links = [
 export default function ContactPage() {
   return (
     <main id="main" className="ct wrap">
-      <Reveal>
-        <p className="ct-kick">Contact</p>
-      </Reveal>
-
-      <Reveal delay={0.05}>
+      {/* No "CONTACT" kicker — the title is the page. Everything here is
+          above the fold, so entrances are CSS (.rise), never JS-gated. */}
+      <div className="rise">
         <h1 className="ct-title">
           Let&apos;s build something worth <em>shipping.</em>
         </h1>
-      </Reveal>
+      </div>
 
-      <Reveal delay={0.1}>
+      <div className="rise rise-1">
         <p className="ct-lead">
           Open to remote full-stack roles, freelance builds, and
           good problems. The fastest way to reach me is email.
         </p>
-      </Reveal>
+      </div>
 
-      <Reveal delay={0.15}>
+      <div className="rise rise-2">
         <EmailCopy />
-      </Reveal>
+      </div>
 
-      <Reveal>
+      <div className="rise rise-3">
         <nav className="ct-links" aria-label="Elsewhere">
           {links.map((l) => (
             <a
@@ -64,7 +61,7 @@ export default function ContactPage() {
             Download CV ↓
           </a>
         </nav>
-      </Reveal>
+      </div>
     </main>
   );
 }

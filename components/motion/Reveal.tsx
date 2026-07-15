@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 // Reveal-on-scroll primitive. One source of truth for entrance motion across
@@ -21,7 +21,7 @@ export function Reveal({ children, className, delay = 0, y = 22 }: RevealProps) 
   }
 
   return (
-    <motion.div
+    <m.div
       className={className}
       // data-reveal lets the <noscript> rule in the root layout force this
       // visible when JS is off (the SSR inline opacity: 0 would otherwise
@@ -33,6 +33,6 @@ export function Reveal({ children, className, delay = 0, y = 22 }: RevealProps) 
       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

@@ -6,13 +6,27 @@ import { Fraunces, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 // render in real Fraunces italic, not a synthesized slant.
 // display:"swap" paints fallback text immediately; adjustFontFallback (on by
 // default) + the serif fallback stack keep the swap from shifting layout.
+// Italic lives in its own non-preloaded instance below — accent <em>s can
+// swap in late, and dropping it from the preload path halves the font bytes
+// competing with first paint.
 export const fraunces = Fraunces({
   subsets: ["latin"],
-  style: ["normal", "italic"],
+  style: ["normal"],
   display: "swap",
   preload: true,
   fallback: ["Georgia", "Times New Roman", "serif"],
   variable: "--font-fraunces",
+});
+
+// Fraunces italic — the lime accent words only (em inside display headings).
+// Not preloaded: never the LCP, always mid-heading, swaps in cleanly.
+export const frauncesItalic = Fraunces({
+  subsets: ["latin"],
+  style: ["italic"],
+  display: "swap",
+  preload: false,
+  fallback: ["Georgia", "Times New Roman", "serif"],
+  variable: "--font-fraunces-it",
 });
 
 // Body / UI — Hanken Grotesk. Not preloaded: body copy sits below the hero and
@@ -36,4 +50,4 @@ export const jetbrains = JetBrains_Mono({
 });
 
 // Convenience: every font variable, ready to drop on <html className>.
-export const fontVariables = `${fraunces.variable} ${hanken.variable} ${jetbrains.variable}`;
+export const fontVariables = `${fraunces.variable} ${frauncesItalic.variable} ${hanken.variable} ${jetbrains.variable}`;

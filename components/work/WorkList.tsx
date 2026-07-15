@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { CardVideo } from "@/components/work/CardVideo";
@@ -29,27 +29,44 @@ export function WorkList() {
     (p) => active === "all" || p.capabilities.includes(active),
   );
 
-  // Parallax on the ghosted initials. Re-queries the DOM each frame so it keeps
-  // working across filter re-renders. Desktop fine-pointer only, off for
-  // reduced-motion.
+  // Parallax on the ghosted initials. Scroll-driven (passive listener +
+  // one rAF per scroll burst) instead of a permanent rAF loop — the old loop
+  // read layout every frame forever, even when nothing moved. Desktop
+  // fine-pointer only, off for reduced-motion. Re-runs on filter change so
+  // it picks up re-rendered cards.
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!fine || reduced) return;
 
+    const ghosts = Array.from(
+      document.querySelectorAll<HTMLElement>(".p-ghost"),
+    );
+    if (ghosts.length === 0) return;
+
     let raf = 0;
-    const loop = () => {
+    const update = () => {
+      raf = 0;
       const vh = window.innerHeight;
-      document.querySelectorAll<HTMLElement>(".p-ghost").forEach((g) => {
+      ghosts.forEach((g) => {
         const r = g.getBoundingClientRect();
         const off = (r.top + r.height / 2 - vh / 2) / vh;
         g.style.transform = `translateY(${off * -40}px)`;
       });
-      raf = requestAnimationFrame(loop);
     };
-    loop();
-    return () => cancelAnimationFrame(raf);
-  }, []);
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [active]);
 
   return (
     <>
@@ -82,7 +99,7 @@ export function WorkList() {
 
       <section className="projects" id="projects" aria-label="Projects">
         <div className="wrap">
-          <motion.div
+          <m.div
             key={active}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -166,7 +183,7 @@ export function WorkList() {
                 </Reveal>
               );
             })}
-          </motion.div>
+          </m.div>
         </div>
       </section>
     </>

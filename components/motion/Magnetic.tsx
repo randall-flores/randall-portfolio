@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  motion,
+  m,
   useMotionValue,
   useReducedMotion,
   useSpring,
@@ -48,7 +48,7 @@ export function Magnetic({
   }
 
   return (
-    <motion.span
+    <m.span
       ref={ref}
       onMouseMove={onMove}
       onMouseLeave={reset}
@@ -56,6 +56,6 @@ export function Magnetic({
       className={className}
     >
       {children}
-    </motion.span>
+    </m.span>
   );
 }

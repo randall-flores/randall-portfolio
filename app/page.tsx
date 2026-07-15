@@ -44,19 +44,22 @@ export default function Home() {
   return (
     <main id="main">
       <section className="wrap pt-35 pb-15">
-        <Reveal>
+        {/* Above-the-fold content animates with CSS (.rise), not <Reveal> —
+            a JS-gated reveal here would hold the hero at opacity 0 until
+            hydration and wreck LCP / Speed Index on slow devices. */}
+        <div className="rise">
           <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
             Full-stack developer · Bilingual EN/ES · San José, CR ·{" "}
             <b className="font-medium text-accent">Open to remote</b>
           </p>
-        </Reveal>
+        </div>
 
         {/* Server-rendered, visible in the initial HTML so it paints as the
             LCP element without waiting for JS. CSS entrance below animates
             transform only (opacity stays 1), so it never blocks first paint. */}
         <h1 className="t-wordmark hero-wordmark mt-5">RANDALL</h1>
 
-        <Reveal delay={0.1}>
+        <div className="rise rise-1">
           <div className="hero-sub">
             <h2 className="h-head">
               Polished frontends for people doing{" "}
@@ -81,7 +84,7 @@ export default function Home() {
               </Magnetic>
             </div>
           </div>
-        </Reveal>
+        </div>
       </section>
 
       <div className="strip" aria-hidden="true">

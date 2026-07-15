@@ -234,6 +234,16 @@ body {
   color: var(--accent);
   font-style: italic;
 }
+/* Accent italics use the separate, non-preloaded Fraunces italic instance
+   (lib/fonts.ts). Without this, the normal-only instance would synthesize
+   a fake oblique. */
+.hero-sub .h-head em,
+.phead h1 em,
+.ab-title em,
+.ab-look .t em,
+.ct-title em {
+  font-family: var(--font-fraunces-it), Georgia, serif;
+}
 .hero-sub .h-lead {
   color: #c8c8c2;
   font-size: clamp(16px, 2vw, 18px);
@@ -279,6 +289,39 @@ body {
 }
 .hero-wordmark {
   animation: wordmark-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* CSS-only entrance for above-the-fold content. The JS <Reveal> gates
+   content at opacity 0 until hydration + IntersectionObserver — fine below
+   the fold, but above it that pushes LCP/Speed Index out by seconds on
+   slow devices. These paint immediately and animate without JS. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.rise-1 {
+  animation-delay: 0.08s;
+}
+.rise-2 {
+  animation-delay: 0.16s;
+}
+.rise-3 {
+  animation-delay: 0.24s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-wordmark,
+  .rise {
+    animation: none;
+  }
 }
 /* "RANDALL" is ~4.2em wide; the 72px floor of t-wordmark overflows the
    content box on narrow phones. Ease the scale below 480px so the single
