@@ -21,7 +21,7 @@ const facts = [
 
 export default function AboutPage() {
   return (
-    <main className="ab wrap">
+    <main id="main" className="ab wrap">
       <Reveal>
         <p className="ab-kick">About</p>
       </Reveal>

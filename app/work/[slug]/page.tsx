@@ -69,7 +69,7 @@ export default async function CaseStudyPage({ params }: Params) {
   const repoUrl = !confidential ? project.links.repo : undefined;
 
   return (
-    <main className="cs wrap">
+    <main id="main" className="cs wrap">
       <Reveal>
         <Link href="/work" className="cs-back">
           ← All work
@@ -215,7 +215,7 @@ export default async function CaseStudyPage({ params }: Params) {
         <Reveal>
           <section className="cs-section">
             <h2>My role</h2>
-            <p>{project.role}</p>
+            <p>{project.roleDetail}</p>
           </section>
         </Reveal>
 

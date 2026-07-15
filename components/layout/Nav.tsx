@@ -61,10 +61,12 @@ export function Nav() {
                 key={l.href}
                 href={l.href}
                 aria-current={active ? "page" : undefined}
+                // py-[25px] stretches the tap target to the full 66px header
+                // height (16px text + 50px padding) without moving the text.
                 className={
                   active
-                    ? "text-accent transition-colors"
-                    : "transition-colors hover:text-fg"
+                    ? "py-[25px] text-accent transition-colors"
+                    : "py-[25px] transition-colors hover:text-fg"
                 }
               >
                 {l.label}

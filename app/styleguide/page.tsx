@@ -62,7 +62,7 @@ function Section({
 
 export default function StyleGuide() {
   return (
-    <main className="wrap pt-30 pb-10">
+    <main id="main" className="wrap pt-30 pb-10">
       <header className="pb-10">
         <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
           Internal · not indexed

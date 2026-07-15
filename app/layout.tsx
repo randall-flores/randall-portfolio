@@ -43,6 +43,10 @@ export default function RootLayout({
         <noscript>
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
+        {/* Keyboard users jump straight past nav to the page content. */}
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <Grain />
         <Nav />
         <SmoothScroll>

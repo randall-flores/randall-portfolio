@@ -16,7 +16,8 @@ export type Project = {
   tagline: string;
   capabilities: Capability[];
   stack: string[];
-  role: string;
+  role: string; // short form, shown in the case-study meta row
+  roleDetail: string; // full prose for the "My role" section
   problem: string;
   whatIBuilt: string;
   outcomes: string;
@@ -49,11 +50,14 @@ export const projects: Project[] = [
     capabilities: ["ai", "fullstack"],
     stack: ["Next.js", "TypeScript", "Claude API", "SerpApi"],
     role: "Design and build, end to end.",
+    roleDetail:
+      "Solo project, end to end: the product concept, the interface design, and the full build. That includes the prompt design that turns free-form requests into structured queries, the SerpApi integration, and the results UI.",
     problem:
-      "Flight search is tedious and rigid. People think in intent (\"cheap and direct, mid-March, flexible by a day\"), not in form fields.",
+      "Flight search is tedious and rigid. People think in intent (\"cheap and direct, mid-March, flexible by a day\"), not in form fields. Translating that intent into a dozen filter clicks is exactly the friction that makes people settle for a worse fare.",
     whatIBuilt:
-      "A search experience that interprets natural-language intent with the Claude API and pulls live results through SerpApi, then presents fares clearly.",
-    outcomes: "Practical AI product, real API integration, clean results UI.",
+      "A search experience that takes a plain-language request, interprets it with the Claude API, and turns it into structured search parameters. SerpApi supplies live fare data, and the results UI presents the trade-offs plainly instead of burying them in filter tabs.",
+    outcomes:
+      "A working AI product rather than a demo: real API integration on both ends, sensible handling of vague or ambiguous requests, and a results UI that stays readable when the fare data gets messy.",
     links: {},
     visibility: "public",
     featured: true,
@@ -75,12 +79,14 @@ export const projects: Project[] = [
     capabilities: ["design", "client"],
     stack: ["Next.js", "Tailwind", "framer-motion", "i18n (EN/DE)", "Vercel"],
     role: "Design and build for a real client, in production.",
+    roleDetail:
+      "Design and build for a real client: the visual identity, the design system, and the full Next.js implementation through to the production deploy on Vercel.",
     problem:
-      "A voice-over actress needed a distinctive, professional presence with bilingual reach and German legal compliance.",
+      "A working voice-over actress needed a professional presence that could carry her brand in two languages, meet German legal requirements, and still feel distinctive instead of template-built. Her site is her storefront — it has to sound like her voice looks.",
     whatIBuilt:
-      "A custom liquid-glass design system, magnetic hover interactions, bilingual EN/DE routing, and German legal compliance pages (Impressum, Datenschutz).",
+      "A custom liquid-glass design system with magnetic hover interactions, bilingual EN/DE routing, and the German legal compliance pages (Impressum, Datenschutz). Built on Next.js with Tailwind and framer-motion.",
     outcomes:
-      "Design craft, internationalization, a real client site live in production.",
+      "A real client site, live in production. The design system holds together across both languages, the motion work gives it a signature feel, and the compliance pages cover what a professional site in Germany legally needs.",
     links: { live: "https://vox-voiceover.vercel.app" },
     visibility: "public",
     year: 2026,
@@ -101,12 +107,14 @@ export const projects: Project[] = [
     capabilities: ["design", "fullstack"],
     stack: ["Headless Shopify", "Printify", "Next.js", "Midjourney", "Adobe Firefly"],
     role: "Founder, designer, developer. End-to-end brand and store.",
+    roleDetail:
+      "Founder, designer, and developer. The brand identity, the art direction, the storefront build, and the product pipeline — all of it solo.",
     problem:
-      "Launch a drop-based streetwear brand with a strong identity and a real storefront, solo.",
+      "Launch a drop-based streetwear brand with a strong identity and a real storefront, solo. That means brand design, a product pipeline, and commerce infrastructure with no team behind any of it.",
     whatIBuilt:
-      "A headless Shopify + Printify storefront, the brand identity, and an AI-driven art pipeline for the drops.",
+      "A headless Shopify storefront with Printify handling fulfillment, the full brand identity, and an AI-driven art pipeline (Midjourney, Adobe Firefly) that generates and refines the artwork behind each drop.",
     outcomes:
-      "Headless commerce, full brand build, AI in a real production pipeline.",
+      "A live store built end to end: headless commerce wired to print-on-demand fulfillment, a coherent brand, and AI working as a production tool inside a real pipeline instead of a gimmick.",
     links: { live: "https://hollowronin.com" },
     visibility: "public",
     year: 2026,
@@ -128,11 +136,14 @@ export const projects: Project[] = [
     capabilities: ["fullstack"],
     stack: ["Next.js", "Tailwind", "shadcn/ui", "next-intl", "Supabase (RLS)"],
     role: "Full-stack design and build.",
+    roleDetail:
+      "Full-stack design and build: the information architecture, the interface, the auth and data-access model, and the bilingual content structure.",
     problem:
-      "Personal-injury clients are anxious and underinformed. They need a calm, bilingual companion to understand their situation and next steps.",
+      "Personal-injury clients are anxious and underinformed, and many navigate the process in Spanish while the paperwork happens in English. They need a calm, bilingual companion that explains where their case stands and what happens next.",
     whatIBuilt:
-      "A bilingual (EN/ES) app with Supabase authentication and row-level security, internationalized with next-intl, built on Next.js and shadcn/ui.",
-    outcomes: "Full-stack, real auth with RLS, i18n.",
+      "A bilingual (EN/ES) companion app built on Next.js and shadcn/ui, internationalized with next-intl. Supabase handles authentication with row-level security, so each client can only ever reach their own data.",
+    outcomes:
+      "A full-stack app with real security boundaries: RLS enforced at the database rather than trusted to the UI, i18n structured for full parity across both languages, and screens designed to stay calm for people in a stressful situation.",
     links: {},
     visibility: "confidential",
     year: 2026,
@@ -154,12 +165,14 @@ export const projects: Project[] = [
     capabilities: ["fullstack", "client"],
     stack: ["Next.js", "React", "TypeScript", "Tailwind", "PDF generation", "Vercel"],
     role: "Design and build of an internal firm tool.",
+    roleDetail:
+      "Design and build of an internal tool for a real law firm, from mapping the existing workflow with the people running it to shipping the tool they now use.",
     problem:
-      "A law firm's records-request and case-management workflow was repetitive and manual.",
+      "A law firm's records-request and case-management workflow was repetitive and manual: the same client details re-entered across forms, letters, and requests, and every re-entry was another chance for a typo in a legal document.",
     whatIBuilt:
-      "Automation for records requests and document generation, plus case management, that removes repetitive manual steps.",
+      "Automation for records requests and document generation, plus case management. Client data is entered once and flows into the generated document packets, which removes the repetitive manual steps from the workflow.",
     outcomes:
-      "Solving a real workflow, document automation, internal production use.",
+      "An internal tool in real production use. Document generation replaced hand-assembled packets, the duplicate data entry is gone, and the workflow it automates is one I understood from the operator's side first.",
     links: {},
     visibility: "confidential",
     year: 2025,

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const social = [
   {
@@ -17,11 +20,19 @@ const social = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // /contact already opens with this exact CTA plus the same links — the
+  // footer would repeat the whole page one viewport later.
+  if (pathname === "/contact") return null;
+
   return (
     <footer className="mt-16 border-t border-line">
       <div className="wrap py-27.5">
         <h2 className="font-display text-[clamp(34px,6.5vw,84px)] font-medium leading-[0.95] tracking-[-0.02em]">
-          Let&apos;s build something
+          {/* Space before the <br> so the accessible name doesn't read
+              "somethingworth". */}
+          Let&apos;s build something{" "}
           <br />
           worth{" "}
           <Link

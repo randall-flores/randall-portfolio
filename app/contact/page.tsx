@@ -26,7 +26,7 @@ const links = [
 
 export default function ContactPage() {
   return (
-    <main className="ct wrap">
+    <main id="main" className="ct wrap">
       <Reveal>
         <p className="ct-kick">Contact</p>
       </Reveal>

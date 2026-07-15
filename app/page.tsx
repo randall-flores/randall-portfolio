@@ -42,7 +42,7 @@ function TechRun() {
 
 export default function Home() {
   return (
-    <main>
+    <main id="main">
       <section className="wrap pt-35 pb-15">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">

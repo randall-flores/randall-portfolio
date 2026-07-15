@@ -22,7 +22,7 @@ const range = [
 
 export default function WorkPage() {
   return (
-    <main>
+    <main id="main">
       <section className="phead">
         <div className="wrap">
           <Reveal>
