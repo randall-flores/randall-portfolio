@@ -9,26 +9,26 @@ export const metadata: Metadata = {
 };
 
 const colorTokens = [
-  { name: "--bg", value: "#0A0A0C", cls: "bg-bg", note: "page background" },
-  { name: "--bg-2", value: "#101014", cls: "bg-bg-2", note: "raised surfaces" },
-  { name: "--fg", value: "#ECECE6", cls: "bg-fg", note: "primary text" },
-  { name: "--muted", value: "#7E7E78", cls: "bg-muted", note: "metadata" },
-  { name: "--accent", value: "#C8F24E", cls: "bg-accent", note: "the only accent" },
+  { name: "--bg", value: "#06070A", cls: "bg-bg", note: "page background" },
+  { name: "--bg-2", value: "rgba(18,21,27,.72)", cls: "bg-bg-2", note: "glass surfaces" },
+  { name: "--fg", value: "#E9EBEF", cls: "bg-fg", note: "primary text" },
+  { name: "--muted", value: "#8A929C", cls: "bg-muted", note: "metadata" },
+  { name: "--accent", value: "#C3CAD3", cls: "bg-accent", note: "the only accent" },
   {
     name: "--accent-dim",
-    value: "rgba(200,242,78,.12)",
+    value: "rgba(195,202,211,.12)",
     cls: "bg-accent-dim",
     note: "hover bleeds",
   },
   {
     name: "--line",
-    value: "rgba(236,236,230,.12)",
+    value: "rgba(233,235,239,.18)",
     cls: "bg-transparent border border-line",
     note: "dividers",
   },
   {
     name: "--line-soft",
-    value: "rgba(236,236,230,.06)",
+    value: "rgba(233,235,239,.08)",
     cls: "bg-transparent border border-line-soft",
     note: "faint dividers",
   },
@@ -40,7 +40,7 @@ const typeScale = [
   { label: "h2 / section", cls: "t-h2", sample: "Selected work" },
   { label: "project title", cls: "t-project", sample: "FareWise" },
   { label: "lead", cls: "t-lead max-w-[46ch] text-fg/80", sample: "A decade across legal, executive, and customer-facing roles, now building web apps that hold up under real workflows." },
-  { label: "body — 16px Hanken Grotesk", cls: "text-base max-w-[46ch] text-fg/80", sample: "Body copy is set in Hanken Grotesk at 16px with a 1.5 line height for comfortable reading." },
+  { label: "body — 16px Karla", cls: "text-base max-w-[46ch] text-fg/80", sample: "Body copy is set in Karla at 16px with a 1.5 line height for comfortable reading." },
 ];
 
 function Section({
@@ -121,7 +121,7 @@ export default function StyleGuide() {
       <Section label="Buttons">
         <div className="flex flex-wrap items-center gap-3.5">
           <Button href="/work">
-            See my work →
+            See my work
           </Button>
           <Button href="/about" variant="ghost">
             The crossover

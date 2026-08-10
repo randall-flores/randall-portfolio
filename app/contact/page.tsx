@@ -54,7 +54,7 @@ export default function ContactPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {l.label} ↗
+              {l.label}
             </a>
           ))}
           <a href="/cv.pdf" download>

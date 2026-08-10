@@ -58,7 +58,7 @@ export function WorkIndex() {
                     dark={p.slug === "hollow-ronin"}
                   />
                 ) : null}
-                <span className="p-view">View case →</span>
+                <span className="p-view">View case</span>
               </div>
             </div>
             <div className="meta">

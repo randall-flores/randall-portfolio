@@ -27,7 +27,7 @@ export function Footer() {
   if (pathname === "/contact") return null;
 
   return (
-    <footer className="mt-16 border-t border-line">
+    <footer className="mt-24">
       <div className="wrap py-27.5">
         <h2 className="font-display text-[clamp(34px,6.5vw,84px)] font-medium leading-[0.95] tracking-[-0.02em]">
           {/* Space before the <br> so the accessible name doesn't read
@@ -37,9 +37,9 @@ export function Footer() {
           worth{" "}
           <Link
             href="/contact"
-            className="border-b-[3px] border-accent transition-colors hover:text-accent"
+            className="ulink transition-colors hover:text-accent"
           >
-            shipping →
+            shipping
           </Link>
         </h2>
 

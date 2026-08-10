@@ -100,7 +100,7 @@ export default function AboutPage() {
             </p>
           </div>
           <Button href="/contact">
-            Get in touch →
+            Get in touch
           </Button>
         </section>
       </Reveal>

@@ -3,6 +3,7 @@ import "./globals.css";
 import { fontVariables } from "@/lib/fonts";
 import { SITE_URL, SITE_NAME, SITE_TITLE, SITE_DESCRIPTION } from "@/lib/site";
 import { Grain } from "@/components/layout/Grain";
+import { Field } from "@/components/motion/Field";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
@@ -48,6 +49,7 @@ export default function RootLayout({
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        <Field />
         <Grain />
         <Nav />
         <SmoothScroll>

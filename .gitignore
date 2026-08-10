@@ -42,3 +42,6 @@ next-env.d.ts
 
 # git-bash crash dumps
 *.stackdump
+
+# local design explorations, not part of the site
+mockups/

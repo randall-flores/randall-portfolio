@@ -4,26 +4,49 @@ The locked visual identity for the portfolio. Read this before building any UI. 
 
 ## Aesthetic direction
 
-Cool near-black canvas, generous whitespace, oversized Fraunces headlines, monospace metadata, hairline dividers, and a single electric-lime accent used sparingly for emphasis and interaction. Motion is calm by default and reactive on intent (hover, scroll, click). Reference feel: award-tier developer portfolios (precise, minimal, alive), executed in our own palette and voice.
+A live, cinematic background — a silver nebula rendered in WebGL, with a red bokeh light-field that comes through it as you scroll — under quiet, type-led content. Near-black canvas, generous whitespace, oversized Fraunces headlines, monospace metadata, hairline dividers, glass surfaces, and a silver accent. The background carries the drama so the content does not have to. Motion is calm by default and reactive on intent (hover, scroll, click).
+
+Reference: the Tau Ceti and astrophage sequences in *Project Hail Mary* — a slow-flowing field, lens bokeh with flat interiors and bright rims, and light that reads as a single-channel sensor image rather than a colour filter.
 
 ## Color tokens
 
-Define these as CSS variables in `app/globals.css` and map them into Tailwind (Tailwind v4: `@theme`; v3: `tailwind.config` theme.extend). Never hardcode hex in components.
+Define these as CSS variables in `app/globals.css` and map them into Tailwind (Tailwind v4: `@theme`). Never hardcode hex in components.
 
 ```css
 :root{
-  --bg:           #0A0A0C;  /* cool near-black, page background */
-  --bg-2:         #101014;  /* raised surfaces, cards */
-  --fg:           #ECECE6;  /* warm off-white, primary text */
-  --muted:        #7E7E78;  /* secondary text, metadata */
-  --line:         rgba(236,236,230,0.12); /* dividers, borders */
-  --line-soft:    rgba(236,236,230,0.06); /* faint dividers */
-  --accent:       #C8F24E;  /* electric lime, the only accent */
-  --accent-dim:   rgba(200,242,78,0.12);  /* accent washes/hover bleeds */
+  --bg:         #06070A;                  /* near-black, page background */
+  --bg-rgb:     6, 7, 10;                 /* for scrims and glass fills */
+  --bg-2:       rgba(18,21,27,0.72);      /* glass surfaces — the field reads through */
+  --fg:         #E9EBEF;                  /* cool off-white, primary text */
+  --muted:      #8A929C;                  /* secondary text, metadata */
+  --line:       rgba(233,235,239,0.18);   /* dividers, borders */
+  --line-soft:  rgba(233,235,239,0.08);   /* faint dividers */
+  --accent:     #C3CAD3;                  /* silver, the only accent */
+  --accent-rgb: 195, 202, 211;
+  --accent-dim: rgba(195,202,211,0.12);   /* accent washes/hover bleeds */
+
+  /* the field's five ramp stops — mirror of SILVER_RAMP in lib/field.ts */
+  --field-void: #06070A;
+  --field-deep: #171A20;
+  --field-mid:  #3C424B;
+  --field-soft: #A6AEB8;
+  --field-foam: #F0F2F5;
 }
 ```
 
-Contrast notes: `--fg` on `--bg` passes AA comfortably. Lime `--accent` is for large text, borders, dots, and fills, not small body copy. When the accent is a background (buttons, cursor pill), text on it is `#0A0A0C`.
+Chroma is deliberately low across the whole palette: the red light-field is the only saturated thing that ever appears on screen, and it only appears on scroll.
+
+Contrast notes: `--fg` on `--bg` passes AA comfortably. When `--accent` is a background (buttons), text on it is `--bg`. Content below the first viewport sits on a scrim (`main` background gradient); headlines over the open field use `.shad`.
+
+## The field (`components/motion/Field.tsx`, `lib/field.ts`)
+
+One component owns the only `requestAnimationFrame` loop on the page.
+
+- **Nebula** — a WebGL fragment shader: domain-warped fbm over the silver ramp. Follows the cursor, shifts with scroll, blooms under whatever is hovered or focused (delegated, so components do not opt in), ripples on click, and desaturates while the mobile menu is open.
+- **Cloud** — lens-bokeh particles in four depth layers, additive, `mix-blend-mode: screen` so the lights pass *through* the nebula. Driven by scroll: an ambient floor plus a velocity kick, rising fast and falling slowly. Hard-capped at 0.88 — it visits the nebula, it never replaces it.
+- **Portal** — first visit per session opens an aperture (a hole punched by a `box-shadow`) while the cloud is pushed radially outward, so you fly through the opening.
+
+Budget: full resolution and full frame rate by default, stepping the buffer down only if the GPU cannot hold ~50fps. Paused when the tab is hidden. Skipped entirely for `prefers-reduced-motion` and on touch phones, which get the CSS gradient fallback (`.field-fallback`) in the same ramp.
 
 ## Typography
 

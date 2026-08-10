@@ -74,7 +74,7 @@ export default async function CaseStudyPage({ params }: Params) {
           here is the LCP element. */}
       <div className="rise">
         <Link href="/work" className="cs-back">
-          ← All work
+          All work
         </Link>
       </div>
 
@@ -107,7 +107,7 @@ export default async function CaseStudyPage({ params }: Params) {
                 href={liveUrl}
                 ariaLabel={`Visit the live ${project.title} site (opens in a new tab)`}
               >
-                Visit live site ↗
+                Visit live site
               </Button>
             ) : null}
 
@@ -118,7 +118,7 @@ export default async function CaseStudyPage({ params }: Params) {
                 rel="noopener noreferrer"
                 className="cs-act ghost"
               >
-                View repo →
+                View repo
               </a>
             ) : null}
           </div>
@@ -232,11 +232,11 @@ export default async function CaseStudyPage({ params }: Params) {
       <Reveal>
         <nav className="cs-nav" aria-label="More projects">
           <Link href={`/work/${prev.slug}`}>
-            <span className="dir">← Previous</span>
+            <span className="dir">Previous</span>
             <span className="nm">{prev.title}</span>
           </Link>
           <Link href={`/work/${next.slug}`} className="next">
-            <span className="dir">Next →</span>
+            <span className="dir">Next</span>
             <span className="nm">{next.title}</span>
           </Link>
         </nav>

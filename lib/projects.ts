@@ -63,7 +63,8 @@ export const projects: Project[] = [
     featured: true,
     year: 2026,
     tags: ["AI Product", "Claude API", "SerpApi"],
-    gradient: "linear-gradient(135deg,#1a2030,#0d1118)",
+    gradient:
+      "linear-gradient(140deg,rgba(120,150,255,0.13),rgba(233,235,239,0.03))",
     description:
       "An AI-powered flight search that turns plain-language travel intent into real fare options. Built on the Claude API for reasoning and SerpApi for live results.",
     category: "AI Product · Full-Stack · API Integration",
@@ -91,7 +92,8 @@ export const projects: Project[] = [
     visibility: "public",
     year: 2026,
     tags: ["Voice-over", "Design System", "EN/DE"],
-    gradient: "linear-gradient(135deg,#171225,#241b33)",
+    gradient:
+      "linear-gradient(140deg,rgba(170,130,255,0.13),rgba(233,235,239,0.03))",
     description:
       "Production site for a German voice-over actress. A custom liquid-glass design system, magnetic interactions, bilingual routing, and German legal compliance pages.",
     category: "Client · Design System · EN/DE",
@@ -119,7 +121,8 @@ export const projects: Project[] = [
     visibility: "public",
     year: 2026,
     tags: ["Headless Shopify", "Printify", "Brand"],
-    gradient: "linear-gradient(120deg,#161616,#21201a,#101010)",
+    gradient:
+      "linear-gradient(140deg,rgba(255,180,120,0.12),rgba(233,235,239,0.03))",
     wide: true,
     description:
       "A drop-based streetwear brand built end to end on headless Shopify and Printify, with AI-generated art driving the visual identity.",
@@ -148,7 +151,8 @@ export const projects: Project[] = [
     visibility: "confidential",
     year: 2026,
     tags: ["Full-stack", "Supabase RLS", "next-intl"],
-    gradient: "linear-gradient(135deg,#0f1a17,#13241f)",
+    gradient:
+      "linear-gradient(140deg,rgba(90,220,180,0.12),rgba(233,235,239,0.03))",
     description:
       "A bilingual personal-injury companion app. Next.js front to back, Supabase auth with row-level security, and next-intl for EN/ES. Screens anonymized.",
     category: "Full-Stack · Auth · i18n",
@@ -177,7 +181,8 @@ export const projects: Project[] = [
     visibility: "confidential",
     year: 2025,
     tags: ["Internal", "Doc Automation", "Confidential"],
-    gradient: "linear-gradient(135deg,#1a1518,#231a1d)",
+    gradient:
+      "linear-gradient(140deg,rgba(255,120,150,0.12),rgba(233,235,239,0.03))",
     description:
       "Case management and records-request automation for a law firm. Generates documents and removes repetitive manual steps from a real legal workflow. Fully anonymized.",
     category: "Internal · Workflow · Document Automation",

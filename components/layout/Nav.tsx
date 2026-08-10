@@ -39,14 +39,14 @@ export function Nav() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[100] border-b border-line-soft bg-bg/50 backdrop-blur-[10px]">
+    <header className="fixed inset-x-0 top-0 z-[100] bg-bg/40 backdrop-blur-[14px]">
       <div className="wrap flex h-[66px] items-center justify-between">
         <Link
           href="/"
-          aria-label="Randall, home"
+          aria-label="Randall Flores, home"
           className="font-display text-[19px] font-semibold tracking-[-0.01em]"
         >
-          RANDALL<span className="text-accent">.</span>
+          RANDALL FLORES
         </Link>
 
         <nav

@@ -39,6 +39,14 @@ export function MobileMenu() {
     btnRef.current?.focus();
   }, []);
 
+  // Tell <Field /> to drain the background's colour while the panel is open,
+  // so the overlay type stays readable over a moving field.
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("field:calm", { detail: { on: open } }),
+    );
+  }, [open]);
+
   // While open: lock body scroll, move focus into the panel, trap Tab, Escape
   // closes. Cleanup restores scroll.
   useEffect(() => {

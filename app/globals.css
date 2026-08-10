@@ -5,17 +5,35 @@
 /*  Never hardcode hex in components. Use these tokens.                 */
 /* ------------------------------------------------------------------ */
 :root {
-  --bg: #0a0a0c; /* cool near-black, page background */
-  --bg-2: #101014; /* raised surfaces, cards */
-  --fg: #ecece6; /* warm off-white, primary text */
-  --muted: #7e7e78; /* secondary text, metadata */
-  --line: rgba(236, 236, 230, 0.12); /* dividers, borders */
-  --line-soft: rgba(236, 236, 230, 0.06); /* faint dividers */
-  --accent: #c8f24e; /* electric lime, the only accent */
-  --accent-dim: rgba(200, 242, 78, 0.12); /* accent washes / hover bleeds */
-  --accent-btn: #b8e63c; /* slightly deeper lime, BUTTON FILLS ONLY — cuts the
-                            halation that makes near-black label text shimmer on
-                            the bright accent. Do not use elsewhere. */
+  --bg: #06070a; /* near-black, page background under the field */
+  --bg-rgb: 6, 7, 10; /* for scrims and glass fills */
+  --bg-2: rgba(233, 235, 239, 0.05); /* glass film — lit BY the field, never a dark box */
+  --fg: #e9ebef; /* cool off-white, primary text */
+  --muted: #8a929c; /* secondary text, metadata */
+  --line: rgba(233, 235, 239, 0.12); /* dividers, borders */
+  /* Feathered hairline. Fades to nothing at both ends so a section break reads
+     as a change of pressure, not a drawn line. Use via .rule-* below. */
+  --rule: linear-gradient(
+    90deg,
+    transparent,
+    rgba(233, 235, 239, 0.14) 10%,
+    rgba(233, 235, 239, 0.14) 90%,
+    transparent
+  );
+  --line-soft: rgba(233, 235, 239, 0.08); /* faint dividers */
+  --accent: #c3cad3; /* silver highlight, the only accent */
+  --accent-rgb: 195, 202, 211;
+  --accent-dim: rgba(195, 202, 211, 0.12); /* accent washes / hover bleeds */
+  --accent-btn: #c3cad3; /* button fills. Near-black label on silver reads clean
+                            at any weight, so this matches --accent exactly. */
+
+  /* Field ramp — the WebGL nebula's five stops, mirrored here for the
+     no-WebGL CSS fallback. Keep in sync with SILVER_RAMP in lib/field.ts. */
+  --field-void: #06070a;
+  --field-deep: #171a20;
+  --field-mid: #3c424b;
+  --field-soft: #a6aeb8;
+  --field-foam: #f0f2f5;
 
   /* default ease + container */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -35,9 +53,9 @@
   --color-accent-dim: var(--accent-dim);
   --color-accent-btn: var(--accent-btn);
 
-  --font-display: var(--font-fraunces), serif;
-  --font-body: var(--font-hanken), sans-serif;
-  --font-mono: var(--font-jetbrains), monospace;
+  --font-display: var(--font-bodoni), Didot, Georgia, serif;
+  --font-body: var(--font-karla), system-ui, sans-serif;
+  --font-mono: var(--font-fragment), ui-monospace, monospace;
 
   --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -58,11 +76,253 @@ html {
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-hanken), sans-serif;
+  font-family: var(--font-karla), system-ui, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  /* A soft shadow on every glyph buys legibility over the moving field without
+     putting a single opaque rectangle on the page. */
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* ------------------------------------------------------------------ */
+/*  The field — WebGL nebula + red bokeh cloud (<Field />)             */
+/*  Layer order: nebula(0) → cloud(1) → wash(2) → grain(300) → content */
+/* ------------------------------------------------------------------ */
+.field-gl,
+.field-cloud {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.field-gl {
+  z-index: 0;
+}
+.field-cloud {
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  /* screen keeps the lights passing THROUGH the nebula rather than over it */
+  mix-blend-mode: screen;
+}
+.field-wash {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  background: radial-gradient(
+    72% 62% at 50% 58%,
+    rgba(150, 6, 20, 0.5),
+    rgba(24, 0, 5, 0.72)
+  );
+}
+/* No WebGL (or a touch phone): the same ramp, as a cheap animated gradient. */
+.field-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: none;
+  background:
+    radial-gradient(58% 58% at 22% 26%, var(--field-mid), transparent 62%),
+    radial-gradient(56% 56% at 78% 30%, var(--field-deep), transparent 60%),
+    radial-gradient(70% 70% at 55% 92%, var(--field-soft), transparent 66%),
+    var(--field-void);
+  animation: field-breathe 26s ease-in-out infinite alternate;
+}
+.no-field .field-fallback {
+  display: block;
+}
+.no-field .field-gl {
+  display: none;
+}
+@keyframes field-breathe {
+  to {
+    filter: brightness(1.1) saturate(1.1);
+    transform: scale(1.06);
+  }
+}
+
+/* Content sits above the field. The hero is left clear so the nebula reads at
+   full strength; below the first viewport a scrim protects body copy. */
+main,
+footer {
+  position: relative;
+  z-index: 4;
+}
+main {
+  background: linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 62vh,
+    rgba(var(--bg-rgb), 0.22) 118vh
+  );
+}
+footer {
+  /* no fill and no rule — the field's own scroll-dimming carries it */
+  background: none;
+}
+
+/* Feathered dividers. border-image needs an explicit width + style. */
+.rule-t,
+.rule-b,
+.rule-y {
+  border-style: solid;
+  border-image: var(--rule) 1;
+}
+.rule-t {
+  border-width: 1px 0 0;
+}
+.rule-b {
+  border-width: 0 0 1px;
+}
+.rule-y {
+  border-width: 1px 0;
+}
+
+/* Link underline that grows on hover instead of sitting there permanently. */
+.ulink {
+  position: relative;
+}
+.ulink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.12em;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease), opacity 0.3s;
+}
+.ulink:hover::after,
+.ulink:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 0.75;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ulink::after {
+    transition: none;
+  }
+}
+
+/* Headline shadow — legibility over a moving field without a flat scrim. */
+.shad {
+  text-shadow:
+    0 2px 34px rgba(0, 0, 0, 0.86),
+    0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Portal entry — a hole punched by a huge box-shadow, growing open    */
+/* ------------------------------------------------------------------ */
+.portal {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  pointer-events: none;
+}
+.portal-mask {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 220vmax #000;
+}
+.portal-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 1.5px solid rgba(230, 240, 255, 0.9);
+  box-shadow:
+    0 0 40px 8px rgba(180, 210, 255, 0.5),
+    inset 0 0 24px 4px rgba(180, 210, 255, 0.35);
+  opacity: 0;
+}
+.portal-flash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(240, 246, 255, 0.9),
+    transparent 62%
+  );
+}
+.portal-run .portal-mask {
+  animation: aperture 1.25s cubic-bezier(0.5, 0, 0.15, 1) forwards;
+}
+.portal-run .portal-ring {
+  animation: portal-ring 1.25s cubic-bezier(0.5, 0, 0.15, 1) forwards;
+}
+.portal-run .portal-flash {
+  animation: portal-flash 1.25s ease-out forwards;
+}
+.portal-done .portal {
+  display: none;
+}
+@keyframes aperture {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  11% {
+    width: 26px;
+    height: 26px;
+  }
+  100% {
+    width: 260vmax;
+    height: 260vmax;
+  }
+}
+@keyframes portal-ring {
+  0% {
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  11% {
+    width: 26px;
+    height: 26px;
+    opacity: 1;
+  }
+  64% {
+    opacity: 0.5;
+  }
+  100% {
+    width: 250vmax;
+    height: 250vmax;
+    opacity: 0;
+    border-width: 6px;
+  }
+}
+@keyframes portal-flash {
+  0%,
+  40% {
+    opacity: 0;
+  }
+  56% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 ::selection {
@@ -89,12 +349,13 @@ body {
   padding: 12px 18px;
   background: var(--accent-btn);
   color: var(--bg);
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: 2px;
+  text-shadow: none; /* dark label on a light fill */
   transition: transform 0.2s var(--ease);
 }
 .skip-link:focus {
@@ -129,23 +390,32 @@ body {
 }
 
 .disp {
-  font-family: var(--font-fraunces), serif;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
   letter-spacing: -0.02em;
 }
 
 /* ------------------------------------------------------------------ */
 /*  Type scale (fluid, mobile-first) — docs/DESIGN-SYSTEM.md           */
 /* ------------------------------------------------------------------ */
+/* Bodoni's opsz axis: LOW values are the text cut, with sturdy hairlines that
+   survive over the field. The display cut (opsz 96) is drawn for billboards and
+   thins out to nothing at these sizes. Weight compensates the rest. */
 .t-wordmark {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 14;
+  font-weight: 700;
+  text-shadow:
+    0 2px 40px rgba(0, 0, 0, 0.9),
+    0 1px 6px rgba(0, 0, 0, 0.7);
   font-size: clamp(72px, 21vw, 300px);
   line-height: 0.82;
   letter-spacing: -0.02em;
 }
 
 .t-h1 {
-  font-family: var(--font-fraunces), serif;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
   font-weight: 500;
   font-size: clamp(56px, 13vw, 180px);
   line-height: 0.86;
@@ -153,7 +423,8 @@ body {
 }
 
 .t-h2 {
-  font-family: var(--font-fraunces), serif;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
   font-weight: 500;
   font-size: clamp(22px, 3vw, 34px);
   line-height: 1.05;
@@ -161,7 +432,8 @@ body {
 }
 
 .t-project {
-  font-family: var(--font-fraunces), serif;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
   font-weight: 500;
   font-size: clamp(36px, 5.5vw, 72px);
   line-height: 0.96;
@@ -174,7 +446,7 @@ body {
 }
 
 .t-mono {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -201,13 +473,13 @@ body {
 /* Pulsing status dot in the Nav. */
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(200, 242, 78, 0.5);
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.5);
   }
   70% {
-    box-shadow: 0 0 0 7px rgba(200, 242, 78, 0);
+    box-shadow: 0 0 0 7px rgba(var(--accent-rgb), 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(200, 242, 78, 0);
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0);
   }
 }
 
@@ -222,8 +494,9 @@ body {
   grid-template-columns: minmax(0, 1fr);
 }
 .hero-sub .h-head {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   letter-spacing: -0.02em;
   font-size: clamp(22px, 3vw, 34px);
   line-height: 1.05;
@@ -242,7 +515,7 @@ body {
 .ab-title em,
 .ab-look .t em,
 .ct-title em {
-  font-family: var(--font-fraunces-it), Georgia, serif;
+  font-family: var(--font-bodoni-it), Didot, Georgia, serif;
 }
 .hero-sub .h-lead {
   color: #c8c8c2;
@@ -333,38 +606,6 @@ body {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Tech marquee strip                                                 */
-/* ------------------------------------------------------------------ */
-.strip {
-  border-top: 1px solid var(--line-soft);
-  border-bottom: 1px solid var(--line-soft);
-  margin-top: 70px;
-  overflow: hidden;
-}
-.marquee {
-  display: flex;
-  gap: 60px;
-  white-space: nowrap;
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 18px 0;
-  animation: scroll 26s linear infinite;
-  width: max-content;
-}
-.marquee b {
-  color: var(--fg);
-  font-weight: 400;
-}
-@keyframes scroll {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* ------------------------------------------------------------------ */
 /*  Work — editorial Index (default) + Gallery toggle                  */
 /* ------------------------------------------------------------------ */
 .work {
@@ -374,15 +615,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--line);
   padding-bottom: 18px;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 14px;
 }
 .sec-head h2 {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   letter-spacing: -0.02em;
   font-size: clamp(22px, 3vw, 30px);
 }
@@ -391,7 +632,7 @@ body {
   border: 1px solid var(--line);
   border-radius: 3px;
   overflow: hidden;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -417,8 +658,7 @@ body {
   grid-template-columns: 60px 1fr auto;
   gap: 20px;
   align-items: center;
-  padding: 28px 12px;
-  border-bottom: 1px solid var(--line-soft);
+  padding: 34px 12px;
   position: relative;
   transition: padding 0.35s, background 0.35s;
 }
@@ -427,7 +667,7 @@ body {
   background: linear-gradient(90deg, var(--accent-dim), transparent 55%);
 }
 .item .num {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 13px;
   color: var(--muted);
   transition: color 0.3s;
@@ -436,8 +676,9 @@ body {
   color: var(--accent);
 }
 .item .name {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   letter-spacing: -0.02em;
   font-size: clamp(26px, 4.4vw, 50px);
   line-height: 1;
@@ -455,22 +696,19 @@ body {
 }
 .tags {
   display: flex;
-  gap: 7px;
+  gap: 6px 18px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 .tag {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 10.5px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--muted);
-  border: 1px solid var(--line);
-  padding: 5px 9px;
-  border-radius: 2px;
 }
 .yr {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   color: var(--muted);
 }
@@ -491,9 +729,17 @@ body {
   flex-direction: column;
   align-items: flex-start;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 24px;
-  background: var(--bg-2);
+  background: linear-gradient(
+    180deg,
+    rgba(233, 235, 239, 0.07),
+    rgba(233, 235, 239, 0.025)
+  );
+  backdrop-filter: blur(20px) saturate(1.25);
+  -webkit-backdrop-filter: blur(20px) saturate(1.25);
+  /* the hairline top highlight is what makes it read as glass, not a panel */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
   gap: 0;
 }
 /* Children must span the card. align-items: flex-start shrink-wraps the
@@ -504,8 +750,12 @@ body {
 }
 .track.gallery .item:hover {
   padding-left: 24px;
-  background: #121218;
-  border-color: rgba(200, 242, 78, 0.35);
+  background: linear-gradient(
+    180deg,
+    rgba(233, 235, 239, 0.11),
+    rgba(233, 235, 239, 0.045)
+  );
+  border-color: rgba(var(--accent-rgb), 0.4);
 }
 .track.gallery .item .vis {
   display: block;
@@ -520,7 +770,7 @@ body {
 }
 .track.gallery .item:hover .vis {
   transform: scale(1.02);
-  border-color: rgba(200, 242, 78, 0.6);
+  border-color: rgba(var(--accent-rgb), 0.6);
 }
 .item:hover .p-view,
 .item:focus-visible .p-view {
@@ -586,7 +836,7 @@ body {
   padding: 150px 0 50px;
 }
 .phead .kick {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -594,8 +844,9 @@ body {
   margin-bottom: 24px;
 }
 .phead h1 {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(56px, 13vw, 180px);
   line-height: 0.86;
   letter-spacing: -0.02em;
@@ -610,7 +861,7 @@ body {
   flex-wrap: wrap;
   gap: 10px 26px;
   margin-top: 30px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 13px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -625,10 +876,8 @@ body {
   position: sticky;
   top: 66px;
   z-index: 90;
-  background: rgba(10, 10, 12, 0.72);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--line-soft);
-  border-bottom: 1px solid var(--line);
+  background: rgba(var(--bg-rgb), 0.5);
+  backdrop-filter: blur(18px) saturate(1.2);
 }
 .filters-inner {
   display: flex;
@@ -644,29 +893,32 @@ body {
   flex-wrap: wrap;
 }
 .fpills button {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 11.5px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   background: none;
-  border: 1px solid var(--line);
+  border: 0;
   color: var(--muted);
-  padding: 9px 15px;
-  border-radius: 30px;
+  padding: 9px 4px;
   cursor: pointer;
-  transition: 0.25s;
+  transition: color 0.25s;
+}
+/* generous gap does the separating now that the outlines are gone */
+.fpills {
+  gap: 8px 22px;
 }
 .fpills button:hover {
   color: var(--fg);
-  border-color: var(--fg);
 }
+/* Fragment Mono ships a single weight, so the active state is carried by
+   colour and a wider track rather than a synthesized bold. */
 .fpills button.active {
-  background: var(--accent);
-  color: var(--bg);
-  border-color: var(--accent);
+  color: var(--fg);
+  letter-spacing: 0.12em;
 }
 .fcount {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   color: var(--muted);
   letter-spacing: 0.04em;
@@ -685,8 +937,7 @@ body {
   grid-template-columns: 1.05fr 0.95fr;
   gap: 56px;
   align-items: center;
-  padding: 70px 0;
-  border-bottom: 1px solid var(--line-soft);
+  padding: 78px 0;
 }
 .project.reversed .p-media {
   order: 2;
@@ -704,12 +955,12 @@ body {
   border-radius: 14px;
   border: 1px solid var(--line);
   overflow: hidden;
-  background: #0d0d11;
+  background: rgba(233, 235, 239, 0.04);
   transition: transform 0.5s var(--ease), border-color 0.4s;
 }
 .project:hover .p-visual {
   transform: scale(1.02);
-  border-color: rgba(200, 242, 78, 0.6);
+  border-color: rgba(var(--accent-rgb), 0.6);
 }
 .p-chrome {
   position: absolute;
@@ -737,8 +988,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-fraunces), serif;
-  font-weight: 600;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 20;
+  font-weight: 700;
   font-size: clamp(60px, 9vw, 140px);
   color: rgba(255, 255, 255, 0.06);
   letter-spacing: -0.03em;
@@ -756,7 +1008,7 @@ body {
 /* Near-black media on a near-black page: a faint warm-gold hairline so the
    card edges don't melt into the background. Hover still resolves to lime. */
 .p-visual.dark {
-  border-color: rgba(201, 168, 76, 0.22);
+  border-color: var(--line);
 }
 .p-cap {
   position: absolute;
@@ -766,7 +1018,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 10.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -791,7 +1043,7 @@ body {
   right: 18px;
   bottom: 16px;
   z-index: 3;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 10.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -806,20 +1058,21 @@ body {
   transform: none;
 }
 .p-num {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 13px;
   color: var(--accent);
   margin-bottom: 14px;
 }
 .p-title {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(36px, 5.5vw, 72px);
   line-height: 0.96;
   letter-spacing: -0.02em;
 }
 .p-cat {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -835,36 +1088,31 @@ body {
 }
 .chips {
   display: flex;
-  gap: 8px;
+  gap: 8px 18px;
   flex-wrap: wrap;
   margin-top: 22px;
 }
 .chip {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--muted);
-  border: 1px solid var(--line);
-  padding: 6px 11px;
-  border-radius: 30px;
 }
 .p-link {
   display: inline-flex;
   align-items: center;
   gap: 9px;
   margin-top: 28px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 13px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--fg);
-  border-bottom: 1px solid var(--accent);
   padding-bottom: 5px;
-  transition: gap 0.3s, color 0.3s;
+  transition: color 0.3s;
 }
 .project:hover .p-link {
-  gap: 16px;
   color: var(--accent);
 }
 @media (max-width: 860px) {
@@ -895,7 +1143,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -909,14 +1157,15 @@ body {
   margin-top: 40px;
 }
 .cs-num {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 13px;
   color: var(--accent);
   margin-bottom: 18px;
 }
 .cs-title {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(44px, 9vw, 110px);
   line-height: 0.9;
   letter-spacing: -0.02em;
@@ -940,7 +1189,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -961,26 +1210,22 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 13px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--fg);
-  border-bottom: 1px solid var(--accent);
   padding-bottom: 4px;
-  transition: gap 0.3s, color 0.3s, border-color 0.3s;
+  transition: color 0.3s;
 }
 .cs-act:hover {
-  gap: 15px;
   color: var(--accent);
 }
 .cs-act.ghost {
-  border-bottom-color: var(--line);
   color: var(--muted);
 }
 .cs-act.ghost:hover {
   color: var(--fg);
-  border-bottom-color: var(--fg);
 }
 .cs-hero {
   margin-top: 50px;
@@ -993,12 +1238,10 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
   margin-top: 50px;
-  padding: 30px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  padding: 34px 0;
 }
 .cs-meta .label {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1021,8 +1264,9 @@ body {
   margin-bottom: 54px;
 }
 .cs-section h2 {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(24px, 3.4vw, 38px);
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -1060,8 +1304,11 @@ body {
   margin-top: 30px;
   padding: 20px 22px;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--accent-dim);
+  border-radius: 12px;
+  background: rgba(233, 235, 239, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
   font-size: 14.5px;
   line-height: 1.6;
   color: #d4d4ce;
@@ -1071,8 +1318,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-top: 40px;
-  padding-top: 40px;
-  border-top: 1px solid var(--line);
+  padding-top: 48px;
 }
 .cs-nav a {
   display: flex;
@@ -1080,23 +1326,27 @@ body {
   gap: 8px;
   padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 14px;
+  background: rgba(233, 235, 239, 0.035);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   transition: border-color 0.3s, background 0.3s;
 }
 .cs-nav a:hover {
-  border-color: rgba(200, 242, 78, 0.35);
+  border-color: rgba(var(--accent-rgb), 0.35);
   background: var(--bg-2);
 }
 .cs-nav .dir {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
 }
 .cs-nav .nm {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(22px, 3vw, 32px);
   letter-spacing: -0.02em;
 }
@@ -1126,7 +1376,7 @@ body {
   padding-bottom: 30px;
 }
 .ab-kick {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1134,8 +1384,9 @@ body {
   margin-bottom: 24px;
 }
 .ab-title {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(44px, 9vw, 120px);
   line-height: 0.9;
   letter-spacing: -0.02em;
@@ -1185,6 +1436,8 @@ body {
   border-radius: 14px;
   overflow: hidden;
   background: var(--bg-2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .ab-portrait img {
   display: block;
@@ -1201,25 +1454,23 @@ body {
   justify-content: space-between;
   gap: 16px;
   padding: 14px 0;
-  border-top: 1px solid var(--line-soft);
 }
 .ab-facts dt {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
 }
 .ab-facts dd {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   color: var(--fg);
   text-align: right;
 }
 .ab-look {
-  margin-top: 60px;
-  padding-top: 40px;
-  border-top: 1px solid var(--line);
+  margin-top: 72px;
+  padding-top: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1227,7 +1478,7 @@ body {
   gap: 24px;
 }
 .ab-look .k {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1235,8 +1486,9 @@ body {
   margin-bottom: 12px;
 }
 .ab-look .t {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(24px, 3.4vw, 40px);
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -1269,7 +1521,7 @@ body {
   padding-bottom: 70px;
 }
 .ct-kick {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1277,8 +1529,9 @@ body {
   margin-bottom: 24px;
 }
 .ct-title {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(48px, 11vw, 150px);
   line-height: 0.88;
   letter-spacing: -0.02em;
@@ -1300,13 +1553,13 @@ body {
 }
 .ct-email {
   display: inline-block;
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(24px, 5vw, 58px);
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--fg);
-  border-bottom: 2px solid var(--accent);
   padding-bottom: 8px;
   transition: color 0.3s;
   word-break: break-word;
@@ -1318,7 +1571,7 @@ body {
   display: block;
   margin-top: 14px;
   min-height: 1em;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1328,10 +1581,9 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 18px 30px;
-  margin-top: 60px;
-  padding-top: 34px;
-  border-top: 1px solid var(--line);
-  font-family: var(--font-jetbrains), monospace;
+  margin-top: 68px;
+  padding-top: 0;
+  font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1388,7 +1640,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  background: rgba(10, 10, 12, 0.6);
+  background: rgba(var(--bg-rgb), 0.6);
   backdrop-filter: blur(4px);
   border: none;
   cursor: pointer;
@@ -1399,7 +1651,9 @@ body {
   right: 0;
   height: 100%;
   width: min(82vw, 360px);
-  background: var(--bg-2);
+  background: rgba(var(--bg-rgb), 0.86);
+  backdrop-filter: blur(22px) saturate(1.1);
+  -webkit-backdrop-filter: blur(22px) saturate(1.1);
   border-left: 1px solid var(--line);
   display: flex;
   flex-direction: column;
@@ -1411,8 +1665,9 @@ body {
   transform: none;
 }
 .menu-panel a {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 500;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 34;
+  font-weight: 600;
   font-size: clamp(28px, 7.5vw, 42px);
   line-height: 1.1;
   letter-spacing: -0.02em;

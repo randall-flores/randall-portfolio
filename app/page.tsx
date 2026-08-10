@@ -13,33 +13,6 @@ export const metadata: Metadata = {
   twitter: { title: "Randall — Full-Stack Developer", description },
 };
 
-// Marquee tech list. Duplicated inline so the CSS translateX(-50%) loop is
-// seamless. Decorative, so the whole strip is aria-hidden.
-const tech = [
-  "Next.js",
-  "TypeScript",
-  "Tailwind",
-  "shadcn/ui",
-  "Framer Motion",
-  "Supabase",
-  "API Integration",
-  "Vercel",
-];
-const strong = new Set(["TypeScript", "shadcn/ui", "API Integration"]);
-
-function TechRun() {
-  return (
-    <>
-      {tech.map((t, i) => (
-        <span key={`${t}-${i}`} className="contents">
-          <span>{strong.has(t) ? <b>{t}</b> : t}</span>
-          <span>·</span>
-        </span>
-      ))}
-    </>
-  );
-}
-
 export default function Home() {
   return (
     <main id="main">
@@ -74,7 +47,7 @@ export default function Home() {
             <div className="h-cta">
               <Magnetic>
                 <Button href="/work">
-                  See my work →
+                  See my work
                 </Button>
               </Magnetic>
               <Magnetic>
@@ -86,13 +59,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <div className="strip" aria-hidden="true">
-        <div className="marquee">
-          <TechRun />
-          <TechRun />
-        </div>
-      </div>
 
       <section className="work" id="work">
         <div className="wrap">

@@ -10,7 +10,7 @@ import { projects, type Capability } from "@/lib/projects";
 // Sticky capability filter + the editorial project spread. Client-side because
 // the filter holds state and drives the live count and reflow. Scroll reveal
 // reuses <Reveal>; hovering a card scales the media up and reveals a
-// "View case →" label in the media corner. Featured project (FareWise)
+// "View case" label in the media corner. Featured project (FareWise)
 // renders first, full-width.
 type Filter = "all" | Capability;
 
@@ -148,7 +148,7 @@ export function WorkList() {
                           </div>
                         )}
                         <span className="p-view" aria-hidden="true">
-                          View case →
+                          View case
                         </span>
                         <div className="p-cap">
                           {p.status ? (
@@ -177,7 +177,7 @@ export function WorkList() {
                           </span>
                         ))}
                       </div>
-                      <span className="p-link">View case →</span>
+                      <span className="p-link">View case</span>
                     </div>
                   </Link>
                 </Reveal>

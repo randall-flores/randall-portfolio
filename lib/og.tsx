@@ -6,10 +6,10 @@ import { ImageResponse } from "next/og";
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_CONTENT_TYPE = "image/png";
 
-const BG = "#0A0A0C";
-const FG = "#ECECE6";
-const ACCENT = "#C8F24E";
-const MUTED = "#7E7E78";
+const BG = "#06070A";
+const FG = "#E9EBEF";
+const ACCENT = "#C3CAD3";
+const MUTED = "#8A929C";
 
 type OgInput = {
   title: string;
