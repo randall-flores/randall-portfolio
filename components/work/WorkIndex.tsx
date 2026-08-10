@@ -41,9 +41,12 @@ export function WorkIndex() {
             key={p.slug}
             href={`/work/${p.slug}`}
             className={p.wide ? "item wide" : "item"}
-            aria-label={`${p.title} case study`}
           >
-            <div className="num">{String(i + 1).padStart(2, "0")}</div>
+            {/* Decorative index — hidden so the link's accessible name is the
+                visible content, per WCAG 2.5.3 (Label in Name). */}
+            <div className="num" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </div>
             <div>
               <div className="name">{p.title}</div>
               <div

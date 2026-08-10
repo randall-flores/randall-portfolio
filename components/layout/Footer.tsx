@@ -2,22 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const social = [
-  {
-    label: "randall.floresespinoza@gmail.com",
-    href: "mailto:randall.floresespinoza@gmail.com",
-  },
-  { label: "GitHub", href: "https://github.com/randallfloresespinoza-coder" },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/randallflores1493/",
-  },
-  {
-    label: "Contra",
-    href: "https://contra.com/randall_flores_n1w62fvm/work?r=randall_flores_n1w62fvm",
-  },
-];
+import { SocialIcon } from "@/components/ui/SocialIcon";
+import { EMAIL, SOCIAL } from "@/lib/social";
 
 export function Footer() {
   const pathname = usePathname();
@@ -43,23 +29,29 @@ export function Footer() {
           </Link>
         </h2>
 
-        <ul className="mt-11.5 flex flex-wrap justify-between gap-5 font-mono text-xs uppercase tracking-wider text-muted">
-          {social.map((s) => {
-            const external = s.href.startsWith("http");
-            return (
-              <li key={s.label}>
-                <a
-                  href={s.href}
-                  className="transition-colors hover:text-accent"
-                  {...(external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {s.label}
-                </a>
-              </li>
-            );
-          })}
+        <ul className="mt-11.5 flex flex-wrap items-center gap-x-8 gap-y-4 font-mono text-xs uppercase tracking-wider text-muted">
+          <li>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="inline-flex items-center gap-2.5 py-1 transition-colors hover:text-accent"
+            >
+              <SocialIcon name="email" />
+              <span className="normal-case tracking-normal">{EMAIL}</span>
+            </a>
+          </li>
+          {SOCIAL.map((s) => (
+            <li key={s.key}>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 py-1 transition-colors hover:text-accent"
+              >
+                <SocialIcon name={s.key} />
+                <span>{s.label}</span>
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
     </footer>

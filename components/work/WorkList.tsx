@@ -116,7 +116,6 @@ export function WorkList() {
                   <Link
                     href={`/work/${p.slug}`}
                     className={className}
-                    aria-label={`${p.title} case study`}
                   >
                     <div className="p-media">
                       <div

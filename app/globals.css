@@ -217,13 +217,6 @@ footer {
   }
 }
 
-/* Headline shadow — legibility over a moving field without a flat scrim. */
-.shad {
-  text-shadow:
-    0 2px 34px rgba(0, 0, 0, 0.86),
-    0 1px 4px rgba(0, 0, 0, 0.6);
-}
-
 /* ------------------------------------------------------------------ */
 /*  Portal entry                                                       */
 /*  Animated with a mask radius and a transform, never width/height.    */
@@ -401,12 +394,6 @@ footer {
   }
 }
 
-.disp {
-  font-family: var(--font-bodoni), Didot, Georgia, serif;
-  font-variation-settings: "opsz" 34;
-  letter-spacing: -0.02em;
-}
-
 /* ------------------------------------------------------------------ */
 /*  Type scale (fluid, mobile-first) — docs/DESIGN-SYSTEM.md           */
 /* ------------------------------------------------------------------ */
@@ -420,9 +407,14 @@ footer {
   text-shadow:
     0 2px 40px rgba(0, 0, 0, 0.9),
     0 1px 6px rgba(0, 0, 0, 0.7);
-  font-size: clamp(72px, 21vw, 300px);
+  /* Sized to the container, not to a flat cap. "RANDALL" is 7 caps ≈ 4.9em in
+     Bodoni and wider again in the Didot/Georgia fallbacks, so the divisor has
+     to hold during the font swap as well. --wrap-pad tracks .wrap's padding. */
+  --wrap-pad: 60px;
+  font-size: min(calc((100vw - var(--wrap-pad)) / 5.15), 236px);
   line-height: 0.82;
   letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
 .t-h1 {
@@ -462,11 +454,6 @@ footer {
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.accent-italic {
-  font-style: italic;
-  color: var(--accent);
 }
 
 /* ------------------------------------------------------------------ */
@@ -609,12 +596,11 @@ footer {
     animation: none;
   }
 }
-/* "RANDALL" is ~4.2em wide; the 72px floor of t-wordmark overflows the
-   content box on narrow phones. Ease the scale below 480px so the single
-   word always fits inside .wrap (the source of the few-px sideways scroll). */
-@media (max-width: 480px) {
-  .hero-wordmark {
-    font-size: clamp(56px, 19vw, 300px);
+/* .wrap drops to 24px side padding below 760px, so the wordmark's fit
+   calculation has to follow it. */
+@media (max-width: 760px) {
+  .t-wordmark {
+    --wrap-pad: 48px;
   }
 }
 
@@ -1388,14 +1374,6 @@ footer {
   padding-top: 140px;
   padding-bottom: 30px;
 }
-.ab-kick {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 24px;
-}
 .ab-title {
   font-family: var(--font-bodoni), Didot, Georgia, serif;
   font-variation-settings: "opsz" 34;
@@ -1532,14 +1510,6 @@ footer {
 .ct {
   padding-top: 150px;
   padding-bottom: 70px;
-}
-.ct-kick {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 24px;
 }
 .ct-title {
   font-family: var(--font-bodoni), Didot, Georgia, serif;

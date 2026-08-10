@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# randall-portfolio
 
-## Getting Started
+Personal portfolio for **Randall Flores** — a bilingual (EN/ES) full-stack
+developer in Costa Rica. AI products, client sites, and internal tools built to
+hold up under real workflows.
 
-First, run the development server:
+Live: <https://randall-portfolio-six.vercel.app>
+
+The site is itself a portfolio piece, so the background is a live WebGL field
+rather than a static image, and craft is held to a higher bar than the content
+strictly requires.
+
+## Stack
+
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router), React 19, TypeScript strict |
+| Styling | Tailwind CSS v4, design tokens as CSS variables |
+| Type | Bodoni Moda (display), Karla (body), Fragment Mono (data) |
+| Scroll | Lenis |
+| Background | Hand-written WebGL + Canvas 2D, no animation library |
+| Hosting | Vercel |
+
+No animation or icon dependencies: entrance motion, the magnetic hover, and the
+social icons are all owned in-repo. See `lib/field.ts` for the background.
+
+## Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm dev      # local dev server
+pnpm build    # production build — must pass before deploying
+pnpm lint     # eslint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+pnpm only. Don't mix in npm or yarn; the lockfile is pnpm's.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Layout
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/            routes: / , /work , /work/[slug] , /about , /contact , /styleguide
+  globals.css   design tokens + every page-level style
+components/
+  layout/       Nav, Footer, MobileMenu, Grain
+  motion/       Field (the background), Reveal, Magnetic
+  work/         WorkIndex, WorkList, CardVideo
+  ui/           Button, SocialIcon
+lib/
+  field.ts      WebGL nebula + Canvas 2D particle cloud
+  projects.ts   typed project data — the single source for every project surface
+  social.ts     every off-site link
+  fonts.ts      next/font setup
+docs/           DESIGN-SYSTEM.md, PROJECTS.md, BUILD-PLAN.md
+```
 
-## Learn More
+## The background field
 
-To learn more about Next.js, take a look at the following resources:
+One component (`components/motion/Field.tsx`) owns the only
+`requestAnimationFrame` loop on the page:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Nebula** — a WebGL fragment shader. Follows the cursor, blooms under
+  whatever is hovered or focused, ripples on click, and dims itself as you
+  scroll so content reads without a scrim over it.
+- **Cloud** — red bokeh particles that come through the nebula on scroll,
+  capped so they never replace it. Built on an idle callback after `load`, never
+  during it.
+- **Portal** — an aperture that opens on arrival.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+It is skipped entirely for `prefers-reduced-motion` and on touch phones, which
+get a CSS gradient in the same palette. Quality steps down only if the GPU
+cannot keep up.
 
-## Deploy on Vercel
+## Conventions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Server Components by default; `"use client"` only where interaction or a
+  browser API requires it.
+- Never hardcode a colour. Use the tokens in `app/globals.css`.
+- Project content lives in `lib/projects.ts` and nowhere else.
+- Two projects are marked `confidential` — anonymized screens and dummy content
+  only, never real client data.
+- Accessibility is not optional: semantic landmarks, visible focus, keyboard
+  operable, `prefers-reduced-motion` honoured everywhere.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`/styleguide` renders the tokens, type scale, and components as a live proof of
+the system. It is `noindex` and not linked from the nav.

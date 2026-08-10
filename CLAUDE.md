@@ -14,8 +14,10 @@ Randall is a bilingual (EN/ES) developer in Costa Rica, pivoting into web develo
 
 - Next.js (App Router) + TypeScript (strict)
 - Tailwind CSS + shadcn/ui
-- framer-motion for animation
 - lenis for smooth scroll
+- No animation or icon libraries. Entrance motion, magnetic hover, the
+  background field, and the social icons are all owned in-repo — framer-motion
+  and lucide-react were removed for the main-thread cost they carried.
 - Deployed on Vercel
 - Package manager: pnpm (use it for everything, never mix with npm)
 
@@ -25,9 +27,9 @@ Keep dependencies lean. Suggest a library only when it clearly beats hand-rollin
 
 The visual identity is locked. Full spec in `docs/DESIGN-SYSTEM.md`. Read it before building any UI. Summary:
 
-- Dark, editorial, type-led. Cool near-black background, one sharp lime accent.
-- Display font Fraunces (serif), body Hanken Grotesk, metadata in JetBrains Mono.
-- Signature interactions: intro loader counter, custom cursor with context labels, magnetic buttons, scroll-velocity motion, reveal-on-scroll, page-transition wipe.
+- Dark, cinematic, type-led. Near-black canvas under a live WebGL field, with a silver accent.
+- Display font Bodoni Moda (didone, driven by its optical-size axis), body Karla, metadata in Fragment Mono.
+- Signature interactions: the portal entry, the field reacting to cursor/hover/scroll, the red cloud arriving on scroll, magnetic buttons, reveal-on-scroll.
 - Never the generic AI/SaaS look: no Inter or Space Grotesk, no purple-on-white, no centered-everything, no stock gradients.
 
 ## Site structure (routes)
@@ -72,5 +74,5 @@ pnpm lint     # eslint
 - Components in `components/`, grouped: `layout/`, `motion/`, `work/`, and shadcn primitives in `components/ui/`.
 - Project data and helpers in `lib/`.
 - Design tokens as CSS variables in `app/globals.css`, mapped into Tailwind. Never hardcode hex values in components, use the tokens.
-- Server Components by default. Add `"use client"` only where interaction or browser APIs require it (cursor, magnetic, Lenis, filters).
+- Server Components by default. Add `"use client"` only where interaction or browser APIs require it (Field, magnetic, Lenis, filters).
 - One reusable motion primitive per effect. Do not re-implement reveals or magnetic logic per page.

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { EmailCopy } from "@/components/contact/EmailCopy";
+import { SocialIcon } from "@/components/ui/SocialIcon";
+import { SOCIAL } from "@/lib/social";
 
 const description =
-  "Get in touch with Randall. Open to remote full-stack roles. Email, GitHub, LinkedIn, Contra, and CV.";
+  "Get in touch with Randall. Open to remote full-stack roles. Email, GitHub, LinkedIn, Instagram, Contra, and CV.";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -11,17 +13,6 @@ export const metadata: Metadata = {
   twitter: { title: "Contact", description },
 };
 
-const links = [
-  { label: "GitHub", href: "https://github.com/randallfloresespinoza-coder" },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/randallflores1493/",
-  },
-  {
-    label: "Contra",
-    href: "https://contra.com/randall_flores_n1w62fvm/work?r=randall_flores_n1w62fvm",
-  },
-];
 
 export default function ContactPage() {
   return (
@@ -47,18 +38,24 @@ export default function ContactPage() {
 
       <div className="rise rise-3">
         <nav className="ct-links" aria-label="Elsewhere">
-          {links.map((l) => (
+          {SOCIAL.map((l) => (
             <a
-              key={l.label}
+              key={l.key}
               href={l.href}
               target="_blank"
               rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5"
             >
+              <SocialIcon name={l.key} />
               {l.label}
             </a>
           ))}
-          <a href="/cv.pdf" download>
-            Download CV ↓
+          <a href="/cv.pdf" download className="inline-flex items-center gap-2.5">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4 19h16" />
+            </svg>
+            Download CV
           </a>
         </nav>
       </div>
