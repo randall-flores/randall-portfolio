@@ -218,11 +218,15 @@ footer {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Portal entry                                                       */
-/*  Animated with a mask radius and a transform, never width/height.    */
-/*  The first version grew a 220vmax box-shadow every frame, which is a  */
-/*  full-viewport repaint per frame and was the single most expensive    */
-/*  thing on the page during load.                                      */
+/*  Portal entry — the arrival moment                                   */
+/*                                                                      */
+/*  Server-rendered (components/motion/Portal.tsx) and started by CSS    */
+/*  alone, so it is on screen in the first paint and cannot be delayed   */
+/*  by hydration. If JS never arrives the aperture still opens.          */
+/*                                                                      */
+/*  Animated with a mask radius and a transform, never width/height: an  */
+/*  earlier version grew a 220vmax box-shadow per frame and repainted    */
+/*  the whole viewport.                                                  */
 /* ------------------------------------------------------------------ */
 @property --ap {
   syntax: "<percentage>";
@@ -242,13 +246,18 @@ footer {
   -webkit-mask-image: radial-gradient(
     circle at 50% 50%,
     transparent var(--ap),
-    #000 calc(var(--ap) + 1.5%)
+    #000 calc(var(--ap) + 2%)
   );
   mask-image: radial-gradient(
     circle at 50% 50%,
     transparent var(--ap),
-    #000 calc(var(--ap) + 1.5%)
+    #000 calc(var(--ap) + 2%)
   );
+  /* The opacity leg is the safety net: where @property is unsupported --ap
+     cannot animate, and without it the screen would stay black. */
+  animation:
+    aperture 1.5s cubic-bezier(0.5, 0, 0.2, 1) forwards,
+    portal-clear 1.5s linear forwards;
 }
 .portal-ring {
   position: absolute;
@@ -263,8 +272,9 @@ footer {
     0 0 40px 6px rgba(180, 210, 255, 0.45),
     inset 0 0 24px 4px rgba(180, 210, 255, 0.3);
   opacity: 0;
-  transform: scale(0.05);
+  transform: scale(0.04);
   will-change: transform, opacity;
+  animation: portal-ring 1.5s cubic-bezier(0.5, 0, 0.2, 1) forwards;
 }
 .portal-flash {
   position: absolute;
@@ -276,57 +286,73 @@ footer {
     transparent 62%
   );
   will-change: opacity;
+  animation: portal-flash 1.5s ease-out forwards;
 }
-.portal-run .portal-mask {
-  animation: aperture 0.85s cubic-bezier(0.5, 0, 0.15, 1) forwards;
-}
-.portal-run .portal-ring {
-  animation: portal-ring 0.85s cubic-bezier(0.5, 0, 0.15, 1) forwards;
-}
-.portal-run .portal-flash {
-  animation: portal-flash 0.85s ease-out forwards;
-}
+/* <Field /> removes it once the animation is done. */
 .portal-done .portal {
   display: none;
 }
+/* Opens steadily rather than holding on black — a hold reads as a stalled page
+   and costs visual-progress metrics for nothing. */
 @keyframes aperture {
   0% {
     --ap: 0%;
   }
-  12% {
+  7% {
     --ap: 3%;
   }
+  40% {
+    --ap: 26%;
+  }
   100% {
-    --ap: 100%;
+    --ap: 115%;
+  }
+}
+@keyframes portal-clear {
+  0%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 @keyframes portal-ring {
   0% {
-    transform: scale(0.05);
+    transform: scale(0.04);
     opacity: 0;
   }
+  6% {
+    opacity: 1;
+  }
   10% {
-    transform: scale(0.16);
+    transform: scale(0.2);
     opacity: 1;
   }
   70% {
-    opacity: 0.5;
+    opacity: 0.45;
   }
   100% {
-    transform: scale(22);
+    transform: scale(26);
     opacity: 0;
   }
 }
 @keyframes portal-flash {
   0%,
-  38% {
+  42% {
     opacity: 0;
   }
-  55% {
+  58% {
     opacity: 0.4;
   }
   100% {
     opacity: 0;
+  }
+}
+/* Never black out a page for someone who asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .portal {
+    display: none;
   }
 }
 

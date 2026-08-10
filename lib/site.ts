@@ -1,8 +1,7 @@
 // Production base URL — single source of truth for metadataBase, the sitemap,
-// robots, and absolute OG image URLs.
-// TODO(Randall): change this to the custom domain once it's connected. Until
-// then it's the Vercel deployment URL.
-export const SITE_URL = "https://randall-portfolio-six.vercel.app";
+// robots, and absolute OG image URLs. Must match the primary domain configured
+// in Vercel, or social previews and canonical tags will point at the wrong host.
+export const SITE_URL = "https://randallflores.dev";
 
 export const SITE_NAME = "Randall Flores";
 export const SITE_TITLE = "Randall — Full-Stack Developer";

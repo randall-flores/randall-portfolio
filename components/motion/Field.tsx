@@ -13,19 +13,19 @@ import {
 //   nebula  — always running, reacts to cursor, scroll, hover and menu state
 //   cloud   — red bokeh lights, driven by scroll: ambient floor plus a
 //             velocity kick, capped below 1 so it never replaces the nebula
-//   portal  — first-visit entry: an aperture opens while the cloud is pushed
-//             radially outward, so you fly through the opening
+//   portal  — server-rendered in <Portal /> and started by CSS; this only
+//             retires the element and pushes the cloud outward during it
 //
 // Skipped entirely for reduced motion and on touch phones, which fall back to
 // the CSS gradient in globals.css (.field-fallback).
 
-const PORTAL_MS = 900;
+// Must match the portal animation duration in globals.css.
+const PORTAL_MS = 1500;
 
 export function Field() {
   const glRef = useRef<HTMLCanvasElement>(null);
   const cloudRef = useRef<HTMLCanvasElement>(null);
   const washRef = useRef<HTMLDivElement>(null);
-  const portalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -36,8 +36,7 @@ export function Field() {
     const glCanvas = glRef.current;
     const cloudCanvas = cloudRef.current;
     const wash = washRef.current;
-    const portal = portalRef.current;
-    if (!glCanvas || !cloudCanvas || !wash || !portal) return;
+    if (!glCanvas || !cloudCanvas || !wash) return;
 
     let nebula: Nebula | null = null;
     if (!touchPhone) nebula = createNebula(glCanvas);
@@ -268,20 +267,20 @@ export function Field() {
     window.addEventListener("field:calm", onCalm);
 
     // ---- portal -----------------------------------------------------------
-    // Runs on every fresh document load, not once per session: arriving at the
-    // site is the moment it is for. Client-side route changes don't remount
-    // <Field />, so navigating between pages never replays it.
+    // CSS already started it in the first paint. All that is left is to retire
+    // the element once the animation has finished, and to push the cloud
+    // outward if it happens to exist while the aperture is still opening.
     let portalTimer: number | undefined;
 
-    if (!reduced && window.scrollY < 4) {
-      root.classList.add("portal-run");
-      rush = 1;
-      portalTimer = window.setTimeout(() => {
-        root.classList.remove("portal-run");
-        root.classList.add("portal-done");
-      }, PORTAL_MS);
-    } else {
+    if (reduced) {
       root.classList.add("portal-done");
+    } else {
+      const elapsed = performance.now();
+      if (elapsed < PORTAL_MS) rush = 1;
+      portalTimer = window.setTimeout(
+        () => root.classList.add("portal-done"),
+        Math.max(0, PORTAL_MS - elapsed),
+      );
     }
 
     afterLoad(ensureCloud);
@@ -300,7 +299,6 @@ export function Field() {
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("field:calm", onCalm);
       nebula?.dispose();
-      root.classList.remove("portal-run");
     };
   }, []);
 
@@ -310,11 +308,6 @@ export function Field() {
       <canvas ref={cloudRef} className="field-cloud" aria-hidden="true" />
       <div ref={washRef} className="field-wash" aria-hidden="true" />
       <div className="field-fallback" aria-hidden="true" />
-      <div ref={portalRef} className="portal" aria-hidden="true">
-        <div className="portal-flash" />
-        <div className="portal-mask" />
-        <div className="portal-ring" />
-      </div>
     </>
   );
 }

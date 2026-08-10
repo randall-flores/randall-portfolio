@@ -4,7 +4,7 @@ Personal portfolio for **Randall Flores** — a bilingual (EN/ES) full-stack
 developer in Costa Rica. AI products, client sites, and internal tools built to
 hold up under real workflows.
 
-Live: <https://randall-portfolio-six.vercel.app>
+Live: <https://randallflores.dev>
 
 The site is itself a portfolio piece, so the background is a live WebGL field
 rather than a static image, and craft is held to a higher bar than the content
