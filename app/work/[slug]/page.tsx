@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import { CardVideo } from "@/components/work/CardVideo";
+import { CaseArrival } from "@/components/work/CaseArrival";
 import {
   projects,
   type Capability,
@@ -70,6 +71,7 @@ export default async function CaseStudyPage({ params }: Params) {
 
   return (
     <main id="main" className="cs wrap">
+      <CaseArrival />
       {/* Above-the-fold entrances are CSS (.rise), never JS-gated — the h1
           here is the LCP element. */}
       <div className="rise">

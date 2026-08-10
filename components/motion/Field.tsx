@@ -84,8 +84,6 @@ export function Field() {
     let scale = 1;
     let frames = 0;
     let accum = 0;
-    let slowWindows = 0;
-    let retired = false;
     let lastFrame = 0;
     let running = false;
     let raf = 0;
@@ -119,29 +117,22 @@ export function Field() {
     // Ambient floor rises early and holds across the body of the page; the
     // velocity kick is what makes it feel alive. Capped below 1 on purpose —
     // the cloud visits the nebula, it never replaces it.
+    //
+    // Measured in viewports, not in fractions of the document. The fraction
+    // version collapsed on short pages: shrink the page and the whole ramp
+    // happens in a few hundred pixels, so the cloud barely appeared before it
+    // was already fading out again.
     const cloudTarget = () => {
-      const doc = Math.max(1, document.body.scrollHeight - window.innerHeight);
-      const progress = window.scrollY / doc;
-      const band =
-        Math.min(1, Math.max(0, (progress - 0.02) / 0.16)) *
-        Math.min(1, Math.max(0, (1.02 - progress) / 0.16));
+      const vh = Math.max(1, window.innerHeight);
+      const y = window.scrollY;
+      const doc = Math.max(1, document.body.scrollHeight - vh);
+      // rises over the first two thirds of a viewport of scrolling
+      const risen = Math.min(1, y / (vh * 0.66));
+      // eases off only in the last stretch, and only if there is one
+      const remaining = Math.max(0, doc - y);
+      const settling = Math.min(1, remaining / (vh * 0.5));
       const kick = Math.min(1, Math.abs(velocitySmooth) / 30) * 0.52;
-      return Math.min(0.88, band * 0.58 + kick);
-    };
-
-    // Hand the background back to CSS and stop doing any work at all.
-    const retire = () => {
-      retired = true;
-      running = false;
-      cancelAnimationFrame(raf);
-      nebula?.dispose();
-      nebula = null;
-      root.classList.add("no-field");
-      // If it cannot rasterise the shader it cannot afford the particles.
-      cloud?.clear();
-      cloud = null;
-      cloudCanvas.style.display = "none";
-      wash.style.display = "none";
+      return Math.min(0.88, risen * settling * 0.58 + kick);
     };
 
     const frame = (now: number) => {
@@ -209,32 +200,25 @@ export function Field() {
         const avg = accum / frames;
         frames = 0;
         accum = 0;
+        // Step the buffer down when frames are late and back up when there is
+        // headroom, and stop there. An earlier version tore the field down
+        // entirely when it could not hold the rate — which meant the whole
+        // design vanished a few seconds after load on any page busy enough to
+        // miss a few frames. A slightly softer field beats no field.
         if (nebula) {
-          if (avg > 40 && scale <= 0.6) {
-            // Still missing 30fps at the lowest resolution. This is what a
-            // machine with no GPU acceleration looks like — software-rasterising
-            // a fragment shader on the main thread. No static capability check
-            // can predict it, so measure and retreat.
-            if (++slowWindows >= 2) {
-              retire();
-              return;
-            }
-          } else {
-            slowWindows = 0;
-            if (avg > 40 && scale > 0.6) {
-              scale = Math.max(0.6, scale - 0.15);
-              nebula.resize(scale);
-            } else if (avg < 26 && scale < 1) {
-              scale = Math.min(1, scale + 0.15);
-              nebula.resize(scale);
-            }
+          if (avg > 42 && scale > 0.5) {
+            scale = Math.max(0.5, scale - 0.15);
+            nebula.resize(scale);
+          } else if (avg < 26 && scale < 1) {
+            scale = Math.min(1, scale + 0.15);
+            nebula.resize(scale);
           }
         }
       }
     };
 
     const play = () => {
-      if (running || reduced || retired) return;
+      if (running || reduced) return;
       running = true;
       lastFrame = 0;
       raf = requestAnimationFrame(frame);

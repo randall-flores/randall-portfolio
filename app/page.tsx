@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/Reveal";
 import { Magnetic } from "@/components/motion/Magnetic";
-import { WorkIndex } from "@/components/work/WorkIndex";
+import { OrbitCarousel } from "@/components/work/OrbitCarousel";
+import { projects } from "@/lib/projects";
 
 const description =
   "Portfolio of Randall Flores, a bilingual full-stack developer in Costa Rica. AI products, client sites, and internal tools built to hold up under real workflows.";
@@ -63,8 +64,15 @@ export default function Home() {
       <section className="work" id="work">
         <div className="wrap">
           <Reveal>
-            <WorkIndex />
+            <div className="sec-head">
+              <h2>Selected work</h2>
+              <p className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
+                {projects.length} projects · 2025—2026
+              </p>
+            </div>
           </Reveal>
+          {/* The carousel is the front door. /work keeps the scannable list. */}
+          <OrbitCarousel />
         </div>
       </section>
     </main>

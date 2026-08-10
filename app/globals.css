@@ -218,6 +218,236 @@ footer {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Work carousel — five project stills on a ring (<OrbitCarousel />)   */
+/* ------------------------------------------------------------------ */
+.orbit {
+  position: relative;
+  padding-block: clamp(16px, 3vw, 36px) 0;
+  outline: none;
+}
+.orbit-stage {
+  position: relative;
+  height: min(62vh, 500px);
+  display: grid;
+  place-items: center;
+  perspective: 1500px;
+  cursor: grab;
+}
+.orbit-stage[data-grabbing="1"] {
+  cursor: grabbing;
+}
+.orbit-ring {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  transform-style: preserve-3d;
+}
+
+/* The card is the image. Nothing else — the name lives under the ring, so the
+   work is what you look at instead of five miniature layouts. */
+.orbit-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* min() on negative numbers picks the more negative value, so the offsets are
+     derived from the size rather than written twice. */
+  --card-w: min(58vw, 440px);
+  --card-h: min(46vh, 300px);
+  width: var(--card-w);
+  height: var(--card-h);
+  margin: calc(var(--card-h) / -2) 0 0 calc(var(--card-w) / -2);
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(233, 235, 239, 0.05);
+  /* No backdrop-filter. A blurred backdrop inside a preserve-3d subtree makes
+     Chrome re-layerise every frame and flash the page black. */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 30px 70px rgba(0, 0, 0, 0.45);
+  transition: box-shadow 0.4s var(--ease);
+}
+.orbit-card.is-active {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 40px 90px rgba(0, 0, 0, 0.55);
+}
+.orbit-img {
+  object-fit: cover;
+  /* the far cards sit back in the field rather than shouting from the rim */
+  filter: saturate(0.8) brightness(0.7);
+  transition: filter 0.55s var(--ease), transform 0.7s var(--ease);
+}
+.orbit-card.is-active .orbit-img {
+  filter: saturate(1) brightness(1);
+}
+.orbit-card.is-active:hover .orbit-img {
+  transform: scale(1.04);
+}
+
+/* ---- the name, under the ring ---- */
+.orbit-readout {
+  text-align: center;
+  margin-top: clamp(14px, 2.5vw, 26px);
+}
+.orbit-title {
+  margin: 0;
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 14;
+  font-weight: 700;
+  font-size: clamp(34px, 6.4vw, 76px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  animation: orbit-swap 0.4s var(--ease) both;
+}
+.orbit-meta {
+  margin: 12px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  animation: orbit-swap 0.4s var(--ease) 0.04s both;
+}
+@keyframes orbit-swap {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.orbit-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  margin-right: 7px;
+}
+
+/* ---- controls: two arrows and the action, nothing else ---- */
+.orbit-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.4vw, 26px);
+  margin-top: clamp(18px, 3vw, 28px);
+}
+.orbit-arrow {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(233, 235, 239, 0.05);
+  color: var(--fg);
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s var(--ease);
+}
+.orbit-arrow:hover {
+  border-color: var(--accent);
+  background: rgba(233, 235, 239, 0.1);
+  transform: scale(1.06);
+}
+
+/* the aperture closing over the card on the way out. The arrival is the site's
+   own entry portal, replayed on the case study — see <CaseArrival />. */
+.orbit-aperture {
+  position: fixed;
+  inset: 0;
+  z-index: 240;
+  background: #000;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--ap-x, 50%) var(--ap-y, 50%),
+    transparent var(--ap),
+    #000 calc(var(--ap) + 2%)
+  );
+  mask-image: radial-gradient(
+    circle at var(--ap-x, 50%) var(--ap-y, 50%),
+    transparent var(--ap),
+    #000 calc(var(--ap) + 2%)
+  );
+  animation: orbit-close 0.3s cubic-bezier(0.5, 0, 0.2, 1) forwards;
+}
+@keyframes orbit-close {
+  from {
+    --ap: 110%;
+  }
+  to {
+    --ap: 0%;
+  }
+}
+
+/* Present in the HTML for crawlers; revealed by the noscript rule. */
+.orbit-fallback {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.orbit-fallback a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 20px;
+  padding-block: 22px;
+}
+.orbit-fallback-title {
+  font-family: var(--font-bodoni), Didot, Georgia, serif;
+  font-variation-settings: "opsz" 28;
+  font-weight: 600;
+  font-size: clamp(26px, 4.4vw, 46px);
+  letter-spacing: -0.03em;
+}
+
+@media (max-width: 899px) {
+  /* a rotating ring is unusable at phone width — one card, swipe across */
+  .orbit-stage {
+    perspective: none;
+    height: auto;
+    min-height: min(42vh, 300px);
+  }
+  .orbit-ring {
+    transform: none !important;
+    width: 100%;
+    height: auto;
+    display: grid;
+  }
+  .orbit-card {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: min(42vh, 300px);
+    margin: 0;
+    grid-area: 1 / 1;
+    transform: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.4s var(--ease);
+  }
+  .orbit-card.is-active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-aperture {
+    display: none;
+  }
+  .orbit-title,
+  .orbit-meta {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /*  Portal entry — the arrival moment                                   */
 /*                                                                      */
 /*  Server-rendered (components/motion/Portal.tsx) and started by CSS    */
@@ -289,8 +519,16 @@ footer {
   animation: portal-flash 1.5s ease-out forwards;
 }
 /* <Field /> removes it once the animation is done. */
-.portal-done .portal {
+.portal-done .portal:not(.portal-arrival) {
   display: none;
+}
+/* The case study replays the entry portal on arrival from the carousel. Hidden
+   until then, so a visit from search never pays for it. */
+.portal-arrival {
+  display: none;
+}
+.portal-arrival[data-arriving="1"] {
+  display: block;
 }
 /* Opens steadily rather than holding on black — a hold reads as a stalled page
    and costs visual-progress metrics for nothing. */
