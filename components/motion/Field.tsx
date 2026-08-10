@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { createCloud, createNebula, type Nebula } from "@/lib/field";
+import {
+  createCloud,
+  createNebula,
+  type Cloud,
+  type Nebula,
+} from "@/lib/field";
 
 // The site's background field, and the only rAF loop on the page.
 //
@@ -14,7 +19,7 @@ import { createCloud, createNebula, type Nebula } from "@/lib/field";
 // Skipped entirely for reduced motion and on touch phones, which fall back to
 // the CSS gradient in globals.css (.field-fallback).
 
-const PORTAL_MS = 1300;
+const PORTAL_MS = 900;
 
 export function Field() {
   const glRef = useRef<HTMLCanvasElement>(null);
@@ -38,7 +43,18 @@ export function Field() {
     if (!touchPhone) nebula = createNebula(glCanvas);
     if (!nebula) root.classList.add("no-field");
 
-    const cloud = touchPhone || reduced ? null : createCloud(cloudCanvas);
+    // The cloud is the expensive half. It is not created during load at all:
+    // it is built on an idle callback after `load`, or on the first scroll,
+    // whichever comes first. Nothing it does can land inside the LCP window.
+    let cloud: Cloud | null = null;
+    let cloudRequested = false;
+    const ensureCloud = () => {
+      if (cloudRequested || touchPhone || reduced) return;
+      cloudRequested = true;
+      cloud = createCloud(cloudCanvas);
+      cloud?.resize();
+      cloud?.rebuild();
+    };
 
     // ---- state ------------------------------------------------------------
     const state = {
@@ -83,6 +99,19 @@ export function Field() {
       cloud?.rebuild();
     };
 
+    type IdleWindow = Window & {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+    };
+    const idle = (cb: () => void) => {
+      const w = window as IdleWindow;
+      if (w.requestIdleCallback) w.requestIdleCallback(cb, { timeout: 2000 });
+      else window.setTimeout(cb, 600);
+    };
+    const afterLoad = (cb: () => void) => {
+      if (document.readyState === "complete") idle(cb);
+      else window.addEventListener("load", () => idle(cb), { once: true });
+    };
+
     // Ambient floor rises early and holds across the body of the page; the
     // velocity kick is what makes it feel alive. Capped below 1 on purpose —
     // the cloud visits the nebula, it never replaces it.
@@ -122,13 +151,21 @@ export function Field() {
         // Rises quickly, falls away slowly, so it lingers after you stop.
         cloudLevel += (want - cloudLevel) * (want > cloudLevel ? 0.14 : 0.035);
         if (cloudLevel > 0.006) {
+          if (cloudCanvas.style.display !== "block") {
+            cloudCanvas.style.display = "block";
+            wash.style.display = "block";
+          }
           cloud.draw(dt, cloudLevel, velocitySmooth, rush);
           cloudCanvas.style.opacity = String(Math.min(0.94, cloudLevel * 1.3));
           wash.style.opacity = String(cloudLevel * 0.5);
-        } else if (cloudCanvas.style.opacity !== "0") {
+        } else if (cloudCanvas.style.display !== "none") {
+          // Hidden rather than transparent: a screen-blended fixed canvas costs
+          // a full-viewport composite on every scroll even at opacity 0.
           cloud.clear();
           cloudCanvas.style.opacity = "0";
+          cloudCanvas.style.display = "none";
           wash.style.opacity = "0";
+          wash.style.display = "none";
         }
       }
 
@@ -178,6 +215,7 @@ export function Field() {
       target.my = 1 - e.clientY / window.innerHeight;
     };
     const onScroll = () => {
+      ensureCloud();
       velocity = window.scrollY - lastScrollY;
       lastScrollY = window.scrollY;
       target.scroll = Math.min(1.5, window.scrollY / Math.max(1, window.innerHeight));
@@ -238,7 +276,6 @@ export function Field() {
     if (!reduced && window.scrollY < 4) {
       root.classList.add("portal-run");
       rush = 1;
-      cloudLevel = Math.max(cloudLevel, 0.55);
       portalTimer = window.setTimeout(() => {
         root.classList.remove("portal-run");
         root.classList.add("portal-done");
@@ -246,6 +283,8 @@ export function Field() {
     } else {
       root.classList.add("portal-done");
     }
+
+    afterLoad(ensureCloud);
 
     return () => {
       pause();

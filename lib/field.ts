@@ -202,11 +202,16 @@ type LayerSpec = {
 };
 
 // Counts are quoted at 1920x1080 and scaled by viewport area.
+//
+// Deliberately far below the reference spec's numbers. That spec assumes GPU
+// points; here every particle is a canvas drawImage, and the depth-of-field
+// look comes from the size/blur spread across layers, not from raw count. The
+// far layer is drawn as fillRect (1–2px dots gain nothing from a 108px sprite).
 const LAYER_SPECS: readonly LayerSpec[] = [
-  { count: 1500, min: 1, max: 2, opMin: 0.4, opMax: 1.0, speed: 1, sharp: true },
-  { count: 400, min: 3, max: 8, opMin: 0.5, opMax: 0.9, speed: 2, sharp: false },
-  { count: 110, min: 20, max: 60, opMin: 0.25, opMax: 0.5, speed: 5, sharp: false },
-  { count: 28, min: 90, max: 180, opMin: 0.1, opMax: 0.25, speed: 9, sharp: false },
+  { count: 320, min: 1, max: 2, opMin: 0.4, opMax: 1.0, speed: 1, sharp: true },
+  { count: 130, min: 3, max: 8, opMin: 0.5, opMax: 0.9, speed: 2, sharp: false },
+  { count: 45, min: 20, max: 60, opMin: 0.25, opMax: 0.5, speed: 5, sharp: false },
+  { count: 14, min: 90, max: 180, opMin: 0.1, opMax: 0.25, speed: 9, sharp: false },
 ];
 
 const RIM_START = 0.85;
@@ -308,7 +313,10 @@ export function createCloud(canvas: HTMLCanvasElement): Cloud | null {
   let layers: Particle[][] = [];
   let clock = 0;
 
-  const dpr = () => Math.min(window.devicePixelRatio || 1, 1.5);
+  // Half resolution, upscaled by CSS. Defocused bokeh is the one thing that
+  // genuinely loses nothing to it, and it quarters the fill cost.
+  const SCALE = 0.5;
+  const dpr = () => SCALE;
 
   return {
     resize() {
@@ -328,10 +336,13 @@ export function createCloud(canvas: HTMLCanvasElement): Cloud | null {
       for (const spec of LAYER_SPECS) {
         const base: HTMLCanvasElement[] = [];
         const hot: HTMLCanvasElement[] = [];
-        for (let i = 0; i < 4; i++) {
-          const lum = 0.42 + i * 0.16;
-          base.push(makeDisc(lum, spec.sharp));
-          hot.push(makeDisc(Math.min(1, lum * BRIGHT_BOOST), spec.sharp));
+        // The sharp far layer is drawn with fillRect, so it needs no sprites.
+        if (!spec.sharp) {
+          for (let i = 0; i < 4; i++) {
+            const lum = 0.42 + i * 0.16;
+            base.push(makeDisc(lum, false));
+            hot.push(makeDisc(Math.min(1, lum * BRIGHT_BOOST), false));
+          }
         }
         sprites.push({ base, hot });
 
@@ -368,6 +379,7 @@ export function createCloud(canvas: HTMLCanvasElement): Cloud | null {
       const swayY = Math.cos((clock * Math.PI * 2) / 26) * 4;
 
       ctx.globalCompositeOperation = "lighter";
+      const farColor = `rgb(${mapLuminance(0.62)})`;
       for (let li = 0; li < LAYER_SPECS.length; li++) {
         const spec = LAYER_SPECS[li];
         const arr = layers[li];
@@ -376,6 +388,9 @@ export function createCloud(canvas: HTMLCanvasElement): Cloud | null {
         // During the portal transit every layer is pushed radially outward,
         // near layers much further than far ones: a tunnel, not a zoom.
         const push = rush > 0.001 ? rush * (0.3 + spec.speed * 0.1) : 0;
+        // Streaks are only drawn for the big, slow, few near layers. Doing it
+        // for all of them multiplied the per-frame draw count by four.
+        const streak = push > 0.001 && spec.speed >= 5;
 
         for (let i = 0; i < arr.length; i++) {
           const p = arr[i];
@@ -390,13 +405,20 @@ export function createCloud(canvas: HTMLCanvasElement): Cloud | null {
           const py = y * H + swayY * (li + 1) * 0.35;
           const img = (p.hot ? set.hot : set.base)[p.v];
 
-          if (push > 0.001) {
-            const dx = px - W * 0.5;
-            const dy = py - H * 0.5;
-            // Ghost copies along the radial vector streak without a blur pass.
-            for (let g = 3; g >= 0; g--) {
-              const k = 1 + push * (g / 3);
-              ctx.globalAlpha = p.o * intensity * (g === 0 ? 1 : 0.22);
+          const ox = push > 0.001 ? W * 0.5 + (px - W * 0.5) * (1 + push) : px;
+          const oy = push > 0.001 ? H * 0.5 + (py - H * 0.5) * (1 + push) : py;
+
+          if (spec.sharp) {
+            // 1–2px dots: a fill is an order of magnitude cheaper than a blit.
+            ctx.globalAlpha = p.o * intensity;
+            ctx.fillStyle = farColor;
+            ctx.fillRect(ox - r, oy - r, size, size);
+          } else if (streak) {
+            const dx = ox - W * 0.5;
+            const dy = oy - H * 0.5;
+            for (let g = 1; g >= 0; g--) {
+              const k = 1 - (push * 0.5 * g) / (1 + push);
+              ctx.globalAlpha = p.o * intensity * (g === 0 ? 1 : 0.3);
               ctx.drawImage(
                 img,
                 W * 0.5 + dx * k - r,
@@ -407,7 +429,7 @@ export function createCloud(canvas: HTMLCanvasElement): Cloud | null {
             }
           } else {
             ctx.globalAlpha = p.o * intensity;
-            ctx.drawImage(img, px - r, py - r, size, size);
+            ctx.drawImage(img, ox - r, oy - r, size, size);
           }
         }
       }
