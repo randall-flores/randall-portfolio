@@ -64,10 +64,17 @@ Some projects touch a real law firm and sensitive personal-injury data. For Sana
 ## Commands
 
 ```bash
-pnpm dev      # local dev server
-pnpm build    # production build (must pass before deploy)
-pnpm lint     # eslint
+pnpm dev            # local dev server
+pnpm build          # production build (must pass before deploy)
+pnpm lint           # eslint
+pnpm perf           # Lighthouse x3, median vs budget (mobile)
+pnpm perf:desktop   # same, desktop profile
 ```
+
+Never act on a single performance number. TBT swings by an order of magnitude
+with machine load — use `pnpm perf` for a median, or Vercel's real-user data.
+Accessibility, best-practices and SEO are deterministic and safe to read from
+one run.
 
 ## Conventions
 

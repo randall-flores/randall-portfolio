@@ -27,10 +27,19 @@ social icons are all owned in-repo. See `lib/field.ts` for the background.
 ## Commands
 
 ```bash
-pnpm dev      # local dev server
-pnpm build    # production build — must pass before deploying
-pnpm lint     # eslint
+pnpm dev            # local dev server
+pnpm build          # production build — must pass before deploying
+pnpm lint           # eslint
+pnpm perf           # Lighthouse x3 against a production build, median + budget
+pnpm perf:desktop   # same, desktop profile
 ```
+
+`pnpm perf` exists because a single Lighthouse or PageSpeed run is close to
+worthless — Total Blocking Time alone can swing by an order of magnitude
+depending on what else the machine is doing. It runs three times and reports the
+median against a budget, so "did this change regress?" has an answer instead of
+an argument. Accessibility, best-practices and SEO scores are deterministic and
+can be trusted from a single run; performance never can.
 
 pnpm only. Don't mix in npm or yarn; the lockfile is pnpm's.
 

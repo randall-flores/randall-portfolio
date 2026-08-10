@@ -21,6 +21,7 @@ import {
 
 // Must match the portal animation duration in globals.css.
 const PORTAL_MS = 1500;
+const FRAME_MS = 1000 / 30;
 
 export function Field() {
   const glRef = useRef<HTMLCanvasElement>(null);
@@ -53,6 +54,8 @@ export function Field() {
       cloud = createCloud(cloudCanvas);
       cloud?.resize();
       cloud?.rebuild();
+      // The nebula normally starts the loop; without WebGL the cloud must.
+      play();
     };
 
     // ---- state ------------------------------------------------------------
@@ -81,6 +84,8 @@ export function Field() {
     let scale = 1;
     let frames = 0;
     let accum = 0;
+    let slowWindows = 0;
+    let retired = false;
     let lastFrame = 0;
     let running = false;
     let raf = 0;
@@ -124,31 +129,58 @@ export function Field() {
       return Math.min(0.88, band * 0.58 + kick);
     };
 
+    // Hand the background back to CSS and stop doing any work at all.
+    const retire = () => {
+      retired = true;
+      running = false;
+      cancelAnimationFrame(raf);
+      nebula?.dispose();
+      nebula = null;
+      root.classList.add("no-field");
+      // If it cannot rasterise the shader it cannot afford the particles.
+      cloud?.clear();
+      cloud = null;
+      cloudCanvas.style.display = "none";
+      wash.style.display = "none";
+    };
+
     const frame = (now: number) => {
       if (!running) return;
       raf = requestAnimationFrame(frame);
+      // 30fps. The field drifts slowly enough that this is invisible, and it
+      // halves the work whether the GPU or the CPU ends up doing it.
+      if (now - lastFrame < FRAME_MS) return;
       const dt = lastFrame ? Math.min(50, now - lastFrame) : 16;
       lastFrame = now;
 
-      velocitySmooth += (velocity - velocitySmooth) * 0.16;
-      velocity *= 0.82;
+      // Every smoothing constant below was written per-frame at 60fps. With
+      // the 30fps cap that would halve every response, so they are converted
+      // to the equivalent for this frame's actual duration — the field now
+      // feels identical whatever rate it ends up running at.
+      const steps = dt / 16.667;
+      const ease = (k: number) => 1 - Math.pow(1 - k, steps);
+      const decay = (k: number) => Math.pow(k, steps);
 
-      state.mx += (target.mx - state.mx) * 0.06;
-      state.my += (target.my - state.my) * 0.06;
-      state.scroll += (target.scroll - state.scroll) * 0.05;
-      state.bloomX += (target.bloomX - state.bloomX) * 0.1;
-      state.bloomY += (target.bloomY - state.bloomY) * 0.1;
-      state.bloomZ += (target.bloomZ - state.bloomZ) * 0.09;
-      state.calm += (target.calm - state.calm) * 0.1;
-      state.waveZ = state.waveZ > 0.001 ? state.waveZ * 0.965 : 0;
+      velocitySmooth += (velocity - velocitySmooth) * ease(0.16);
+      velocity *= decay(0.82);
+
+      state.mx += (target.mx - state.mx) * ease(0.06);
+      state.my += (target.my - state.my) * ease(0.06);
+      state.scroll += (target.scroll - state.scroll) * ease(0.05);
+      state.bloomX += (target.bloomX - state.bloomX) * ease(0.1);
+      state.bloomY += (target.bloomY - state.bloomY) * ease(0.1);
+      state.bloomZ += (target.bloomZ - state.bloomZ) * ease(0.09);
+      state.calm += (target.calm - state.calm) * ease(0.1);
+      state.waveZ = state.waveZ > 0.001 ? state.waveZ * decay(0.965) : 0;
 
       nebula?.draw(state, (now - start) / 1000);
 
       if (cloud) {
-        rush = rush > 0.0015 ? rush * 0.955 : 0;
+        rush = rush > 0.0015 ? rush * decay(0.955) : 0;
         const want = Math.max(cloudTarget(), rush * 0.95);
         // Rises quickly, falls away slowly, so it lingers after you stop.
-        cloudLevel += (want - cloudLevel) * (want > cloudLevel ? 0.14 : 0.035);
+        cloudLevel +=
+          (want - cloudLevel) * ease(want > cloudLevel ? 0.14 : 0.035);
         if (cloudLevel > 0.006) {
           if (cloudCanvas.style.display !== "block") {
             cloudCanvas.style.display = "block";
@@ -168,28 +200,41 @@ export function Field() {
         }
       }
 
-      // Adaptive quality: only step the buffer down if the GPU genuinely
-      // cannot hold ~50fps. Never pre-emptively degrade.
+      // Adaptive quality, targeting the 30fps cap: step the buffer down when
+      // frames are late, back up when there is headroom, and give up entirely
+      // if the lowest setting still cannot hold it.
       accum += dt;
       frames++;
-      if (frames >= 45) {
+      if (frames >= 30) {
         const avg = accum / frames;
         frames = 0;
         accum = 0;
         if (nebula) {
-          if (avg > 21 && scale > 0.6) {
-            scale = Math.max(0.6, scale - 0.2);
-            nebula.resize(scale);
-          } else if (avg < 13.5 && scale < 1) {
-            scale = Math.min(1, scale + 0.2);
-            nebula.resize(scale);
+          if (avg > 40 && scale <= 0.6) {
+            // Still missing 30fps at the lowest resolution. This is what a
+            // machine with no GPU acceleration looks like — software-rasterising
+            // a fragment shader on the main thread. No static capability check
+            // can predict it, so measure and retreat.
+            if (++slowWindows >= 2) {
+              retire();
+              return;
+            }
+          } else {
+            slowWindows = 0;
+            if (avg > 40 && scale > 0.6) {
+              scale = Math.max(0.6, scale - 0.15);
+              nebula.resize(scale);
+            } else if (avg < 26 && scale < 1) {
+              scale = Math.min(1, scale + 0.15);
+              nebula.resize(scale);
+            }
           }
         }
       }
     };
 
     const play = () => {
-      if (running || reduced) return;
+      if (running || reduced || retired) return;
       running = true;
       lastFrame = 0;
       raf = requestAnimationFrame(frame);
@@ -202,6 +247,7 @@ export function Field() {
     resize();
 
     if (reduced) {
+      // One static frame: reduced motion still gets the real field, just still.
       nebula?.draw(state, 8);
       root.classList.add("no-portal");
     } else {
