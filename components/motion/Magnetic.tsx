@@ -1,17 +1,13 @@
 "use client";
 
-import {
-  m,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-} from "framer-motion";
-import { useRef } from "react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 // Magnetic primitive. Wraps an interactive element so it leans toward the
-// cursor. Spring-smoothed, fine-pointer only (touch never fires mousemove),
-// and a no-op for reduced-motion users.
+// cursor, spring-smoothed, fine-pointer only, and a no-op for reduced motion.
+//
+// Hand-rolled rather than pulled from an animation library: this is a lerp and
+// a transform, and it lets the whole library leave the client bundle. The rAF
+// loop only runs while the element is actually settling, then stops.
 type MagneticProps = {
   children: ReactNode;
   className?: string;
@@ -23,39 +19,63 @@ export function Magnetic({
   className,
   strength = 0.3,
 }: MagneticProps) {
-  const reduced = useReducedMotion();
   const ref = useRef<HTMLSpanElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 });
-  const sy = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 });
 
-  if (reduced) {
-    return <span className={className}>{children}</span>;
-  }
-
-  function onMove(e: React.MouseEvent<HTMLSpanElement>) {
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const r = el.getBoundingClientRect();
-    x.set((e.clientX - r.left - r.width / 2) * strength);
-    y.set((e.clientY - r.top - r.height / 2) * strength * 1.3);
-  }
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!fine || reduced) return;
 
-  function reset() {
-    x.set(0);
-    y.set(0);
-  }
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let raf = 0;
+
+    const step = () => {
+      currentX += (targetX - currentX) * 0.18;
+      currentY += (targetY - currentY) * 0.18;
+      const settled =
+        Math.abs(targetX - currentX) < 0.1 && Math.abs(targetY - currentY) < 0.1;
+
+      if (settled && targetX === 0 && targetY === 0) {
+        el.style.transform = "";
+        raf = 0;
+        return;
+      }
+      el.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
+      raf = settled ? 0 : requestAnimationFrame(step);
+    };
+
+    const kick = () => {
+      if (!raf) raf = requestAnimationFrame(step);
+    };
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      targetX = (e.clientX - r.left - r.width / 2) * strength;
+      targetY = (e.clientY - r.top - r.height / 2) * strength * 1.3;
+      kick();
+    };
+    const onLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      kick();
+    };
+
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+      cancelAnimationFrame(raf);
+    };
+  }, [strength]);
 
   return (
-    <m.span
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={reset}
-      style={{ x: sx, y: sy, display: "inline-flex" }}
-      className={className}
-    >
+    <span ref={ref} className={className} style={{ display: "inline-flex" }}>
       {children}
-    </m.span>
+    </span>
   );
 }

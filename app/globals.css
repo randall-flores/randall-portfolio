@@ -182,6 +182,41 @@ footer {
   }
 }
 
+/* <Reveal> — the entrance is pure CSS now, driven by one class from an
+   IntersectionObserver. Compositor-only properties, so it costs no main-thread
+   work once .is-in lands. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 22px));
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.9s var(--ease) var(--reveal-delay, 0s),
+    transform 0.9s var(--ease) var(--reveal-delay, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* /work filter crossfade, replayed by React remounting on the filter key. */
+.filter-fade {
+  animation: filter-fade 0.3s var(--ease) both;
+}
+@keyframes filter-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Headline shadow — legibility over a moving field without a flat scrim. */
 .shad {
   text-shadow:

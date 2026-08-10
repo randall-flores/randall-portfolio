@@ -1,11 +1,16 @@
 "use client";
 
-import { m, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 // Reveal-on-scroll primitive. One source of truth for entrance motion across
-// the site (don't re-implement per page). Renders an already-visible default
-// for reduced-motion users instead of gating content behind a transition.
+// the site (don't re-implement per page).
+//
+// No animation library: an IntersectionObserver adds one class and CSS does the
+// rest. The transition is compositor-only (opacity + transform), so this costs
+// nothing on the main thread once the class lands.
+//
+// data-reveal lets the <noscript> rule in the root layout force this visible
+// when JS is off — the CSS hides it at opacity 0 until .is-in arrives.
 type RevealProps = {
   children: ReactNode;
   className?: string;
@@ -14,25 +19,45 @@ type RevealProps = {
 };
 
 export function Reveal({ children, className, delay = 0, y = 22 }: RevealProps) {
-  const reduced = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
 
-  if (reduced) {
-    return <div className={className}>{children}</div>;
-  }
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.classList.add("is-in");
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            el.classList.add("is-in");
+            io.disconnect();
+          }
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <m.div
-      className={className}
-      // data-reveal lets the <noscript> rule in the root layout force this
-      // visible when JS is off (the SSR inline opacity: 0 would otherwise
-      // hide content forever).
+    <div
+      ref={ref}
       data-reveal=""
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay }}
+      className={className}
+      style={
+        {
+          "--reveal-y": `${y}px`,
+          "--reveal-delay": `${delay}s`,
+        } as React.CSSProperties
+      }
     >
       {children}
-    </m.div>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { CardVideo } from "@/components/work/CardVideo";
@@ -99,12 +98,8 @@ export function WorkList() {
 
       <section className="projects" id="projects" aria-label="Projects">
         <div className="wrap">
-          <m.div
-            key={active}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
+          {/* key change remounts the list, which replays the CSS crossfade */}
+          <div key={active} className="filter-fade">
             {visible.map((p) => {
               const index = projects.indexOf(p);
               const reversed = !p.featured && index % 2 === 1;
@@ -183,7 +178,7 @@ export function WorkList() {
                 </Reveal>
               );
             })}
-          </m.div>
+          </div>
         </div>
       </section>
     </>

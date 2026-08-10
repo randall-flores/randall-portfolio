@@ -7,7 +7,6 @@ import { FieldMount } from "@/components/motion/FieldMount";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
-import { MotionProvider } from "@/components/providers/MotionProvider";
 
 export const metadata: Metadata = {
   // metadataBase resolves relative URLs (OG images, etc). Set from lib/site.ts
@@ -53,10 +52,8 @@ export default function RootLayout({
         <Grain />
         <Nav />
         <SmoothScroll>
-          <MotionProvider>
-            {children}
-            <Footer />
-          </MotionProvider>
+          {children}
+          <Footer />
         </SmoothScroll>
       </body>
     </html>
