@@ -190,9 +190,26 @@ control rather than the work:
 No changes. "The problem / What I built / My role / Outcomes" are conventional
 wayfinding, and the two confidentiality notes keep "real" deliberately.
 
-**Flagged, not changed** (design, not copy, so out of scope): the `01` markers
-on `cs-num` and `p-num`. Numbered markers should encode a real sequence, and
-project order is not one.
+### Numbered markers
+
+Third pass, same day, requested after the second deploy. The `01` markers on
+`cs-num` and `p-num` promised that the order carried meaning a reader needed.
+It did not: `01` only said FareWise is first in an array.
+
+Both now carry the **year**, which is the thing someone actually scans a
+portfolio index for, and which neither surface showed in that position before.
+The featured suffix becomes `· Featured` rather than `— Featured`, matching the
+separator used elsewhere and dropping an em dash from prose.
+
+- `p-num` on the work cards: `2026`, `2026 · Featured`, `2025`. The card had no
+  year anywhere else.
+- `cs-num` on case studies: `2026`. Mildly duplicates the Year row in
+  `cs-meta`, which sits well below the hero video; an eyebrow year above a
+  title is standard editorial practice and worth the overlap.
+
+`components/work/WorkIndex.tsx` carries the same pattern at line 48 and was
+**deliberately left alone**: nothing imports it, so it is dead code. Editing it
+would imply it is maintained. Delete it or revive it, but do not maintain it.
 
 ### `lib/projects.ts`
 

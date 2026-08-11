@@ -157,9 +157,14 @@ export function WorkList() {
                     </div>
 
                     <div className="p-info">
+                      {/* The year, not an index. A numbered marker promises
+                          the order carries meaning a reader needs, and this
+                          list is not a sequence — "01" only said FareWise is
+                          first in an array. Recency is what someone actually
+                          scans a portfolio index for. */}
                       <div className="p-num">
-                        {String(index + 1).padStart(2, "0")}
-                        {p.featured ? " — Featured" : ""}
+                        {p.year}
+                        {p.featured ? " · Featured" : ""}
                       </div>
                       <h2 className="p-title">{p.title}</h2>
                       <p className="p-cat">{p.category}</p>

@@ -82,7 +82,9 @@ export default async function CaseStudyPage({ params }: Params) {
 
       <div className="rise rise-1">
         <header className="cs-head">
-          <p className="cs-num">{String(index + 1).padStart(2, "0")}</p>
+          {/* The year, not an index. See the note in WorkList: a numbered
+              marker claims the order means something, and it does not. */}
+          <p className="cs-num">{project.year}</p>
           <h1 className="cs-title">{project.title}</h1>
           <p className="cs-tagline">{project.tagline}</p>
 
