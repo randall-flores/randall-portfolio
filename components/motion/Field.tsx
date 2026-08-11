@@ -23,6 +23,43 @@ import {
 const PORTAL_MS = 1500;
 const FRAME_MS = 1000 / 30;
 
+// The red cloud's presence. Grouped here because this is the one part of the
+// field that is a taste judgement rather than a performance one — everything
+// else in this file is tuned by measurement, these are tuned by eye.
+const CLOUD = {
+  // Ambient level once you are properly into the page.
+  floor: 0.62,
+  // How far the ramps run. Each is the smaller of a viewport measure and a
+  // fraction of the range the page can actually scroll.
+  //
+  // Viewport measures alone were the bug. They were sized for a long page, and
+  // the home page only scrolls 1.34 viewports: a 0.66vh rise plus a 0.5vh
+  // settle left the cloud at full strength for about 160px out of 1200. It
+  // arrived and left inside the same gesture, which is what read as the red
+  // disappearing too fast.
+  riseVh: 0.5,
+  riseRange: 0.25,
+  settleVh: 0.4,
+  settleRange: 0.18,
+  // How far the settle is allowed to pull it down. It never leaves entirely —
+  // the footer keeps an ember rather than going cold.
+  settleMin: 0.7,
+  // A page with nothing to scroll would otherwise never light at all. Below
+  // this much scrollable range the cloud simply starts lit.
+  staticRange: 0.35,
+  // Extra the scroll surge adds on top of the floor.
+  kick: 0.34,
+  // Half-life of that surge, in seconds. This is what stops the cloud snapping
+  // back the moment you stop scrolling.
+  surgeHalfLife: 1.1,
+  // It visits the nebula, it never replaces it.
+  cap: 0.88,
+  // How fast the level chases its target. Rising is quick so a flick of the
+  // wheel registers; falling is very slow so the cloud lingers behind you.
+  riseEase: 0.14,
+  fallEase: 0.013,
+};
+
 export function Field() {
   const glRef = useRef<HTMLCanvasElement>(null);
   const cloudRef = useRef<HTMLCanvasElement>(null);
@@ -90,13 +127,27 @@ export function Field() {
     const start = performance.now();
 
     let cloudLevel = 0;
+    let surge = 0;
     let rush = 0;
     let velocity = 0;
     let velocitySmooth = 0;
     let lastScrollY = window.scrollY;
 
+    // Writing canvas.width wipes the drawing buffer — that is the spec, not a
+    // quirk — and this context is alpha:false, so a wiped buffer composites as
+    // opaque black. Resizing and then waiting for the next frame to redraw
+    // therefore ships one entirely black frame: a visible blink. The adaptive
+    // quality below steps the buffer down four times on a slow machine, which
+    // is where the four blinks on load came from. So every resize redraws
+    // immediately, in the same task, before anything is composited.
+    const sizeNebula = (s: number) => {
+      if (!nebula) return;
+      nebula.resize(s);
+      nebula.draw(state, (performance.now() - start) / 1000);
+    };
+
     const resize = () => {
-      nebula?.resize(scale);
+      sizeNebula(scale);
       cloud?.resize();
       cloud?.rebuild();
     };
@@ -115,24 +166,37 @@ export function Field() {
     };
 
     // Ambient floor rises early and holds across the body of the page; the
-    // velocity kick is what makes it feel alive. Capped below 1 on purpose —
+    // surge on top is what makes it feel alive. Capped below 1 on purpose —
     // the cloud visits the nebula, it never replaces it.
     //
-    // Measured in viewports, not in fractions of the document. The fraction
-    // version collapsed on short pages: shrink the page and the whole ramp
-    // happens in a few hundred pixels, so the cloud barely appeared before it
-    // was already fading out again.
+    // Both ramps are bounded by the scrollable range as well as by the
+    // viewport, so a short page gets a short rise and a short settle instead of
+    // spending its entire length ramping. See the note on CLOUD above.
+    //
+    // The settle at the end is partial. Easing it to nothing meant the cloud
+    // was at its weakest exactly where the page asks you to stay — the footer.
     const cloudTarget = () => {
       const vh = Math.max(1, window.innerHeight);
+      const range = Math.max(0, document.body.scrollHeight - vh);
+      if (range < vh * CLOUD.staticRange) {
+        return Math.min(CLOUD.cap, CLOUD.floor + surge);
+      }
+
       const y = window.scrollY;
-      const doc = Math.max(1, document.body.scrollHeight - vh);
-      // rises over the first two thirds of a viewport of scrolling
-      const risen = Math.min(1, y / (vh * 0.66));
-      // eases off only in the last stretch, and only if there is one
-      const remaining = Math.max(0, doc - y);
-      const settling = Math.min(1, remaining / (vh * 0.5));
-      const kick = Math.min(1, Math.abs(velocitySmooth) / 30) * 0.52;
-      return Math.min(0.88, risen * settling * 0.58 + kick);
+      const riseOver = Math.max(
+        1,
+        Math.min(vh * CLOUD.riseVh, range * CLOUD.riseRange),
+      );
+      const settleOver = Math.max(
+        1,
+        Math.min(vh * CLOUD.settleVh, range * CLOUD.settleRange),
+      );
+      const risen = Math.min(1, y / riseOver);
+      const settling =
+        CLOUD.settleMin +
+        (1 - CLOUD.settleMin) *
+          Math.min(1, Math.max(0, range - y) / settleOver);
+      return Math.min(CLOUD.cap, risen * settling * CLOUD.floor + surge);
     };
 
     const frame = (now: number) => {
@@ -168,10 +232,20 @@ export function Field() {
 
       if (cloud) {
         rush = rush > 0.0015 ? rush * decay(0.955) : 0;
+
+        // Scroll velocity dies within a few frames, so a surge read straight
+        // off it vanished the moment you stopped — the cloud arrived and left
+        // in the same gesture. This holds the peak and lets it fall on its own
+        // clock instead, measured in seconds.
+        const kick = Math.min(1, Math.abs(velocitySmooth) / 30) * CLOUD.kick;
+        const surgeDecay = Math.pow(0.5, dt / (CLOUD.surgeHalfLife * 1000));
+        surge = Math.max(kick, surge * surgeDecay);
+
         const want = Math.max(cloudTarget(), rush * 0.95);
         // Rises quickly, falls away slowly, so it lingers after you stop.
         cloudLevel +=
-          (want - cloudLevel) * ease(want > cloudLevel ? 0.14 : 0.035);
+          (want - cloudLevel) *
+          ease(want > cloudLevel ? CLOUD.riseEase : CLOUD.fallEase);
         if (cloudLevel > 0.006) {
           if (cloudCanvas.style.display !== "block") {
             cloudCanvas.style.display = "block";
@@ -208,10 +282,10 @@ export function Field() {
         if (nebula) {
           if (avg > 42 && scale > 0.5) {
             scale = Math.max(0.5, scale - 0.15);
-            nebula.resize(scale);
+            sizeNebula(scale);
           } else if (avg < 26 && scale < 1) {
             scale = Math.min(1, scale + 0.15);
-            nebula.resize(scale);
+            sizeNebula(scale);
           }
         }
       }
@@ -275,10 +349,8 @@ export function Field() {
     };
 
     const onVisibility = () => (document.hidden ? pause() : play());
-    const onResize = () => {
-      resize();
-      if (!running) nebula?.draw(state, (performance.now() - start) / 1000);
-    };
+    // resize() redraws as part of resizing, so a paused field stays painted.
+    const onResize = () => resize();
     // The mobile menu drains the colour so its overlay type stays readable.
     const onCalm = (e: Event) => {
       target.calm = (e as CustomEvent<{ on: boolean }>).detail?.on ? 1 : 0;
