@@ -8,7 +8,21 @@ Randall's personal developer portfolio. A Next.js site that showcases frontend a
 
 ## Positioning
 
-Randall is a bilingual (EN/ES) developer in Costa Rica, pivoting into web development after a decade across legal assistance, executive support, customer service, and hospitality. The angle is the crossover: builds polished frontends AND understands real business and legal workflows, so he ships tools people actually use. The site should read as full-stack capable, design literate, and current on AI integration.
+Randall is a full-stack developer in Costa Rica, working in English and Spanish. The site is aimed at freelance clients first and hiring managers second: outcome-led copy, with every claim anchored to a technology, a number, or an artifact so an engineer reading it still nods.
+
+The argument is that he builds complete products alone and hands them over. Five in two years: an AI product, a client site in production, a headless storefront, and two apps built around private data.
+
+He worked about a decade in legal and operations before writing code. That appears **exactly once** on the site, on `/about`, as the reason two projects are legal-workflow tools. It is never a career-change story, never the headline, and never called a "crossover". Clients do not hire him for it.
+
+## Copy voice
+
+Full rules and the final approved copy for every surface: `docs/superpowers/specs/2026-08-11-portfolio-copy-rewrite-design.md`. Read it before touching any user-facing string.
+
+Banned words: real, actually, hold up under, crossover, polished, ship/shipping as a virtue, craft, journey, passionate, seamless, robust, leverage, solutions.
+
+Banned constructions: *Half X, half Y*; "not X, but Y" aphorisms; lists of three with an abstract third item; arguing with an accusation nobody made ("rather than a demo", "instead of a gimmick"); cute symmetry.
+
+Every claim names a technology, a number, or an artifact. If a sentence survives having its meaning deleted, cut it. Never write a promise that cannot be verified.
 
 ## Tech stack
 
@@ -37,7 +51,7 @@ The visual identity is locked. Full spec in `docs/DESIGN-SYSTEM.md`. Read it bef
 - `/` Home, editorial index of projects, hero with the big RANDALL wordmark and one signature motion moment.
 - `/work` Immersive, filterable project showcase (filters by capability: AI, Full-Stack, Design, Client).
 - `/work/[slug]` Case study per project (problem, what I built, stack, my role, live + repo links).
-- `/about` The crossover story, bilingual + legal-tech, where I am, what I want.
+- `/about` How I work: scoping, changes, handover, and what I push back on.
 - `/contact` Email, links, CV download.
 
 Content for each project lives in `docs/PROJECTS.md` and should be modeled as typed data in `lib/projects.ts`.

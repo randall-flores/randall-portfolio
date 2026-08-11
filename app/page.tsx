@@ -6,7 +6,7 @@ import { OrbitCarousel } from "@/components/work/OrbitCarousel";
 import { projects } from "@/lib/projects";
 
 const description =
-  "Portfolio of Randall Flores, a bilingual full-stack developer in Costa Rica. AI products, client sites, and internal tools built to hold up under real workflows.";
+  "Portfolio of Randall Flores, a full-stack developer in Costa Rica working in English and Spanish. AI products, client sites, storefronts, and internal tools.";
 
 export const metadata: Metadata = {
   description,
@@ -36,19 +36,20 @@ export default function Home() {
         <div className="rise rise-1">
           <div className="hero-sub">
             <h2 className="h-head">
-              Polished frontends for people doing{" "}
-              <em>real work.</em>
+              I build the whole product,{" "}
+              <em>not the front of it.</em>
             </h2>
 
             <p className="h-lead">
-              A decade across legal, executive, and customer-facing roles, now
-              building web apps that hold up under real workflows.
+              An AI flight search running on the Claude API. A production site
+              for a client in Germany. A storefront wired to print-on-demand
+              fulfillment. Two apps built around data that has to stay private.
             </p>
 
             <div className="h-cta">
               <Magnetic>
                 <Button href="/work">
-                  See my work
+                  See the work
                 </Button>
               </Magnetic>
               <Magnetic>

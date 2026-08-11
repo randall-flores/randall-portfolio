@@ -16,16 +16,15 @@ export function Footer() {
     <footer className="mt-24">
       <div className="wrap py-27.5">
         <h2 className="font-display text-[clamp(34px,6.5vw,84px)] font-medium leading-[0.95] tracking-[-0.02em]">
-          {/* Space before the <br> so the accessible name doesn't read
-              "somethingworth". */}
-          Let&apos;s build something{" "}
-          <br />
-          worth{" "}
+          {/* Deliberately the same sentence as the /contact h1: the footer asks
+              the question, the link leads to the page that asks it again. This
+              footer hides itself on /contact, so the two never both appear. */}
+          Tell me what you&apos;re{" "}
           <Link
             href="/contact"
             className="ulink transition-colors hover:text-accent"
           >
-            shipping
+            building
           </Link>
         </h2>
 

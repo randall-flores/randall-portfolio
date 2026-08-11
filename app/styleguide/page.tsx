@@ -39,7 +39,7 @@ const typeScale = [
   { label: "h1 / page", cls: "t-h1", sample: "Things I've built" },
   { label: "h2 / section", cls: "t-h2", sample: "Selected work" },
   { label: "project title", cls: "t-project", sample: "FareWise" },
-  { label: "lead", cls: "t-lead max-w-[46ch] text-fg/80", sample: "A decade across legal, executive, and customer-facing roles, now building web apps that hold up under real workflows." },
+  { label: "lead", cls: "t-lead max-w-[46ch] text-fg/80", sample: "An AI flight search running on the Claude API. A production site for a client in Germany. A storefront wired to print-on-demand fulfillment." },
   { label: "body — 16px Karla", cls: "text-base max-w-[46ch] text-fg/80", sample: "Body copy is set in Karla at 16px with a 1.5 line height for comfortable reading." },
 ];
 
@@ -121,10 +121,10 @@ export default function StyleGuide() {
       <Section label="Buttons">
         <div className="flex flex-wrap items-center gap-3.5">
           <Button href="/work">
-            See my work
+            See the work
           </Button>
           <Button href="/about" variant="ghost">
-            The crossover
+            How I work
           </Button>
         </div>
       </Section>

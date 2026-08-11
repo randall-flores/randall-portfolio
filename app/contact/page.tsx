@@ -4,7 +4,7 @@ import { SocialIcon } from "@/components/ui/SocialIcon";
 import { SOCIAL } from "@/lib/social";
 
 const description =
-  "Get in touch with Randall. Open to remote full-stack roles. Email, GitHub, LinkedIn, Instagram, Contra, and CV.";
+  "Get in touch with Randall. Open to remote full-stack roles and freelance projects. Email, GitHub, LinkedIn, Instagram, Contra, and CV.";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -21,14 +21,14 @@ export default function ContactPage() {
           above the fold, so entrances are CSS (.rise), never JS-gated. */}
       <div className="rise">
         <h1 className="ct-title">
-          Let&apos;s build something worth <em>shipping.</em>
+          Tell me what you&apos;re <em>building.</em>
         </h1>
       </div>
 
       <div className="rise rise-1">
         <p className="ct-lead">
-          Open to remote full-stack roles, freelance builds, and
-          good problems. The fastest way to reach me is email.
+          Open to remote full-stack roles and freelance projects. Email reaches
+          me fastest.
         </p>
       </div>
 

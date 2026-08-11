@@ -46,18 +46,18 @@ export const projects: Project[] = [
     slug: "farewise",
     title: "FareWise",
     tagline:
-      "AI flight search that turns plain-language travel intent into real fare options.",
+      "Flight search that reads a plain-language request and returns live fares.",
     capabilities: ["ai", "fullstack"],
     stack: ["Next.js", "TypeScript", "Claude API", "SerpApi"],
     role: "Design and build, end to end.",
     roleDetail:
-      "Solo project, end to end: the product concept, the interface design, and the full build. That includes the prompt design that turns free-form requests into structured queries, the SerpApi integration, and the results UI.",
+      "Solo, end to end: the product concept, the interface, and the full build. That includes the prompt design that turns free-form requests into structured queries, the SerpApi integration, and the results UI.",
     problem:
       "Flight search is tedious and rigid. People think in intent (\"cheap and direct, mid-March, flexible by a day\"), not in form fields. Translating that intent into a dozen filter clicks is exactly the friction that makes people settle for a worse fare.",
     whatIBuilt:
       "A search experience that takes a plain-language request, interprets it with the Claude API, and turns it into structured search parameters. SerpApi supplies live fare data, and the results UI presents the trade-offs plainly instead of burying them in filter tabs.",
     outcomes:
-      "A working AI product rather than a demo: real API integration on both ends, sensible handling of vague or ambiguous requests, and a results UI that stays readable when the fare data gets messy.",
+      "Two live integrations rather than mocked data: Claude interprets the request, SerpApi returns the fares. Ambiguous requests resolve to sensible queries, and the results stay readable when the fare data is messy.",
     links: {},
     visibility: "public",
     featured: true,
@@ -66,7 +66,7 @@ export const projects: Project[] = [
     gradient:
       "linear-gradient(140deg,rgba(120,150,255,0.13),rgba(233,235,239,0.03))",
     description:
-      "An AI-powered flight search that turns plain-language travel intent into real fare options. Built on the Claude API for reasoning and SerpApi for live results.",
+      "Flight search that reads a plain-language request and returns live fares. Claude interprets the request, SerpApi supplies the results.",
     category: "AI Product · Full-Stack · API Integration",
     initials: "FW",
     mediaCaption: "FareWise — AI flight results",
@@ -76,18 +76,18 @@ export const projects: Project[] = [
     slug: "vox",
     title: "Vox",
     tagline:
-      "Production site for a German voice-over actress. A custom liquid-glass design system, bilingual, shipped.",
+      "Production site for a German voice-over actress, with a custom liquid-glass design system and bilingual routing.",
     capabilities: ["design", "client"],
     stack: ["Next.js", "Tailwind", "framer-motion", "i18n (EN/DE)", "Vercel"],
-    role: "Design and build for a real client, in production.",
+    role: "Design and build for a client, in production.",
     roleDetail:
-      "Design and build for a real client: the visual identity, the design system, and the full Next.js implementation through to the production deploy on Vercel.",
+      "Design and build for a client: the visual identity, the design system, and the full Next.js implementation through to the production deploy on Vercel.",
     problem:
-      "A working voice-over actress needed a professional presence that could carry her brand in two languages, meet German legal requirements, and still feel distinctive instead of template-built. Her site is her storefront — it has to sound like her voice looks.",
+      "A working voice-over actress needed a presence that carried her brand in both English and German and satisfied German legal requirements. The site is where prospective clients form their first impression of her work.",
     whatIBuilt:
       "A custom liquid-glass design system with magnetic hover interactions, bilingual EN/DE routing, and the German legal compliance pages (Impressum, Datenschutz). Built on Next.js with Tailwind and framer-motion.",
     outcomes:
-      "A real client site, live in production. The design system holds together across both languages, the motion work gives it a signature feel, and the compliance pages cover what a professional site in Germany legally needs.",
+      "Live in production. The design system holds across both languages, and the Impressum and Datenschutz pages cover what German law requires of a professional site.",
     links: { live: "https://vox-voiceover.vercel.app" },
     visibility: "public",
     year: 2026,
@@ -110,13 +110,13 @@ export const projects: Project[] = [
     stack: ["Headless Shopify", "Printify", "Next.js", "Midjourney", "Adobe Firefly"],
     role: "Founder, designer, developer. End-to-end brand and store.",
     roleDetail:
-      "Founder, designer, and developer. The brand identity, the art direction, the storefront build, and the product pipeline — all of it solo.",
+      "Founder, designer, and developer. The brand identity, the art direction, the storefront build, and the product pipeline, all of it solo.",
     problem:
-      "Launch a drop-based streetwear brand with a strong identity and a real storefront, solo. That means brand design, a product pipeline, and commerce infrastructure with no team behind any of it.",
+      "Launch a drop-based streetwear brand with a strong identity and a working storefront, solo. That means brand design, a product pipeline, and commerce infrastructure with no team behind any of it.",
     whatIBuilt:
       "A headless Shopify storefront with Printify handling fulfillment, the full brand identity, and an AI-driven art pipeline (Midjourney, Adobe Firefly) that generates and refines the artwork behind each drop.",
     outcomes:
-      "A live store built end to end: headless commerce wired to print-on-demand fulfillment, a coherent brand, and AI working as a production tool inside a real pipeline instead of a gimmick.",
+      "A live store built end to end: headless Shopify wired to Printify for fulfillment, a coherent brand, and Midjourney and Firefly generating the artwork behind each drop.",
     links: { live: "https://hollowronin.com" },
     visibility: "public",
     year: 2026,
@@ -146,7 +146,7 @@ export const projects: Project[] = [
     whatIBuilt:
       "A bilingual (EN/ES) companion app built on Next.js and shadcn/ui, internationalized with next-intl. Supabase handles authentication with row-level security, so each client can only ever reach their own data.",
     outcomes:
-      "A full-stack app with real security boundaries: RLS enforced at the database rather than trusted to the UI, i18n structured for full parity across both languages, and screens designed to stay calm for people in a stressful situation.",
+      "Row-level security is enforced in Postgres rather than trusted to the UI, so a client can only ever reach their own records. The i18n structure keeps full parity across both languages.",
     links: {},
     visibility: "confidential",
     year: 2026,
@@ -165,18 +165,18 @@ export const projects: Project[] = [
     slug: "caseflow",
     title: "Caseflow",
     tagline:
-      "Case management and records-request automation. An internal tool that removes manual steps from a real legal workflow.",
+      "Case management and records-request automation for a law firm, replacing repeated manual data entry.",
     capabilities: ["fullstack", "client"],
     stack: ["Next.js", "React", "TypeScript", "Tailwind", "PDF generation", "Vercel"],
     role: "Design and build of an internal firm tool.",
     roleDetail:
-      "Design and build of an internal tool for a real law firm, from mapping the existing workflow with the people running it to shipping the tool they now use.",
+      "Design and build of an internal tool for a law firm, from mapping the existing workflow with the people running it to the version they use now.",
     problem:
       "A law firm's records-request and case-management workflow was repetitive and manual: the same client details re-entered across forms, letters, and requests, and every re-entry was another chance for a typo in a legal document.",
     whatIBuilt:
       "Automation for records requests and document generation, plus case management. Client data is entered once and flows into the generated document packets, which removes the repetitive manual steps from the workflow.",
     outcomes:
-      "An internal tool in real production use. Document generation replaced hand-assembled packets, the duplicate data entry is gone, and the workflow it automates is one I understood from the operator's side first.",
+      "In production at the firm. Generated document packets replaced hand-assembled ones, and client details are entered once instead of re-keyed across every form.",
     links: {},
     visibility: "confidential",
     year: 2025,
@@ -184,7 +184,7 @@ export const projects: Project[] = [
     gradient:
       "linear-gradient(140deg,rgba(255,120,150,0.12),rgba(233,235,239,0.03))",
     description:
-      "Case management and records-request automation for a law firm. Generates documents and removes repetitive manual steps from a real legal workflow. Fully anonymized.",
+      "Case management and records-request automation for a law firm. Generates the document packets and removes the repeated data entry from the workflow. Fully anonymized.",
     category: "Internal · Workflow · Document Automation",
     initials: "CF",
     mediaCaption: "Internal tool — Confidential",

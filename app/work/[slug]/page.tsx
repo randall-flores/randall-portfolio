@@ -30,7 +30,7 @@ const CONFIDENTIAL_NOTE: Record<string, string> = {
   anonymized:
     "Every screen referenced here is anonymized and uses dummy content. No real client, case, or personal data appears anywhere in this case study.",
   confidential:
-    "This was an internal tool built for a law firm. Everything described is generic and fully anonymized — no real firm name, client names, or case details are included.",
+    "This was an internal tool built for a law firm. Everything described is generic and fully anonymized: no real firm name, client names, or case details are included.",
 };
 
 type Params = { params: Promise<{ slug: string }> };
