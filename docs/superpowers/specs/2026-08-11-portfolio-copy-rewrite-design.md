@@ -171,7 +171,28 @@ Metadata description:
 
 ### `app/work/page.tsx` — Work
 
-No copy changes. "Things I've *built.*" is plain and unpretentious and stays.
+`h1` "Things I've *built.*" is plain and unpretentious and stays.
+
+Second pass, same day, after the first deploy. The `range` chips led with
+"Frontend", which is the same undersell the hero used to make, and headless
+commerce was absent despite being a fifth of the work:
+
+    Full-stack · AI integration · Design systems · Headless commerce · i18n
+
+Metadata description drops "filterable by capability", which described the
+control rather than the work:
+
+> Selected work, 2025–2026. Full-stack builds, AI integration, design systems,
+> headless commerce, and bilingual sites.
+
+### `app/work/[slug]/page.tsx` — Case studies
+
+No changes. "The problem / What I built / My role / Outcomes" are conventional
+wayfinding, and the two confidentiality notes keep "real" deliberately.
+
+**Flagged, not changed** (design, not copy, so out of scope): the `01` markers
+on `cs-num` and `p-num`. Numbered markers should encode a real sequence, and
+project order is not one.
 
 ### `lib/projects.ts`
 
@@ -179,6 +200,8 @@ Only the fields listed change. All other fields keep their current values.
 
 #### farewise
 
+- `problem`: People book flights in intent: cheap and direct, mid-March, flexible by a day. A search form makes them translate that into a dozen filter clicks first, and that is where someone gives up and takes the worse fare.
+- `whatIBuilt`: A search that takes a plain-language request, interprets it with the Claude API, and turns it into structured search parameters. SerpApi supplies live fare data, and the results UI keeps the trade-offs visible on each result.
 - `tagline`: Flight search that reads a plain-language request and returns live fares.
 - `roleDetail`: Solo, end to end: the product concept, the interface, and the full build. That includes the prompt design that turns free-form requests into structured queries, the SerpApi integration, and the results UI.
 - `outcomes`: Two live integrations rather than mocked data: Claude interprets the request, SerpApi returns the fares. Ambiguous requests resolve to sensible queries, and the results stay readable when the fare data is messy.
@@ -196,6 +219,7 @@ Only the fields listed change. All other fields keep their current values.
 
 - `roleDetail`: Founder, designer, and developer. The brand identity, the art direction, the storefront build, and the product pipeline, all of it solo.
 - `problem`: Launch a drop-based streetwear brand with a strong identity and a working storefront, solo. That means brand design, a product pipeline, and commerce infrastructure with no team behind any of it.
+- `whatIBuilt`: A headless Shopify storefront with Printify handling fulfillment, the full brand identity, and an art pipeline where Midjourney and Adobe Firefly generate and refine the artwork behind each drop.
 - `outcomes`: A live store built end to end: headless Shopify wired to Printify for fulfillment, a coherent brand, and Midjourney and Firefly generating the artwork behind each drop.
 
 #### sana
@@ -206,6 +230,7 @@ Only the fields listed change. All other fields keep their current values.
 
 - `tagline`: Case management and records-request automation for a law firm, replacing repeated manual data entry.
 - `roleDetail`: Design and build of an internal tool for a law firm, from mapping the existing workflow with the people running it to the version they use now.
+- `whatIBuilt`: Records-request automation, document generation, and case management. Client details are entered once and flow into every generated packet. (The old version ended by restating its own Outcomes section one scroll later.)
 - `outcomes`: In production at the firm. Generated document packets replaced hand-assembled ones, and client details are entered once instead of re-keyed across every form.
 
 The `outcomes` rewrite for caseflow drops "the workflow it automates is one I

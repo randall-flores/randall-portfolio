@@ -53,9 +53,9 @@ export const projects: Project[] = [
     roleDetail:
       "Solo, end to end: the product concept, the interface, and the full build. That includes the prompt design that turns free-form requests into structured queries, the SerpApi integration, and the results UI.",
     problem:
-      "Flight search is tedious and rigid. People think in intent (\"cheap and direct, mid-March, flexible by a day\"), not in form fields. Translating that intent into a dozen filter clicks is exactly the friction that makes people settle for a worse fare.",
+      "People book flights in intent: cheap and direct, mid-March, flexible by a day. A search form makes them translate that into a dozen filter clicks first, and that is where someone gives up and takes the worse fare.",
     whatIBuilt:
-      "A search experience that takes a plain-language request, interprets it with the Claude API, and turns it into structured search parameters. SerpApi supplies live fare data, and the results UI presents the trade-offs plainly instead of burying them in filter tabs.",
+      "A search that takes a plain-language request, interprets it with the Claude API, and turns it into structured search parameters. SerpApi supplies live fare data, and the results UI keeps the trade-offs visible on each result.",
     outcomes:
       "Two live integrations rather than mocked data: Claude interprets the request, SerpApi returns the fares. Ambiguous requests resolve to sensible queries, and the results stay readable when the fare data is messy.",
     links: {},
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     problem:
       "Launch a drop-based streetwear brand with a strong identity and a working storefront, solo. That means brand design, a product pipeline, and commerce infrastructure with no team behind any of it.",
     whatIBuilt:
-      "A headless Shopify storefront with Printify handling fulfillment, the full brand identity, and an AI-driven art pipeline (Midjourney, Adobe Firefly) that generates and refines the artwork behind each drop.",
+      "A headless Shopify storefront with Printify handling fulfillment, the full brand identity, and an art pipeline where Midjourney and Adobe Firefly generate and refine the artwork behind each drop.",
     outcomes:
       "A live store built end to end: headless Shopify wired to Printify for fulfillment, a coherent brand, and Midjourney and Firefly generating the artwork behind each drop.",
     links: { live: "https://hollowronin.com" },
@@ -174,7 +174,7 @@ export const projects: Project[] = [
     problem:
       "A law firm's records-request and case-management workflow was repetitive and manual: the same client details re-entered across forms, letters, and requests, and every re-entry was another chance for a typo in a legal document.",
     whatIBuilt:
-      "Automation for records requests and document generation, plus case management. Client data is entered once and flows into the generated document packets, which removes the repetitive manual steps from the workflow.",
+      "Records-request automation, document generation, and case management. Client details are entered once and flow into every generated packet.",
     outcomes:
       "In production at the firm. Generated document packets replaced hand-assembled ones, and client details are entered once instead of re-keyed across every form.",
     links: {},

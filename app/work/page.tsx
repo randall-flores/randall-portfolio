@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WorkList } from "@/components/work/WorkList";
 
 const description =
-  "Selected work, 2025–2026. Frontend, full-stack, design systems, AI integration, and i18n, filterable by capability.";
+  "Selected work, 2025–2026. Full-stack builds, AI integration, design systems, headless commerce, and bilingual sites.";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -11,12 +11,17 @@ export const metadata: Metadata = {
   twitter: { title: "Work", description },
 };
 
+// Order matters: full-stack leads, because "Frontend" first was the same
+// undersell the hero used to make. Headless commerce earns its place from
+// Hollow Ronin and was missing entirely.
 const range = [
-  "Frontend",
   "Full-stack",
-  "Design systems",
   "AI integration",
-  "i18n",
+  "Design systems",
+  "Headless commerce",
+  // Not "i18n": the chips uppercase, and "I18N" means nothing to the freelance
+  // client this page is written for.
+  "Bilingual sites",
 ];
 
 export default function WorkPage() {
