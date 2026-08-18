@@ -74,14 +74,14 @@ export const projects: Project[] = [
     mediaCaption: "FareWise — Live fare results",
     shots: [
       {
-        src: "/shots/farewise/g-search.webp",
-        alt: "FareWise search form with origin, destination, date and cabin fields, and a note that prices are not inflated based on search history",
-        caption: "The round-trip search form",
+        src: "/shots/farewise/g-results.webp",
+        alt: "FareWise results for San José to New York: five live fares and Claude's plain-language read of each one",
+        caption: "Live SerpApi fares with Claude's per-fare read",
       },
       {
-        src: "/shots/farewise/g-results.webp",
-        alt: "FareWise results for San José to New York: five live fares, a typical-price summary, and a warning on a suspiciously cheap fare",
-        caption: "Live SerpApi fares with Claude's per-fare read and a mistake-fare warning",
+        src: "/shots/farewise/g-results-deep.webp",
+        alt: "The cheapest fare card with route, stops, and an explicit warning that the price may be a mistake fare the airline can cancel",
+        caption: "The mistake-fare warning on a suspiciously cheap result",
       },
     ],
   },
@@ -110,11 +110,6 @@ export const projects: Project[] = [
     category: "Client · Design System · EN/DE",
     mediaCaption: "Vox — Production site",
     shots: [
-      {
-        src: "/shots/vox/g-hero.webp",
-        alt: "Leonie Dubuc home page: a large serif name treatment beside a black-and-white portrait",
-        caption: "Home, English locale",
-      },
       {
         src: "/shots/vox/g-demos.webp",
         alt: "Demos page with playable voice-over samples",
@@ -155,11 +150,6 @@ export const projects: Project[] = [
     category: "Brand · Headless Commerce · Design",
     mediaCaption: "Hollow Ronin — Drop store",
     shots: [
-      {
-        src: "/shots/hollow-ronin/g-hero.webp",
-        alt: "Hollow Ronin home: a katana under a blossom tree with the Drop 001 headline",
-        caption: "Drop 001 hero",
-      },
       {
         src: "/shots/hollow-ronin/g-shop.webp",
         alt: "Shop page: The Armory, category tiles for tees, shirts, hoodies, joggers and outerwear",
@@ -206,11 +196,6 @@ export const projects: Project[] = [
     mediaCaption: "Adrift — Discovery feed",
     shots: [
       {
-        src: "/shots/adrift/g-feed.webp",
-        alt: "Adrift home feed: New this week carousel and Today's drift grid across fashion, beauty and tech products",
-        caption: "The feed: weekly drop and daily rotation",
-      },
-      {
         src: "/shots/adrift/g-find.webp",
         alt: "Adrift product page for a wireless mouse with a direct shop link",
         caption: "Product page with a direct shop link",
@@ -249,9 +234,9 @@ export const projects: Project[] = [
     status: "anonymized",
     shots: [
       {
-        src: "/shots/sana/g-hero.webp",
-        alt: "Sana landing page: You got hurt. Sana helps you heal — and remember everything.",
-        caption: "Landing page, English locale",
+        src: "/shots/sana/g-es-hero.webp",
+        alt: "Sana landing page in Spanish: Sana, recuerda, recupérate",
+        caption: "The same page in the Spanish locale, full next-intl parity",
       },
       {
         src: "/shots/sana/g-features.webp",
@@ -291,11 +276,6 @@ export const projects: Project[] = [
     mediaCaption: "Internal tool — Confidential",
     status: "confidential",
     shots: [
-      {
-        src: "/shots/caseflow/g-client-session.webp",
-        alt: "Caseflow client session: pasted case notes parsed into a structured record with sample data",
-        caption: "Client session: pasted notes parsed into a structured record (sample data)",
-      },
       {
         src: "/shots/caseflow/g-treatment.webp",
         alt: "Treatment report tab: upload medical PDFs, treatment dates extracted into a report",

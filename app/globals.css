@@ -251,8 +251,9 @@ footer {
   top: 50%;
   /* min() on negative numbers picks the more negative value, so the offsets are
      derived from the size rather than written twice. */
+  /* Match the still's 16/9 exactly — a free height crops the screenshot. */
   --card-w: min(58vw, 440px);
-  --card-h: min(46vh, 300px);
+  --card-h: calc(var(--card-w) * 9 / 16);
   width: var(--card-w);
   height: var(--card-h);
   margin: calc(var(--card-h) / -2) 0 0 calc(var(--card-w) / -2);
@@ -424,7 +425,8 @@ footer {
     position: relative;
     inset: auto;
     width: 100%;
-    height: min(42vh, 300px);
+    height: auto;
+    aspect-ratio: 16 / 9;
     margin: 0;
     grid-area: 1 / 1;
     transform: none !important;
@@ -1328,34 +1330,52 @@ footer {
   color: var(--muted);
   line-height: 1.5;
 }
-.cg-nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
 .cg-count {
+  flex-shrink: 0;
   font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.06em;
   color: var(--muted);
 }
 .cg-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  border: 1px solid var(--line);
-  background: none;
-  color: var(--fg);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(8, 9, 12, 0.72);
+  color: #fff;
   cursor: pointer;
-  transition: border-color 0.3s, color 0.3s;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+.cg-prev {
+  left: 14px;
+}
+.cg-next {
+  right: 14px;
 }
 .cg-btn:hover {
-  border-color: rgba(var(--accent-rgb), 0.6);
+  background: rgba(8, 9, 12, 0.9);
+  border-color: rgba(var(--accent-rgb), 0.7);
   color: var(--accent);
+}
+@media (max-width: 760px) {
+  .cg-btn {
+    width: 42px;
+    height: 42px;
+  }
+  .cg-prev {
+    left: 8px;
+  }
+  .cg-next {
+    right: 8px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .cg-img {

@@ -42,36 +42,40 @@ export function CaseGallery({ title, shots, dark }: Props) {
             aria-hidden={i !== index}
           />
         ))}
+        {/* Arrows live ON the image, centered on each edge and always
+            visible — the affordance that this is a set, not one still. */}
+        {shots.length > 1 ? (
+          <>
+            <button
+              type="button"
+              className="cg-btn cg-prev"
+              onClick={() => go(-1)}
+              aria-label="Previous screen"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="cg-btn cg-next"
+              onClick={() => go(1)}
+              aria-label="Next screen"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </>
+        ) : null}
       </div>
       <figcaption className="cg-bar">
         <span className="cg-cap" aria-live="polite">
           {shots[index].caption}
         </span>
         {shots.length > 1 ? (
-          <span className="cg-nav">
-            <span className="cg-count">
-              {index + 1} / {shots.length}
-            </span>
-            <button
-              type="button"
-              className="cg-btn"
-              onClick={() => go(-1)}
-              aria-label="Previous screen"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              className="cg-btn"
-              onClick={() => go(1)}
-              aria-label="Next screen"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
+          <span className="cg-count">
+            {index + 1} / {shots.length}
           </span>
         ) : null}
       </figcaption>

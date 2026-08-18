@@ -14,12 +14,14 @@ const OUT = "public/shots";
 
 // [slug, cardDesktopSource, gallerySlides[]]
 const PROJECTS = [
-  ["farewise", "02-results", ["01-search", "02-results"]],
-  ["sana", "01-hero", ["01-hero", "02-features", "03-signin"]],
-  ["caseflow", "01-client-session", ["01-client-session", "02-treatment", "03-records"]],
-  ["adrift", "01-feed", ["01-feed", "02-find", "03-explore"]],
-  ["vox", "01-hero", ["01-hero", "02-demos", "03-credits"]],
-  ["hollow-ronin", "01-hero", ["01-hero", "02-shop", "03-product", "04-lookbook"]],
+  // Card and gallery never share a shot: the card is what someone clicked,
+  // the gallery is what they came to see.
+  ["farewise", "01-search", ["02-results", "03-results-deep"]],
+  ["sana", "01-hero", ["04-es-hero", "02-features", "03-signin"]],
+  ["caseflow", "01-client-session", ["02-treatment", "03-records"]],
+  ["adrift", "01-feed", ["02-find", "03-explore"]],
+  ["vox", "01-hero", ["02-demos", "03-credits"]],
+  ["hollow-ronin", "01-hero", ["02-shop", "03-product", "04-lookbook"]],
 ];
 
 for (const [slug, cardSrc, slides] of PROJECTS) {
