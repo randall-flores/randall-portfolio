@@ -63,7 +63,7 @@ export const projects: Project[] = [
       "A round-trip search backed by live SerpApi fare data. Claude reads the results and writes the honest read: what each fare trades away, whether the price is typical for the route, and a warning when a fare looks like a mistake the airline can cancel.",
     outcomes:
       "Two live integrations rather than mocked data: SerpApi returns the fares, Claude writes the read on each one. The route summary states the typical price range, and suspiciously low fares carry an explicit mistake-fare warning.",
-    links: {},
+    links: { repo: "https://github.com/randall-flores/farewise" },
     visibility: "public",
     featured: true,
     year: 2026,
@@ -143,7 +143,10 @@ export const projects: Project[] = [
       "A headless Shopify storefront with Printify handling fulfillment, the full brand identity, and an art pipeline where Midjourney and Adobe Firefly generate and refine the artwork behind each drop.",
     outcomes:
       "A live store built end to end: headless Shopify wired to Printify for fulfillment, a coherent brand, and Midjourney and Firefly generating the artwork behind each drop.",
-    links: { live: "https://hollowronin.com" },
+    links: {
+      live: "https://hollowronin.com",
+      repo: "https://github.com/randall-flores/hollow-ronin",
+    },
     visibility: "public",
     year: 2026,
     tags: ["Headless Shopify", "Printify", "Brand"],
@@ -190,7 +193,10 @@ export const projects: Project[] = [
       "A curated feed on Next.js and Supabase: a weekly drop of picks, a daily rotation, category filters across seven verticals, product pages that link straight to the brand's own store, and saves. Every product is added by hand.",
     outcomes:
       "Live on Vercel. The weekly drop carries eight picks, the daily rotation changes on schedule, and every product page resolves to the brand's real storefront.",
-    links: { live: "https://adspotted.vercel.app" },
+    links: {
+      live: "https://adspotted.vercel.app",
+      repo: "https://github.com/randall-flores/adspotted",
+    },
     visibility: "public",
     year: 2026,
     tags: ["Product Feed", "Supabase", "Curation"],
