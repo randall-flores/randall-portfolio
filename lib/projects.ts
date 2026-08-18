@@ -238,7 +238,7 @@ export const projects: Project[] = [
       "A bilingual (EN/ES) companion app built on Next.js and shadcn/ui, internationalized with next-intl. Supabase handles authentication with row-level security, so each client can only ever reach their own data.",
     outcomes:
       "Row-level security is enforced in Postgres rather than trusted to the UI, so a client can only ever reach their own records. The i18n structure keeps full parity across both languages.",
-    links: {},
+    links: { repo: "https://github.com/randall-flores/sana.app" },
     visibility: "confidential",
     year: 2026,
     tags: ["Full-stack", "Supabase RLS", "next-intl"],

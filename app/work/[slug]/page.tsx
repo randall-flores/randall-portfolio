@@ -66,8 +66,11 @@ export default async function CaseStudyPage({ params }: Params) {
   const next = projects[(index + 1) % projects.length];
 
   const confidential = project.visibility === "confidential";
-  const liveUrl = !confidential ? project.links.live : undefined;
-  const repoUrl = !confidential ? project.links.repo : undefined;
+  // The data decides what is linkable: a confidential project simply has no
+  // links it shouldn't. Sana's repo is public (audited — dummy data only)
+  // while its screens stay anonymized, so the guard can't live here.
+  const liveUrl = project.links.live;
+  const repoUrl = project.links.repo;
 
   return (
     <main id="main" className="cs wrap">
