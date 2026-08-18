@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
-import { CardVideo } from "@/components/work/CardVideo";
+import { CardStill } from "@/components/work/CardStill";
 import { projects, type Capability } from "@/lib/projects";
 
 // Sticky capability filter + the editorial project spread. Client-side because
@@ -27,45 +27,6 @@ export function WorkList() {
   const visible = projects.filter(
     (p) => active === "all" || p.capabilities.includes(active),
   );
-
-  // Parallax on the ghosted initials. Scroll-driven (passive listener +
-  // one rAF per scroll burst) instead of a permanent rAF loop — the old loop
-  // read layout every frame forever, even when nothing moved. Desktop
-  // fine-pointer only, off for reduced-motion. Re-runs on filter change so
-  // it picks up re-rendered cards.
-  useEffect(() => {
-    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fine || reduced) return;
-
-    const ghosts = Array.from(
-      document.querySelectorAll<HTMLElement>(".p-ghost"),
-    );
-    if (ghosts.length === 0) return;
-
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const vh = window.innerHeight;
-      ghosts.forEach((g) => {
-        const r = g.getBoundingClientRect();
-        const off = (r.top + r.height / 2 - vh / 2) / vh;
-        g.style.transform = `translateY(${off * -40}px)`;
-      });
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [active]);
 
   return (
     <>
@@ -125,22 +86,7 @@ export function WorkList() {
                             : "p-visual"
                         }
                       >
-                        <div className="p-chrome" aria-hidden="true">
-                          <i />
-                          <i />
-                          <i />
-                        </div>
-                        {p.video ? (
-                          <CardVideo
-                            slug={p.slug}
-                            poster={`/cards/${p.slug}-poster.jpg`}
-                            dark={p.slug === "hollow-ronin"}
-                          />
-                        ) : (
-                          <div className="p-ghost" aria-hidden="true">
-                            {p.initials}
-                          </div>
-                        )}
+                        <CardStill slug={p.slug} />
                         <span className="p-view" aria-hidden="true">
                           View case
                         </span>

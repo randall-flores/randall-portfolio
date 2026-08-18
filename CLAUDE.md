@@ -10,7 +10,7 @@ Randall's personal developer portfolio. A Next.js site that showcases frontend a
 
 Randall is a full-stack developer in Costa Rica, working in English and Spanish. The site is aimed at freelance clients first and hiring managers second: outcome-led copy, with every claim anchored to a technology, a number, or an artifact so an engineer reading it still nods.
 
-The argument is that he builds complete products alone and hands them over. Five in two years: an AI product, a client site in production, a headless storefront, and two apps built around private data.
+The argument is that he builds complete products alone and hands them over. Six in two years: an AI product, a client site in production, a headless storefront, a hand-curated product-discovery feed, and two apps built around private data.
 
 He worked about a decade in legal and operations before writing code. That appears **exactly once** on the site, on `/about`, as the reason two projects are legal-workflow tools. It is never a career-change story, never the headline, and never called a "crossover". Clients do not hire him for it.
 

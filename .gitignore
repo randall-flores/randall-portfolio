@@ -45,3 +45,6 @@ next-env.d.ts
 
 # local design explorations, not part of the site
 mockups/
+
+# raw screenshot captures (regenerate with scripts/shots-capture.mjs + shots-process.mjs)
+/shots-raw/

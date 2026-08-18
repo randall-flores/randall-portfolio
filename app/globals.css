@@ -276,6 +276,7 @@ footer {
 }
 .orbit-img {
   object-fit: cover;
+  object-position: top; /* keep the app's own header in frame */
   /* the far cards sit back in the field rather than shouting from the rim */
   filter: saturate(0.8) brightness(0.7);
   transition: filter 0.55s var(--ease), transform 0.7s var(--ease);
@@ -869,7 +870,7 @@ footer {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Work — editorial Index (default) + Gallery toggle                  */
+/*  Home — Selected work section head (the orbit carousel lives below) */
 /* ------------------------------------------------------------------ */
 .work {
   padding: 90px 0 40px;
@@ -889,207 +890,6 @@ footer {
   font-weight: 600;
   letter-spacing: -0.02em;
   font-size: clamp(22px, 3vw, 30px);
-}
-.toggle {
-  display: flex;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  overflow: hidden;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.toggle button {
-  background: none;
-  border: none;
-  color: var(--muted);
-  padding: 9px 16px;
-  cursor: pointer;
-  font: inherit;
-  transition: 0.25s;
-}
-.toggle button.active {
-  background: var(--accent);
-  color: var(--bg);
-}
-.track {
-  transform-origin: center top;
-}
-.item {
-  display: grid;
-  grid-template-columns: 60px 1fr auto;
-  gap: 20px;
-  align-items: center;
-  padding: 34px 12px;
-  position: relative;
-  transition: padding 0.35s, background 0.35s;
-}
-.item:hover {
-  padding-left: 24px;
-  background: linear-gradient(90deg, var(--accent-dim), transparent 55%);
-}
-.item .num {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 13px;
-  color: var(--muted);
-  transition: color 0.3s;
-}
-.item:hover .num {
-  color: var(--accent);
-}
-.item .name {
-  font-family: var(--font-bodoni), Didot, Georgia, serif;
-  font-variation-settings: "opsz" 34;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  font-size: clamp(26px, 4.4vw, 50px);
-  line-height: 1;
-  transition: transform 0.35s;
-}
-.item:hover .name {
-  transform: translateX(6px);
-}
-.item .meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-  text-align: right;
-}
-.tags {
-  display: flex;
-  gap: 6px 18px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-.tag {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.yr {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  color: var(--muted);
-}
-.live {
-  color: var(--accent);
-}
-.item .vis {
-  display: none;
-}
-.track.gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  padding-top: 14px;
-}
-.track.gallery .item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 24px;
-  background: linear-gradient(
-    180deg,
-    rgba(233, 235, 239, 0.07),
-    rgba(233, 235, 239, 0.025)
-  );
-  backdrop-filter: blur(20px) saturate(1.25);
-  -webkit-backdrop-filter: blur(20px) saturate(1.25);
-  /* the hairline top highlight is what makes it read as glass, not a panel */
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
-  gap: 0;
-}
-/* Children must span the card. align-items: flex-start shrink-wraps the
-   name+media wrapper to the title's text width, which collapses the 16:9
-   media (its video is absolute and adds no in-flow width). */
-.track.gallery .item > * {
-  width: 100%;
-}
-.track.gallery .item:hover {
-  padding-left: 24px;
-  background: linear-gradient(
-    180deg,
-    rgba(233, 235, 239, 0.11),
-    rgba(233, 235, 239, 0.045)
-  );
-  border-color: rgba(var(--accent-rgb), 0.4);
-}
-.track.gallery .item .vis {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  border: 1px solid var(--line-soft);
-  margin: 18px 0;
-  transition: transform 0.5s var(--ease), border-color 0.4s;
-}
-.track.gallery .item:hover .vis {
-  transform: scale(1.02);
-  border-color: rgba(var(--accent-rgb), 0.6);
-}
-.item:hover .p-view,
-.item:focus-visible .p-view {
-  opacity: 1;
-  transform: none;
-}
-.track.gallery .item .name {
-  font-size: clamp(24px, 3.2vw, 36px);
-}
-.track.gallery .item .meta {
-  align-items: flex-start;
-  text-align: left;
-  margin-top: 6px;
-}
-.track.gallery .item .tags {
-  justify-content: flex-start;
-}
-.track.gallery .item:hover .name {
-  transform: none;
-}
-.track.gallery .item.wide {
-  grid-column: 1 / -1;
-}
-@media (max-width: 760px) {
-  .item {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 24px 0;
-  }
-  .item:hover {
-    padding-left: 0;
-    background: none;
-  }
-  .item .meta {
-    align-items: flex-start;
-    text-align: left;
-  }
-  .tags {
-    justify-content: flex-start;
-  }
-  .item .vis {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    margin-top: 10px;
-    border: 1px solid var(--line);
-  }
-  .track.gallery {
-    grid-template-columns: 1fr;
-  }
-  .track.gallery .item.wide {
-    grid-column: auto;
-  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -1225,67 +1025,60 @@ footer {
   transform: scale(1.02);
   border-color: rgba(var(--accent-rgb), 0.6);
 }
-.p-chrome {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid var(--line-soft);
-  z-index: 3;
-}
-.p-chrome i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
-}
-.p-ghost {
+/* The card still: a desktop screenshot filling the frame with the same
+   screen's mobile capture overlapping from the bottom-right corner. The
+   phone deliberately runs past the frame edge and gets cropped by the
+   card's overflow: hidden — it reads as rising out of the card. */
+.still {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-bodoni), Didot, Georgia, serif;
-  font-variation-settings: "opsz" 20;
-  font-weight: 700;
-  font-size: clamp(60px, 9vw, 140px);
-  color: rgba(255, 255, 255, 0.06);
-  letter-spacing: -0.03em;
-  will-change: transform;
+  display: block;
+  z-index: 1; /* above the bg, below the caption + view label (z-index: 3) */
 }
-.p-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+.still-d {
   object-fit: cover;
-  border-radius: inherit;
-  z-index: 1; /* above the bg, below chrome + caption (z-index: 3) */
+  object-position: top;
+}
+.still-m {
+  position: absolute;
+  right: 5%;
+  bottom: -9%;
+  width: 22%;
+  aspect-ratio: 390 / 844;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  z-index: 2;
+}
+.still-m-img {
+  object-fit: cover;
+  object-position: top;
 }
 /* Near-black media on a near-black page: a faint warm-gold hairline so the
    card edges don't melt into the background. Hover still resolves to lime. */
 .p-visual.dark {
   border-color: var(--line);
 }
+/* The screenshots behind these labels are mostly light app UIs now, so both
+   corner labels sit on a dark chip instead of relying on the media being
+   dark. Plain rgba, no backdrop-filter — cheaper and safe anywhere. */
 .p-cap {
   position: absolute;
-  left: 18px;
-  bottom: 16px;
+  left: 12px;
+  bottom: 12px;
   z-index: 3;
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(8, 9, 12, 0.72);
   font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 10.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.72);
 }
 .p-cap .sdot {
   width: 7px;
@@ -1303,9 +1096,12 @@ footer {
    card itself being the link. Decorative: the Link carries the aria-label. */
 .p-view {
   position: absolute;
-  right: 18px;
-  bottom: 16px;
+  right: 12px;
+  top: 12px; /* top corner: the bottom-right belongs to the phone overlay */
   z-index: 3;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(8, 9, 12, 0.72);
   font-family: var(--font-fragment), ui-monospace, monospace;
   font-size: 10.5px;
   letter-spacing: 0.08em;
@@ -1493,8 +1289,78 @@ footer {
 .cs-hero {
   margin-top: 50px;
 }
-.cs-hero .p-visual {
-  aspect-ratio: 16 / 8;
+
+/* Case-study gallery: captioned screenshots the reader pages through.
+   The frame keeps the capture's own 16/10 viewport ratio (no crop), and
+   the caption bar sits under it with the count + arrows. */
+.cg {
+  margin: 0;
+}
+.cg-frame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: rgba(233, 235, 239, 0.04);
+}
+.cg-img {
+  object-fit: cover;
+  object-position: top;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+}
+.cg-img.is-on {
+  opacity: 1;
+}
+.cg-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 4px 0;
+}
+.cg-cap {
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.cg-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.cg-count {
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.cg-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--fg);
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+.cg-btn:hover {
+  border-color: rgba(var(--accent-rgb), 0.6);
+  color: var(--accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cg-img {
+    transition: none;
+  }
 }
 .cs-meta {
   display: grid;
@@ -1961,8 +1827,7 @@ footer {
     scroll-behavior: auto !important;
   }
   /* Card hover: no movement, the "View case" label still appears. */
-  .project:hover .p-visual,
-  .track.gallery .item:hover .vis {
+  .project:hover .p-visual {
     transform: none;
   }
   .p-view {

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
-import { CardVideo } from "@/components/work/CardVideo";
 import { CaseArrival } from "@/components/work/CaseArrival";
+import { CaseGallery } from "@/components/work/CaseGallery";
 import {
   projects,
   type Capability,
@@ -131,41 +131,11 @@ export default async function CaseStudyPage({ params }: Params) {
 
       <div className="rise rise-2">
         <div className="cs-hero">
-          <div
-            className={
-              project.slug === "hollow-ronin" ? "p-visual dark" : "p-visual"
-            }
-            role="img"
-            aria-label={`${project.title} interface preview`}
-          >
-            <div className="p-chrome" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </div>
-            {project.video ? (
-              <CardVideo
-                slug={project.slug}
-                poster={`/cards/${project.slug}-poster.jpg`}
-                dark={project.slug === "hollow-ronin"}
-                autoplayInView
-                preload="metadata"
-              />
-            ) : (
-              <div className="p-ghost" aria-hidden="true">
-                {project.initials}
-              </div>
-            )}
-            <div className="p-cap">
-              {project.status ? (
-                <span
-                  className={`sdot ${project.status === "live" ? "live" : "muted"}`}
-                  aria-hidden="true"
-                />
-              ) : null}
-              {project.mediaCaption}
-            </div>
-          </div>
+          <CaseGallery
+            title={project.title}
+            shots={project.shots}
+            dark={project.slug === "hollow-ronin"}
+          />
         </div>
       </div>
 

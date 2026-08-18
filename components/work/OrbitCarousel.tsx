@@ -233,7 +233,7 @@ export function OrbitCarousel() {
               }}
             >
               <Image
-                src={`/cards/${p.slug}-poster.jpg`}
+                src={`/shots/${p.slug}/card-d.webp`}
                 alt=""
                 fill
                 sizes="(max-width: 899px) 88vw, 400px"
