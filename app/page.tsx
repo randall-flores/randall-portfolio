@@ -43,7 +43,8 @@ export default function Home() {
             <p className="h-lead">
               An AI flight search running on the Claude API. A production site
               for a client in Germany. A storefront wired to print-on-demand
-              fulfillment. Two apps built around data that has to stay private.
+              fulfillment. A hand-curated product feed on Supabase. Two apps
+              built around data that has to stay private.
             </p>
 
             <div className="h-cta">
