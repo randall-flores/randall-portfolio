@@ -1291,18 +1291,20 @@ footer {
 .cs-hero {
   margin-top: 50px;
 }
-.cs-hero > * + * {
-  margin-top: 44px;
+/* Two classes deep so the gallery's own `.cg { margin: 0 }`, declared
+   later at one class, can't cancel it. */
+.cs-hero .tr {
+  margin-bottom: 44px;
 }
 
 /* Case-study trailer: the title-card poster with one play control (in the
    corner, clear of every title card's centred wordmark), swapped
    for the native player on click. Shares the gallery's frame and caption bar
    so the two read as one hero. Trailers are cut at 16/9. */
-.ct {
+.tr {
   margin: 0;
 }
-.ct-frame {
+.tr-frame {
   position: relative;
   aspect-ratio: 16 / 9;
   border-radius: 14px;
@@ -1310,7 +1312,7 @@ footer {
   overflow: hidden;
   background: var(--bg);
 }
-.ct-poster {
+.tr-poster {
   position: absolute;
   inset: 0;
   display: block;
@@ -1320,14 +1322,14 @@ footer {
   background: none;
   cursor: pointer;
 }
-.ct-img {
+.tr-img {
   object-fit: cover;
   transition: transform 0.8s var(--ease);
 }
-.ct-poster:hover .ct-img {
+.tr-poster:hover .tr-img {
   transform: scale(1.015);
 }
-.ct-play {
+.tr-play {
   position: absolute;
   left: 24px;
   bottom: 24px;
@@ -1343,23 +1345,23 @@ footer {
   transition: background 0.3s, border-color 0.3s, color 0.3s,
     transform 0.4s var(--ease);
 }
-.ct-play svg {
+.tr-play svg {
   margin-left: 3px; /* optical centre of the triangle */
 }
-.ct-poster:hover .ct-play {
+.tr-poster:hover .tr-play {
   background: rgba(8, 9, 12, 0.9);
   border-color: rgba(var(--accent-rgb), 0.7);
   color: var(--accent);
   transform: scale(1.06);
 }
-.ct-poster:focus-visible {
+.tr-poster:focus-visible {
   outline: none;
 }
-.ct-poster:focus-visible .ct-play {
+.tr-poster:focus-visible .tr-play {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
 }
-.ct-video {
+.tr-video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1368,7 +1370,7 @@ footer {
   background: var(--bg);
 }
 @media (max-width: 760px) {
-  .ct-play {
+  .tr-play {
     left: 14px;
     bottom: 14px;
     width: 52px;
@@ -1376,14 +1378,14 @@ footer {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ct-img,
-  .ct-play {
+  .tr-img,
+  .tr-play {
     transition: none;
   }
-  .ct-poster:hover .ct-img {
+  .tr-poster:hover .tr-img {
     transform: none;
   }
-  .ct-poster:hover .ct-play {
+  .tr-poster:hover .tr-play {
     transform: none;
   }
 }
@@ -1746,7 +1748,7 @@ footer {
   }
   .ab-portrait {
     width: 100%;
-    max-width: 420px; /* full-width in the column, capped below the 500px source */
+    max-width: 420px; /* full-width in the column, capped well below the 840px source */
   }
 }
 

@@ -77,10 +77,10 @@ export default function AboutPage() {
 
           <figure className="ab-portrait">
             <Image
-              src="/randall.jpg"
+              src="/randall-portrait.jpg"
               alt="Randall Flores, full-stack developer"
-              width={500}
-              height={749}
+              width={840}
+              height={1120}
               sizes="(max-width: 860px) 100vw, 360px"
             />
           </figure>

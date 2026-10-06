@@ -20,7 +20,7 @@ const PROJECTS = [
   ["sana", "01-hero", ["04-es-hero", "02-features", "03-signin"]],
   ["caseflow", "01-client-session", ["02-treatment", "03-records"]],
   ["adrift", "01-feed", ["02-find", "03-explore"]],
-  ["vox", "01-hero", ["02-demos", "03-credits"]],
+  ["leonie-dubuc", "01-hero", ["02-demos", "03-credits"]],
   ["hollow-ronin", "01-hero", ["02-shop", "03-product", "04-lookbook"]],
 ];
 

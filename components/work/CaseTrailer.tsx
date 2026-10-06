@@ -21,12 +21,12 @@ export function CaseTrailer({ slug, title, description, duration }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <figure className="ct" aria-label={`${title} trailer`}>
-      <div className="ct-frame">
+    <figure className="tr" aria-label={`${title} trailer`}>
+      <div className="tr-frame">
         {playing ? (
           <video
             ref={videoRef}
-            className="ct-video"
+            className="tr-video"
             src={`/trailers/${slug}.mp4`}
             poster={`/trailers/${slug}.webp`}
             controls
@@ -39,7 +39,7 @@ export function CaseTrailer({ slug, title, description, duration }: Props) {
         ) : (
           <button
             type="button"
-            className="ct-poster"
+            className="tr-poster"
             onClick={() => setPlaying(true)}
             aria-label={`Play the ${title} trailer, ${duration}, with sound`}
           >
@@ -49,9 +49,9 @@ export function CaseTrailer({ slug, title, description, duration }: Props) {
               fill
               sizes="(max-width: 1099px) 94vw, 1040px"
               priority
-              className="ct-img"
+              className="tr-img"
             />
-            <span className="ct-play" aria-hidden="true">
+            <span className="tr-play" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path d="M8 5.5v13l10.5-6.5L8 5.5z" fill="currentColor" />
               </svg>

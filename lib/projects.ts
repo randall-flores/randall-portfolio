@@ -94,8 +94,8 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "vox",
-    title: "Vox",
+    slug: "leonie-dubuc",
+    title: "Leonie Dubuc",
     tagline:
       "Production site for a German voice-over actress, with a custom liquid-glass design system and bilingual routing.",
     capabilities: ["design", "client"],
@@ -104,19 +104,19 @@ export const projects: Project[] = [
     roleDetail:
       "Design and build for a client: the visual identity, the design system, and the full Next.js implementation through to the production deploy on Vercel.",
     problem:
-      "A working voice-over actress needed a presence that carried her brand in both English and German and satisfied German legal requirements. The site is where prospective clients form their first impression of her work.",
+      "Leonie Dubuc, a working German voice-over actress, needed a presence that carried her brand in both English and German and satisfied German legal requirements. The site is where prospective clients form their first impression of her work.",
     whatIBuilt:
       "A custom liquid-glass design system with magnetic hover interactions, bilingual EN/DE routing, and the German legal compliance pages (Impressum, Datenschutz). Built on Next.js with Tailwind and framer-motion.",
     outcomes:
       "Live in production. The design system holds across both languages, and the Impressum and Datenschutz pages cover what German law requires of a professional site.",
-    links: { live: "https://vox-voiceover.vercel.app" },
+    links: { live: "https://leoniedubuc.com" },
     visibility: "public",
     year: 2026,
     tags: ["Voice-over", "Design System", "EN/DE"],
     description:
       "Production site for a German voice-over actress. A custom liquid-glass design system, magnetic interactions, bilingual routing, and German legal compliance pages.",
     category: "Client · Design System · EN/DE",
-    mediaCaption: "Vox — Production site",
+    mediaCaption: "Leonie Dubuc — Production site",
     trailer: {
       description:
         "the voice reel player, the German dubbing roles, the audio samples, the studios she has worked with, and the contact call.",
@@ -124,12 +124,12 @@ export const projects: Project[] = [
     },
     shots: [
       {
-        src: "/shots/vox/g-demos.webp",
+        src: "/shots/leonie-dubuc/g-demos.webp",
         alt: "Demos page with playable voice-over samples",
         caption: "Demos, with playable samples",
       },
       {
-        src: "/shots/vox/g-credits.webp",
+        src: "/shots/leonie-dubuc/g-credits.webp",
         alt: "Credits page listing dubbing and voice-over filmography",
         caption: "Credits filmography",
       },
