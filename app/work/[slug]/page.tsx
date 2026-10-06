@@ -5,6 +5,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import { CaseArrival } from "@/components/work/CaseArrival";
 import { CaseGallery } from "@/components/work/CaseGallery";
+import { CaseTrailer } from "@/components/work/CaseTrailer";
 import {
   projects,
   type Capability,
@@ -134,6 +135,14 @@ export default async function CaseStudyPage({ params }: Params) {
 
       <div className="rise rise-2">
         <div className="cs-hero">
+          {project.trailer ? (
+            <CaseTrailer
+              slug={project.slug}
+              title={project.title}
+              description={project.trailer.description}
+              duration={project.trailer.duration}
+            />
+          ) : null}
           <CaseGallery
             title={project.title}
             shots={project.shots}

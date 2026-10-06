@@ -363,7 +363,7 @@ footer {
   position: fixed;
   inset: 0;
   z-index: 240;
-  background: #000;
+  background: var(--bg);
   pointer-events: none;
   -webkit-mask-image: radial-gradient(
     circle at var(--ap-x, 50%) var(--ap-y, 50%),
@@ -475,7 +475,7 @@ footer {
 .portal-mask {
   position: absolute;
   inset: 0;
-  background: #000;
+  background: var(--bg);
   -webkit-mask-image: radial-gradient(
     circle at 50% 50%,
     transparent var(--ap),
@@ -1290,6 +1290,102 @@ footer {
 }
 .cs-hero {
   margin-top: 50px;
+}
+.cs-hero > * + * {
+  margin-top: 44px;
+}
+
+/* Case-study trailer: the title-card poster with one play control (in the
+   corner, clear of every title card's centred wordmark), swapped
+   for the native player on click. Shares the gallery's frame and caption bar
+   so the two read as one hero. Trailers are cut at 16/9. */
+.ct {
+  margin: 0;
+}
+.ct-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: var(--bg);
+}
+.ct-poster {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.ct-img {
+  object-fit: cover;
+  transition: transform 0.8s var(--ease);
+}
+.ct-poster:hover .ct-img {
+  transform: scale(1.015);
+}
+.ct-play {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(8, 9, 12, 0.72);
+  color: #fff;
+  transition: background 0.3s, border-color 0.3s, color 0.3s,
+    transform 0.4s var(--ease);
+}
+.ct-play svg {
+  margin-left: 3px; /* optical centre of the triangle */
+}
+.ct-poster:hover .ct-play {
+  background: rgba(8, 9, 12, 0.9);
+  border-color: rgba(var(--accent-rgb), 0.7);
+  color: var(--accent);
+  transform: scale(1.06);
+}
+.ct-poster:focus-visible {
+  outline: none;
+}
+.ct-poster:focus-visible .ct-play {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.ct-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--bg);
+}
+@media (max-width: 760px) {
+  .ct-play {
+    left: 14px;
+    bottom: 14px;
+    width: 52px;
+    height: 52px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ct-img,
+  .ct-play {
+    transition: none;
+  }
+  .ct-poster:hover .ct-img {
+    transform: none;
+  }
+  .ct-poster:hover .ct-play {
+    transform: none;
+  }
 }
 
 /* Case-study gallery: captioned screenshots the reader pages through.

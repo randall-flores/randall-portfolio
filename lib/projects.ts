@@ -41,6 +41,9 @@ export type Project = {
   category: string; // mono category line, e.g. "AI Product · Full-Stack"
   mediaCaption: string; // small caption inside the card visual
   status?: ProjectStatus; // dot marker on the visual (omit for none)
+  // Case-study trailer. Assets are always /trailers/{slug}.mp4 + {slug}.webp
+  // (the poster); this carries only what a screen reader and the caption need.
+  trailer?: { description: string; duration: string };
   // Case-study gallery slides. The card still is always
   // /shots/{slug}/card-d.webp + card-m.webp and needs no per-project config.
   shots: Shot[];
@@ -72,6 +75,11 @@ export const projects: Project[] = [
       "Flight search with live fares. SerpApi supplies the results, Claude explains each fare's trade-offs and flags likely mistake fares.",
     category: "AI Product · Full-Stack · API Integration",
     mediaCaption: "FareWise — Live fare results",
+    trailer: {
+      description:
+        "a $360 Miami to Berlin fare that hides two separate tickets and a London airport change, FareWise flagging the catch, and the plain-language read of each fare.",
+      duration: "0:21",
+    },
     shots: [
       {
         src: "/shots/farewise/g-results.webp",
@@ -109,6 +117,11 @@ export const projects: Project[] = [
       "Production site for a German voice-over actress. A custom liquid-glass design system, magnetic interactions, bilingual routing, and German legal compliance pages.",
     category: "Client · Design System · EN/DE",
     mediaCaption: "Vox — Production site",
+    trailer: {
+      description:
+        "the voice reel player, the German dubbing roles, the audio samples, the studios she has worked with, and the contact call.",
+      duration: "0:21",
+    },
     shots: [
       {
         src: "/shots/vox/g-demos.webp",
@@ -149,6 +162,11 @@ export const projects: Project[] = [
       "A drop-based streetwear brand built end to end on headless Shopify and Printify, with AI-generated art driving the visual identity.",
     category: "Brand · Headless Commerce · Design",
     mediaCaption: "Hollow Ronin — Drop store",
+    trailer: {
+      description:
+        "the drop landing page, the four shirt designs, the shirt catalogue, and the countdown to Drop 001 going live.",
+      duration: "0:20",
+    },
     shots: [
       {
         src: "/shots/hollow-ronin/g-shop.webp",
@@ -194,6 +212,11 @@ export const projects: Project[] = [
       "A hand-curated product discovery feed. A weekly drop and a daily rotation across seven categories, built on Next.js and Supabase.",
     category: "Full-Stack · Product Feed · Design",
     mediaCaption: "Adrift — Discovery feed",
+    trailer: {
+      description:
+        "the mobile feed of products spotted in ads, double-tap to save, and the 230-item catalogue across seven categories.",
+      duration: "0:21",
+    },
     shots: [
       {
         src: "/shots/adrift/g-find.webp",
@@ -232,6 +255,11 @@ export const projects: Project[] = [
     category: "Full-Stack · Auth · i18n",
     mediaCaption: "Sana — Anonymized",
     status: "anonymized",
+    trailer: {
+      description:
+        "the daily pain check-in with its body map, the plain-language recovery summary, and the same check-in in Spanish.",
+      duration: "0:22",
+    },
     shots: [
       {
         src: "/shots/sana/g-es-hero.webp",
@@ -275,6 +303,11 @@ export const projects: Project[] = [
     category: "Internal · Workflow · Document Automation",
     mediaCaption: "Internal tool — Confidential",
     status: "confidential",
+    trailer: {
+      description:
+        "dummy case notes parsed into a client record, treatment dates read from medical records, and the merged cover letter, HIPAA and certification PDF.",
+      duration: "0:21",
+    },
     shots: [
       {
         src: "/shots/caseflow/g-treatment.webp",
