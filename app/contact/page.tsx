@@ -21,7 +21,7 @@ export default function ContactPage() {
           above the fold, so entrances are CSS (.rise), never JS-gated. */}
       <div className="rise">
         <h1 className="ct-title">
-          Tell me what you&apos;re <em>building.</em>
+          Tell me what you&apos;re building.
         </h1>
       </div>
 

@@ -98,7 +98,7 @@ export function renderOgImage({
             color: MUTED,
           }}
         >
-          Randall Flores · Costa Rica
+          Randall Flores, Costa Rica
         </div>
       </div>
     ),

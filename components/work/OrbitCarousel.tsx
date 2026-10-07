@@ -197,7 +197,7 @@ export function OrbitCarousel() {
     current.status === "confidential"
       ? "Confidential"
       : current.status === "anonymized"
-        ? "Anonymized"
+        ? "Anonymized screens"
         : null;
 
   return (
@@ -220,7 +220,7 @@ export function OrbitCarousel() {
                 cardRefs.current[i] = el;
               }}
               className={`orbit-card${i === active ? " is-active" : ""}`}
-              aria-label={`${p.title} — ${p.category}. Open case study.`}
+              aria-label={`${p.title}, ${p.category}. Open case study.`}
               aria-hidden={!wide && i !== active}
               tabIndex={!wide && i !== active ? -1 : 0}
               onFocus={() => goTo(i)}
@@ -248,22 +248,9 @@ export function OrbitCarousel() {
         <h3 key={current.slug} className="orbit-title">
           {current.title}
         </h3>
-        <p key={`${current.slug}-m`} className="orbit-meta font-mono">
-          {current.category}
-          <span aria-hidden="true"> · </span>
-          {current.live ? (
-            <>
-              <i className="orbit-dot" aria-hidden="true" />
-              Live<span aria-hidden="true"> · </span>
-            </>
-          ) : null}
-          {flag ? (
-            <>
-              {flag}
-              <span aria-hidden="true"> · </span>
-            </>
-          ) : null}
-          {current.year}
+        <p key={`${current.slug}-m`} className="orbit-meta">
+          {current.category}, {current.year}
+          {flag ? `. ${flag}` : null}
         </p>
       </div>
 
@@ -300,8 +287,8 @@ export function OrbitCarousel() {
           <li key={p.slug}>
             <a href={`/work/${p.slug}`}>
               <span className="orbit-fallback-title">{p.title}</span>
-              <span className="font-mono">
-                {p.category} · {p.year}
+              <span>
+                {p.category}, {p.year}
               </span>
             </a>
           </li>

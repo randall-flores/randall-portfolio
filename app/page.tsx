@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/Reveal";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { OrbitCarousel } from "@/components/work/OrbitCarousel";
-import { projects } from "@/lib/projects";
 
 const description =
   "Portfolio of Randall Flores, a full-stack developer in Costa Rica working in English and Spanish. AI products, client sites, storefronts, and internal tools.";
@@ -22,9 +21,8 @@ export default function Home() {
             a JS-gated reveal here would hold the hero at opacity 0 until
             hydration and wreck LCP / Speed Index on slow devices. */}
         <div className="rise">
-          <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
-            Full-stack developer · Bilingual EN/ES · San José, CR ·{" "}
-            <b className="font-medium text-accent">Open to remote</b>
+          <p className="text-[17px] italic text-muted">
+            Full-stack developer in San José, Costa Rica. Open to remote work.
           </p>
         </div>
 
@@ -36,8 +34,7 @@ export default function Home() {
         <div className="rise rise-1">
           <div className="hero-sub">
             <h2 className="h-head">
-              I build the whole product,{" "}
-              <em>not the front of it.</em>
+              I build whole products and hand them over.
             </h2>
 
             <p className="h-lead">
@@ -68,9 +65,6 @@ export default function Home() {
           <Reveal>
             <div className="sec-head">
               <h2>Selected work</h2>
-              <p className="font-mono text-xs uppercase tracking-[0.08em] text-muted">
-                {projects.length} projects · 2025—2026
-              </p>
             </div>
           </Reveal>
           {/* The carousel is the front door. /work keeps the scannable list. */}

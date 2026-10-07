@@ -8,15 +8,18 @@ import { projects, type Capability } from "@/lib/projects";
 
 // Sticky capability filter + the editorial project spread. Client-side because
 // the filter holds state and drives the live count and reflow. Scroll reveal
-// reuses <Reveal>; hovering a card scales the media up and reveals a
-// "View case" label in the media corner. Featured project (FareWise)
-// renders first, full-width.
+// reuses <Reveal>. Featured project (FareWise) renders first, full-width.
 type Filter = "all" | Capability;
+
+const STATUS_LABEL = {
+  anonymized: "Anonymized screens",
+  confidential: "Confidential",
+} as const;
 
 const FILTERS: { value: Filter; label: string }[] = [
   { value: "all", label: "All" },
   { value: "ai", label: "AI" },
-  { value: "fullstack", label: "Full-Stack" },
+  { value: "fullstack", label: "Full-stack" },
   { value: "design", label: "Design" },
   { value: "client", label: "Client" },
 ];
@@ -51,7 +54,7 @@ export function WorkList() {
               ))}
             </div>
             <p className="fcount" aria-live="polite">
-              <b>{visible.length}</b> / {projects.length} projects
+              {visible.length} of {projects.length}
             </p>
           </div>
         </div>
@@ -86,43 +89,36 @@ export function WorkList() {
                             : "p-visual"
                         }
                       >
-                        <CardStill slug={p.slug} />
-                        <span className="p-view" aria-hidden="true">
-                          View case
-                        </span>
-                        <div className="p-cap">
-                          {p.status ? (
-                            <span
-                              className={`sdot ${p.status === "live" ? "live" : "muted"}`}
-                              aria-hidden="true"
-                            />
-                          ) : null}
-                          {p.mediaCaption}
-                        </div>
+                        <CardStill
+                          slug={p.slug}
+                          sizes={
+                            p.featured
+                              ? "(max-width: 767px) 92vw, 1220px"
+                              : undefined
+                          }
+                        />
+                        {/* Only the client-data guardrail earns a caption.
+                            The title sits right under the image, so a
+                            "Name: what it is" label just repeated it. */}
+                        {p.status === "anonymized" ||
+                        p.status === "confidential" ? (
+                          <p className="p-cap">{STATUS_LABEL[p.status]}</p>
+                        ) : null}
                       </div>
                     </div>
 
                     <div className="p-info">
-                      {/* The year, not an index. A numbered marker promises
-                          the order carries meaning a reader needs, and this
-                          list is not a sequence — "01" only said FareWise is
-                          first in an array. Recency is what someone actually
-                          scans a portfolio index for. */}
-                      <div className="p-num">
-                        {p.year}
-                        {p.featured ? " · Featured" : ""}
-                      </div>
                       <h2 className="p-title">{p.title}</h2>
-                      <p className="p-cat">{p.category}</p>
+                      {/* The year rides on the category line instead of
+                          sitting above the title as its own label. */}
+                      <p className="p-cat">
+                        {p.category}, {p.year}
+                      </p>
                       <p className="p-desc">{p.description}</p>
-                      <div className="chips">
-                        {p.stack.map((s) => (
-                          <span key={s} className="chip">
-                            {s}
-                          </span>
-                        ))}
-                      </div>
-                      <span className="p-link">View case</span>
+                      <p className="p-stack">{p.stack.join(", ")}</p>
+                      <span className="p-link">
+                        <span className="ulink">View case</span>
+                      </span>
                     </div>
                   </Link>
                 </Reveal>

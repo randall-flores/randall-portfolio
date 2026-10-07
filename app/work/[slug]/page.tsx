@@ -8,20 +8,12 @@ import { CaseGallery } from "@/components/work/CaseGallery";
 import { CaseTrailer } from "@/components/work/CaseTrailer";
 import {
   projects,
-  type Capability,
   type ProjectStatus,
 } from "@/lib/projects";
 
-const CAP_LABELS: Record<Capability, string> = {
-  ai: "AI",
-  fullstack: "Full-Stack",
-  design: "Design",
-  client: "Client",
-};
-
 const STATUS_LABELS: Record<ProjectStatus, string> = {
   live: "Live",
-  anonymized: "Anonymized",
+  anonymized: "Anonymized screens",
   confidential: "Confidential",
 };
 
@@ -86,9 +78,6 @@ export default async function CaseStudyPage({ params }: Params) {
 
       <div className="rise rise-1">
         <header className="cs-head">
-          {/* The year, not an index. See the note in WorkList: a numbered
-              marker claims the order means something, and it does not. */}
-          <p className="cs-num">{project.year}</p>
           <h1 className="cs-title">{project.title}</h1>
           <p className="cs-tagline">{project.tagline}</p>
 
@@ -96,16 +85,9 @@ export default async function CaseStudyPage({ params }: Params) {
             {/* Caseflow gets one combined note instead of the status pill so
                 "Confidential" doesn't render twice in the same row. */}
             {project.slug === "caseflow" ? (
-              <span className="cs-status">
-                <span className="sdot muted" aria-hidden="true" />
-                Internal tool · Confidential
-              </span>
+              <span className="cs-status">Internal tool, confidential</span>
             ) : project.status ? (
               <span className="cs-status">
-                <span
-                  className={`sdot ${project.status === "live" ? "live" : "muted"}`}
-                  aria-hidden="true"
-                />
                 {STATUS_LABELS[project.status]}
               </span>
             ) : null}
@@ -163,21 +145,7 @@ export default async function CaseStudyPage({ params }: Params) {
           </div>
           <div>
             <dt className="label">Stack</dt>
-            <dd className="val">
-              <div className="chips">
-                {project.stack.map((s) => (
-                  <span key={s} className="chip">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </dd>
-          </div>
-          <div>
-            <dt className="label">Capabilities</dt>
-            <dd className="val">
-              {project.capabilities.map((c) => CAP_LABELS[c]).join(", ")}
-            </dd>
+            <dd className="val">{project.stack.join(", ")}</dd>
           </div>
         </dl>
       </Reveal>

@@ -38,9 +38,8 @@ export type Project = {
   tags: string[]; // short display tags (the case study carries the full stack)
   // /work page display fields
   description: string; // one-to-two sentence card blurb
-  category: string; // mono category line, e.g. "AI Product · Full-Stack"
-  mediaCaption: string; // small caption inside the card visual
-  status?: ProjectStatus; // dot marker on the visual (omit for none)
+  category: string; // italic category line, comma-separated, e.g. "AI product, full-stack"
+  status?: ProjectStatus; // anonymized/confidential show a flag on the card (guardrail)
   // Case-study trailer. Assets are always /trailers/{slug}.mp4 + {slug}.webp
   // (the poster); this carries only what a screen reader and the caption need.
   trailer?: { description: string; duration: string };
@@ -63,9 +62,9 @@ export const projects: Project[] = [
     problem:
       "A fare list ranks prices. The reasons a cheap fare is cheap — two stops each way, an overnight arrival, a price so low the airline may cancel it — sit in the fine print, and that is where bad bookings happen.",
     whatIBuilt:
-      "A round-trip search backed by live SerpApi fare data. Claude reads the results and writes the honest read: what each fare trades away, whether the price is typical for the route, and a warning when a fare looks like a mistake the airline can cancel.",
+      "A round-trip search backed by live SerpApi fare data. Claude reads the results and writes a plain-language read: what each fare trades away, whether the price is typical for the route, and a warning when a fare looks like a mistake the airline can cancel.",
     outcomes:
-      "Two live integrations rather than mocked data: SerpApi returns the fares, Claude writes the read on each one. The route summary states the typical price range, and suspiciously low fares carry an explicit mistake-fare warning.",
+      "SerpApi returns live fares and Claude writes the read on each one. The route summary states the typical price range, and suspiciously low fares carry an explicit mistake-fare warning.",
     links: { repo: "https://github.com/randall-flores/farewise" },
     visibility: "public",
     featured: true,
@@ -73,8 +72,7 @@ export const projects: Project[] = [
     tags: ["AI Product", "Claude API", "SerpApi"],
     description:
       "Flight search with live fares. SerpApi supplies the results, Claude explains each fare's trade-offs and flags likely mistake fares.",
-    category: "AI Product · Full-Stack · API Integration",
-    mediaCaption: "FareWise — Live fare results",
+    category: "AI product, full-stack, API integration",
     trailer: {
       description:
         "a $360 Miami to Berlin fare that hides two separate tickets and a London airport change, FareWise flagging the catch, and the plain-language read of each fare.",
@@ -115,8 +113,7 @@ export const projects: Project[] = [
     tags: ["Voice-over", "Design System", "EN/DE"],
     description:
       "Production site for a German voice-over actress. A custom liquid-glass design system, magnetic interactions, bilingual routing, and German legal compliance pages.",
-    category: "Client · Design System · EN/DE",
-    mediaCaption: "Leonie Dubuc — Production site",
+    category: "Client site, design system, EN/DE",
     trailer: {
       description:
         "the voice reel player, the German dubbing roles, the audio samples, the studios she has worked with, and the contact call.",
@@ -150,7 +147,7 @@ export const projects: Project[] = [
     whatIBuilt:
       "A headless Shopify storefront with Printify handling fulfillment, the full brand identity, and an art pipeline where Midjourney and Adobe Firefly generate and refine the artwork behind each drop.",
     outcomes:
-      "A live store built end to end: headless Shopify wired to Printify for fulfillment, a coherent brand, and Midjourney and Firefly generating the artwork behind each drop.",
+      "The store is live with Drop 001 lined up. An order placed at the Shopify checkout goes straight to Printify for printing and shipping, with no manual step in between.",
     links: {
       live: "https://hollowronin.com",
       repo: "https://github.com/randall-flores/hollow-ronin",
@@ -160,8 +157,7 @@ export const projects: Project[] = [
     tags: ["Headless Shopify", "Printify", "Brand"],
     description:
       "A drop-based streetwear brand built end to end on headless Shopify and Printify, with AI-generated art driving the visual identity.",
-    category: "Brand · Headless Commerce · Design",
-    mediaCaption: "Hollow Ronin — Drop store",
+    category: "Brand, headless commerce, design",
     trailer: {
       description:
         "the drop landing page, the four shirt designs, the shirt catalogue, and the countdown to Drop 001 going live.",
@@ -210,8 +206,7 @@ export const projects: Project[] = [
     tags: ["Product Feed", "Supabase", "Curation"],
     description:
       "A hand-curated product discovery feed. A weekly drop and a daily rotation across seven categories, built on Next.js and Supabase.",
-    category: "Full-Stack · Product Feed · Design",
-    mediaCaption: "Adrift — Discovery feed",
+    category: "Full-stack, product feed, design",
     trailer: {
       description:
         "the mobile feed of products spotted in ads, double-tap to save, and the 230-item catalogue across seven categories.",
@@ -234,7 +229,7 @@ export const projects: Project[] = [
     slug: "sana",
     title: "Sana",
     tagline:
-      "A bilingual personal-injury companion app. Full-stack, auth, internationalized.",
+      "A bilingual companion app for personal-injury clients, with Supabase auth and full EN/ES parity.",
     capabilities: ["fullstack"],
     stack: ["Next.js", "Tailwind", "shadcn/ui", "next-intl", "Supabase (RLS)"],
     role: "Full-stack design and build.",
@@ -252,8 +247,7 @@ export const projects: Project[] = [
     tags: ["Full-stack", "Supabase RLS", "next-intl"],
     description:
       "A bilingual personal-injury companion app. Next.js front to back, Supabase auth with row-level security, and next-intl for EN/ES. Screens anonymized.",
-    category: "Full-Stack · Auth · i18n",
-    mediaCaption: "Sana — Anonymized",
+    category: "Full-stack, auth, bilingual EN/ES",
     status: "anonymized",
     trailer: {
       description:
@@ -300,8 +294,7 @@ export const projects: Project[] = [
     tags: ["Internal", "Doc Automation", "Confidential"],
     description:
       "Case management and records-request automation for a law firm. Generates the document packets and removes the repeated data entry from the workflow. Fully anonymized.",
-    category: "Internal · Workflow · Document Automation",
-    mediaCaption: "Internal tool — Confidential",
+    category: "Internal tool, workflow, document automation",
     status: "confidential",
     trailer: {
       description:

@@ -13,12 +13,6 @@ export const metadata: Metadata = {
   twitter: { title: "About", description },
 };
 
-const facts = [
-  { label: "Location", value: "San José, Costa Rica" },
-  { label: "Languages", value: "English · Spanish" },
-  { label: "Focus", value: "Full-stack" },
-];
-
 export default function AboutPage() {
   return (
     <main id="main" className="ab wrap">
@@ -40,7 +34,7 @@ export default function AboutPage() {
               I&apos;m Randall, a full-stack developer in Costa Rica, working in
               English and Spanish. I spent about ten years in legal and
               operations work before I wrote code for a living, which is why two
-              of the five projects here are tools for legal workflows.
+              of the six projects here are tools for legal workflows.
             </p>
 
             <div className="ab-prose">
@@ -84,29 +78,15 @@ export default function AboutPage() {
               sizes="(max-width: 860px) 100vw, 360px"
             />
           </figure>
-
-          <aside className="ab-aside">
-            <dl className="ab-facts">
-              {facts.map((f) => (
-                <div key={f.label}>
-                  <dt>{f.label}</dt>
-                  <dd>{f.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </aside>
         </div>
       </div>
 
       <Reveal>
         <section className="ab-look" aria-label="What I'm looking for">
-          <div>
-            <p className="k">What I&apos;m looking for</p>
-            <p className="t">
-              Remote full-stack roles and freelance projects where I own the{" "}
-              <em>whole build.</em>
-            </p>
-          </div>
+          <p className="t">
+            Remote full-stack roles and freelance projects where I own the
+            whole build.
+          </p>
           <Button href="/contact">
             Get in touch
           </Button>
