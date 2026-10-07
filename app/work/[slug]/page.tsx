@@ -6,20 +6,11 @@ import { Button } from "@/components/ui/button";
 import { CaseArrival } from "@/components/work/CaseArrival";
 import { CaseGallery } from "@/components/work/CaseGallery";
 import { CaseTrailer } from "@/components/work/CaseTrailer";
-import {
-  projects,
-  type ProjectStatus,
-} from "@/lib/projects";
-
-const STATUS_LABELS: Record<ProjectStatus, string> = {
-  live: "Live",
-  anonymized: "Anonymized screens",
-  confidential: "Confidential",
-};
+import { projects, VISIBILITY_LABEL } from "@/lib/projects";
 
 // Confidential note copy. Generic by design — no firm name, client names, or
 // case details anywhere (CLAUDE.md client-data guardrail).
-const CONFIDENTIAL_NOTE: Record<string, string> = {
+const CONFIDENTIAL_NOTE: Record<keyof typeof VISIBILITY_LABEL, string> = {
   anonymized:
     "Every screen referenced here is anonymized and uses dummy content. No real client, case, or personal data appears anywhere in this case study.",
   confidential:
@@ -58,7 +49,7 @@ export default async function CaseStudyPage({ params }: Params) {
   const prev = projects[(index - 1 + projects.length) % projects.length];
   const next = projects[(index + 1) % projects.length];
 
-  const confidential = project.visibility === "confidential";
+  const guarded = project.visibility === "public" ? null : project.visibility;
   // The data decides what is linkable: a confidential project simply has no
   // links it shouldn't. Sana's repo is public (audited — dummy data only)
   // while its screens stay anonymized, so the guard can't live here.
@@ -86,10 +77,8 @@ export default async function CaseStudyPage({ params }: Params) {
                 "Confidential" doesn't render twice in the same row. */}
             {project.slug === "caseflow" ? (
               <span className="cs-status">Internal tool, confidential</span>
-            ) : project.status ? (
-              <span className="cs-status">
-                {STATUS_LABELS[project.status]}
-              </span>
+            ) : guarded ? (
+              <span className="cs-status">{VISIBILITY_LABEL[guarded]}</span>
             ) : null}
 
             {liveUrl ? (
@@ -162,8 +151,8 @@ export default async function CaseStudyPage({ params }: Params) {
           <section className="cs-section">
             <h2>What I built</h2>
             <p>{project.whatIBuilt}</p>
-            {confidential && project.status ? (
-              <p className="cs-note">{CONFIDENTIAL_NOTE[project.status]}</p>
+            {guarded ? (
+              <p className="cs-note">{CONFIDENTIAL_NOTE[guarded]}</p>
             ) : null}
           </section>
         </Reveal>

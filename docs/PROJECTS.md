@@ -19,8 +19,10 @@ The fields worth thinking about rather than filling in mechanically:
 - **`featured`** — puts the project first and full-width. One project at a time.
 - **`capabilities`** — drives the `/work` filters: `ai`, `fullstack`, `design`,
   `client`. Only claim what the project actually demonstrates.
-- **`visibility`** — `public` or `confidential`. This is a guardrail, not a
-  label; see below.
+- **`visibility`** — `public`, `anonymized` or `confidential`. This is a
+  guardrail, not a label; see below. Anything but `public` shows its flag
+  ("Anonymized screens" / "Confidential", from `VISIBILITY_LABEL`) on the card,
+  the carousel and the case study.
 - **`problem` / `whatIBuilt` / `outcomes`** — the case-study body. Write these
   as what was actually true, not as marketing. The problem statement is the part
   people read.
@@ -32,8 +34,8 @@ The fields worth thinking about rather than filling in mechanically:
 
 ## Client-data guardrail
 
-`sana` and `caseflow` are `confidential`. Real personal-injury and law-firm
-work sits behind them.
+`sana` is `anonymized` and `caseflow` is `confidential`. Real personal-injury
+and law-firm work sits behind them.
 
 - Anonymized screenshots and dummy content only. Never real case data, client
   names, or firm details.

@@ -1,14 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { EMAIL } from "@/lib/social";
 
 // Email as a real mailto link (works for anyone with a mail client) that ALSO
 // copies the address on click for everyone else. We don't preventDefault, so
 // both behaviors run: the browser attempts the mailto, the clipboard copy
 // fires, and a polite aria-live note confirms it. The address stays visible
 // text so it can always be selected manually.
-const EMAIL = "randall.floresespinoza@gmail.com";
-
 export function EmailCopy() {
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);

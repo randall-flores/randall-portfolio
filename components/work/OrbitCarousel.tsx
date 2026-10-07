@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { projects } from "@/lib/projects";
+import { projects, VISIBILITY_LABEL } from "@/lib/projects";
 
 // The home page's work index: five project stills on a ring you turn. The card
 // is the image and nothing else — the name sits under the ring, so the work is
@@ -194,11 +194,9 @@ export function OrbitCarousel() {
 
   const current = projects[active];
   const flag =
-    current.status === "confidential"
-      ? "Confidential"
-      : current.status === "anonymized"
-        ? "Anonymized screens"
-        : null;
+    current.visibility === "public"
+      ? null
+      : VISIBILITY_LABEL[current.visibility];
 
   return (
     <div

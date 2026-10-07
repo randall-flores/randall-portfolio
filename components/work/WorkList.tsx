@@ -4,17 +4,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { CardStill } from "@/components/work/CardStill";
-import { projects, type Capability } from "@/lib/projects";
+import {
+  projects,
+  VISIBILITY_LABEL,
+  type Capability,
+} from "@/lib/projects";
 
 // Sticky capability filter + the editorial project spread. Client-side because
 // the filter holds state and drives the live count and reflow. Scroll reveal
 // reuses <Reveal>. Featured project (FareWise) renders first, full-width.
 type Filter = "all" | Capability;
-
-const STATUS_LABEL = {
-  anonymized: "Anonymized screens",
-  confidential: "Confidential",
-} as const;
 
 const FILTERS: { value: Filter; label: string }[] = [
   { value: "all", label: "All" },
@@ -100,9 +99,10 @@ export function WorkList() {
                         {/* Only the client-data guardrail earns a caption.
                             The title sits right under the image, so a
                             "Name: what it is" label just repeated it. */}
-                        {p.status === "anonymized" ||
-                        p.status === "confidential" ? (
-                          <p className="p-cap">{STATUS_LABEL[p.status]}</p>
+                        {p.visibility !== "public" ? (
+                          <p className="p-cap">
+                            {VISIBILITY_LABEL[p.visibility]}
+                          </p>
                         ) : null}
                       </div>
                     </div>

@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
 
 // Two variants, per docs/DESIGN-SYSTEM.md:
 //   primary — silver fill, near-black text, a squared 3px corner
@@ -8,36 +6,30 @@ import { cn } from "@/lib/utils";
 // Sentence-case Newsreader label. The old uppercase pill pair (filled + outlined)
 // was the stock SaaS button kit; one filled action and one plain link is how
 // the page reads now. The global text-shadow keeps the link legible over the field.
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2.5 font-body text-[17px] font-medium transition-[color,background-color,border-color,transform,filter] duration-300 ease-brand",
-  {
-    variants: {
-      variant: {
-        // dark label on a light fill: the global body text-shadow would muddy it
-        primary:
-          "rounded-[3px] border border-accent-btn bg-accent-btn px-6 py-[13px] text-bg [text-shadow:none] hover:brightness-110",
-        ghost: "px-1 py-[13px] text-fg hover:text-accent",
-      },
-    },
-    defaultVariants: { variant: "primary" },
-  },
-);
+const BASE =
+  "inline-flex items-center justify-center gap-2.5 font-body text-[17px] font-medium transition-[color,background-color,border-color,transform,filter] duration-300 ease-brand";
 
-type ButtonProps = VariantProps<typeof buttonVariants> & {
+const VARIANTS = {
+  // dark label on a light fill: the global body text-shadow would muddy it
+  primary:
+    "rounded-[3px] border border-accent-btn bg-accent-btn px-6 py-[13px] text-bg [text-shadow:none] hover:brightness-110",
+  ghost: "px-1 py-[13px] text-fg hover:text-accent",
+};
+
+type ButtonProps = {
+  variant?: keyof typeof VARIANTS;
   children: React.ReactNode;
-  className?: string;
   href?: string;
   ariaLabel?: string;
 };
 
 export function Button({
-  variant,
-  className,
+  variant = "primary",
   children,
   href,
   ariaLabel,
 }: ButtonProps) {
-  const cls = cn(buttonVariants({ variant }), className);
+  const cls = `${BASE} ${VARIANTS[variant]}`;
   // The ghost variant's underline sits under the words, not the padded box.
   const label =
     variant === "ghost" ? <span className="ulink">{children}</span> : children;
@@ -71,4 +63,3 @@ export function Button({
   );
 }
 
-export { buttonVariants };

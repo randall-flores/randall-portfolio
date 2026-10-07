@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { fontVariables } from "@/lib/fonts";
 import { SITE_URL, SITE_NAME, SITE_TITLE, SITE_DESCRIPTION } from "@/lib/site";
-import { Grain } from "@/components/layout/Grain";
 import { FieldMount } from "@/components/motion/FieldMount";
 import { Portal } from "@/components/motion/Portal";
 import { Nav } from "@/components/layout/Nav";
@@ -53,7 +52,8 @@ export default function RootLayout({
             paint, not arrive after hydration. */}
         <Portal />
         <FieldMount />
-        <Grain />
+        {/* Film grain over the field: cosmetic, pointer-events none. */}
+        <div className="grain" aria-hidden="true" />
         <Nav />
         <SmoothScroll>
           {children}
