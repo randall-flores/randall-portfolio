@@ -32,7 +32,7 @@
 }
 
 /* Map tokens into Tailwind so utilities (bg-bg, text-fg, text-accent,
-   border-line, font-display, font-mono, …) resolve to the tokens.      */
+   border-line, font-display, font-body, …) resolve to the tokens.      */
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-2: var(--bg-2);
@@ -45,8 +45,7 @@
   --color-accent-btn: var(--accent-btn);
 
   --font-display: var(--font-bodoni), Didot, Georgia, serif;
-  --font-body: var(--font-karla), system-ui, sans-serif;
-  --font-mono: var(--font-fragment), ui-monospace, monospace;
+  --font-body: var(--font-news), Georgia, serif;
 
   --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -67,8 +66,10 @@ html {
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-karla), system-ui, sans-serif;
-  line-height: 1.5;
+  font-family: var(--font-news), Georgia, serif;
+  font-size: 18px;
+  line-height: 1.55;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
@@ -141,17 +142,23 @@ footer {
   position: relative;
   z-index: 4;
 }
+/* The scrim is painted with border-image + a 100vw outset so it runs edge to
+   edge even when <main> is also a .wrap (about, contact, case studies). As a
+   plain background it stopped at the 1280px column and its edges showed as a
+   pale rectangle over the field. */
 main {
-  background: linear-gradient(
-    180deg,
-    transparent 0,
-    transparent 62vh,
-    rgba(var(--bg-rgb), 0.22) 118vh
-  );
+  border-image: linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 62vh,
+      rgba(var(--bg-rgb), 0.22) 118vh
+    )
+    fill 0 / / 0 100vw;
 }
 footer {
-  /* no fill and no rule — the field's own scroll-dimming carries it */
-  background: none;
+  /* Continues the scrim's end value so there is no step where <main> stops.
+     No rule — the field's own scroll-dimming carries the rest. */
+  background: rgba(var(--bg-rgb), 0.22);
 }
 
 /* Link underline that grows on hover instead of sitting there permanently. */
@@ -265,15 +272,12 @@ footer {
   background: rgba(233, 235, 239, 0.05);
   /* No backdrop-filter. A blurred backdrop inside a preserve-3d subtree makes
      Chrome re-layerise every frame and flash the page black. */
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 30px 70px rgba(0, 0, 0, 0.45);
+  /* Depth from one soft offset shadow. No hairline on top of it. */
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
   transition: box-shadow 0.4s var(--ease);
 }
 .orbit-card.is-active {
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-    0 40px 90px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
 }
 .orbit-img {
   object-fit: cover;
@@ -306,9 +310,9 @@ footer {
 }
 .orbit-meta {
   margin: 12px 0 0;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
   color: var(--muted);
   animation: orbit-swap 0.4s var(--ease) 0.04s both;
 }
@@ -321,14 +325,6 @@ footer {
     opacity: 1;
     transform: none;
   }
-}
-.orbit-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  display: inline-block;
-  margin-right: 7px;
 }
 
 /* ---- controls: two arrows and the action, nothing else ---- */
@@ -500,10 +496,12 @@ footer {
   height: 120px;
   margin: -60px 0 0 -60px;
   border-radius: 50%;
-  border: 1px solid rgba(230, 240, 255, 0.9);
+  /* Silver, the one accent. It was a blue-white halo, the only chromatic glow
+     on the site and off-palette for it. */
+  border: 1px solid rgba(var(--accent-rgb), 0.9);
   box-shadow:
-    0 0 40px 6px rgba(180, 210, 255, 0.45),
-    inset 0 0 24px 4px rgba(180, 210, 255, 0.3);
+    0 0 40px 6px rgba(var(--accent-rgb), 0.35),
+    inset 0 0 24px 4px rgba(var(--accent-rgb), 0.22);
   opacity: 0;
   transform: scale(0.04);
   will-change: transform, opacity;
@@ -621,11 +619,9 @@ footer {
   padding: 12px 18px;
   background: var(--accent-btn);
   color: var(--bg);
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
+  font-family: var(--font-news), Georgia, serif;
+  font-size: 15px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   border-radius: 2px;
   text-shadow: none; /* dark label on a light fill */
   transition: transform 0.2s var(--ease);
@@ -712,16 +708,10 @@ footer {
 }
 
 .t-lead {
-  font-size: clamp(16px, 2vw, 19px);
+  font-size: clamp(18px, 2vw, 21px);
   line-height: 1.55;
 }
 
-.t-mono {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
 
 /* ------------------------------------------------------------------ */
 /*  Film-grain overlay (rendered by <Grain />)                         */
@@ -736,18 +726,6 @@ footer {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Pulsing status dot in the Nav. */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.5);
-  }
-  70% {
-    box-shadow: 0 0 0 7px rgba(var(--accent-rgb), 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0);
-  }
-}
 
 /* ------------------------------------------------------------------ */
 /*  Hero sub-grid — positioning line + CTAs left, lead right.          */
@@ -765,29 +743,15 @@ footer {
   font-weight: 600;
   letter-spacing: -0.02em;
   font-size: clamp(22px, 3vw, 34px);
-  line-height: 1.05;
+  line-height: 1.12;
   max-width: 18ch;
   text-wrap: balance;
 }
-.hero-sub .h-head em {
-  color: var(--accent);
-  font-style: italic;
-}
-/* Accent italics use the separate, non-preloaded Fraunces italic instance
-   (lib/fonts.ts). Without this, the normal-only instance would synthesize
-   a fake oblique. */
-.hero-sub .h-head em,
-.phead h1 em,
-.ab-title em,
-.ab-look .t em,
-.ct-title em {
-  font-family: var(--font-bodoni-it), Didot, Georgia, serif;
-}
 .hero-sub .h-lead {
   color: #c8c8c2;
-  font-size: clamp(16px, 2vw, 18px);
-  line-height: 1.55;
-  max-width: 42ch;
+  font-size: clamp(19px, 2vw, 21px);
+  line-height: 1.5;
+  max-width: 40ch;
 }
 .hero-sub .h-cta {
   display: flex;
@@ -901,10 +865,9 @@ footer {
   padding: 150px 0 50px;
 }
 .phead .kick {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
   color: var(--muted);
   margin-bottom: 24px;
 }
@@ -916,25 +879,6 @@ footer {
   line-height: 0.86;
   letter-spacing: -0.02em;
   text-wrap: balance;
-}
-.phead h1 em {
-  font-style: italic;
-  color: var(--accent);
-}
-.phead .range {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 26px;
-  margin-top: 30px;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.phead .range b {
-  color: var(--fg);
-  font-weight: 400;
 }
 
 .filters {
@@ -958,10 +902,8 @@ footer {
   flex-wrap: wrap;
 }
 .fpills button {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-size: 15px;
   background: none;
   border: 0;
   color: var(--muted);
@@ -983,15 +925,11 @@ footer {
   letter-spacing: 0.12em;
 }
 .fcount {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: 0.04em;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--fg);
   white-space: nowrap;
-}
-.fcount b {
-  color: var(--accent);
-  font-weight: 400;
 }
 
 .projects {
@@ -1062,67 +1000,23 @@ footer {
 .p-visual.dark {
   border-color: var(--line);
 }
-/* The screenshots behind these labels are mostly light app UIs now, so both
-   corner labels sit on a dark chip instead of relying on the media being
-   dark. Plain rgba, no backdrop-filter — cheaper and safe anywhere. */
+/* The guardrail flag (Anonymized / Confidential). The screenshots behind it
+   are mostly light app UIs, so it sits on a dark plate rather than relying on
+   the media being dark. Plain rgba, no backdrop-filter. */
 .p-cap {
   position: absolute;
   left: 12px;
   bottom: 12px;
   z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: rgba(8, 9, 12, 0.72);
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-}
-.p-cap .sdot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-}
-.p-cap .sdot.live {
-  background: var(--accent);
-}
-.p-cap .sdot.muted {
-  background: var(--muted);
-}
-/* Hover affordance: a small "View case" label in the media corner. Hidden
-   until the card is hovered (fades and slides up), so touch users rely on the
-   card itself being the link. Decorative: the Link carries the aria-label. */
-.p-view {
-  position: absolute;
-  right: 12px;
-  top: 12px; /* top corner: the bottom-right belongs to the phone overlay */
-  z-index: 3;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: rgba(8, 9, 12, 0.72);
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
-}
-.project:hover .p-view,
-.project:focus-visible .p-view {
-  opacity: 1;
-  transform: none;
-}
-.p-num {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 13px;
-  color: var(--accent);
-  margin-bottom: 14px;
+  margin: 0;
+  padding: 5px 11px 6px;
+  border-radius: 3px;
+  background: rgba(var(--bg-rgb), 0.86);
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--fg);
+  text-shadow: none;
 }
 .p-title {
   font-family: var(--font-bodoni), Didot, Georgia, serif;
@@ -1133,48 +1027,38 @@ footer {
   letter-spacing: -0.02em;
 }
 .p-cat {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
   color: var(--muted);
   margin-top: 14px;
 }
 .p-desc {
   color: #c2c2bc;
-  font-size: clamp(15px, 1.7vw, 17px);
+  font-size: clamp(17px, 1.8vw, 19px);
   margin-top: 18px;
   max-width: 46ch;
   line-height: 1.6;
 }
-.chips {
-  display: flex;
-  gap: 8px 18px;
-  flex-wrap: wrap;
-  margin-top: 22px;
-}
-.chip {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+.p-stack {
+  margin-top: 18px;
+  font-size: 16px;
   color: var(--muted);
 }
 .p-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 28px;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  display: inline-block;
+  margin-top: 26px;
+  font-size: 18px;
   color: var(--fg);
-  padding-bottom: 5px;
   transition: color 0.3s;
 }
 .project:hover .p-link {
   color: var(--accent);
+}
+.project:hover .p-link .ulink::after,
+.project:focus-visible .p-link .ulink::after {
+  transform: scaleX(1);
+  opacity: 0.75;
 }
 @media (max-width: 860px) {
   .project {
@@ -1204,10 +1088,8 @@ footer {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-size: 15px;
   color: var(--muted);
   transition: color 0.25s;
 }
@@ -1216,12 +1098,6 @@ footer {
 }
 .cs-head {
   margin-top: 40px;
-}
-.cs-num {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 13px;
-  color: var(--accent);
-  margin-bottom: 18px;
 }
 .cs-title {
   font-family: var(--font-bodoni), Didot, Georgia, serif;
@@ -1250,31 +1126,17 @@ footer {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
   color: var(--muted);
-}
-.cs-status .sdot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-.cs-status .sdot.live {
-  background: var(--accent);
-}
-.cs-status .sdot.muted {
-  background: var(--muted);
 }
 .cs-act {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-size: 16px;
   color: var(--fg);
   padding-bottom: 4px;
   transition: color 0.3s;
@@ -1421,18 +1283,17 @@ footer {
   padding: 14px 4px 0;
 }
 .cg-cap {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
   color: var(--muted);
   line-height: 1.5;
 }
 .cg-count {
   flex-shrink: 0;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
   color: var(--muted);
 }
 .cg-btn {
@@ -1482,16 +1343,15 @@ footer {
 }
 .cs-meta {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 2fr 1fr 2fr;
   gap: 30px;
   margin-top: 50px;
   padding: 34px 0;
 }
 .cs-meta .label {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
   color: var(--muted);
   margin-bottom: 12px;
 }
@@ -1499,9 +1359,6 @@ footer {
   font-size: 15px;
   color: var(--fg);
   line-height: 1.5;
-}
-.cs-meta .chips {
-  margin-top: 0;
 }
 .cs-body {
   max-width: 64ch;
@@ -1520,7 +1377,7 @@ footer {
   margin-bottom: 16px;
 }
 .cs-section p {
-  font-size: clamp(16px, 1.8vw, 18px);
+  font-size: clamp(18px, 1.9vw, 20px);
   line-height: 1.7;
   color: #c8c8c2;
 }
@@ -1556,7 +1413,7 @@ footer {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  font-size: 14.5px;
+  font-size: 16px;
   line-height: 1.6;
   color: #d4d4ce;
 }
@@ -1584,10 +1441,9 @@ footer {
   background: var(--bg-2);
 }
 .cs-nav .dir {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
   color: var(--muted);
 }
 .cs-nav .nm {
@@ -1631,16 +1487,11 @@ footer {
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
-.ab-title em {
-  font-style: italic;
-  color: var(--accent);
-}
 .ab-grid {
   display: grid;
   grid-template-columns: 1.5fr 0.9fr;
   grid-template-areas:
-    "main portrait"
-    "main facts";
+    "main portrait";
   column-gap: 60px;
   row-gap: 26px;
   margin-top: 54px;
@@ -1657,55 +1508,25 @@ footer {
 }
 .ab-prose p {
   max-width: 62ch;
-  font-size: clamp(16px, 1.7vw, 18px);
+  font-size: clamp(18px, 1.8vw, 20px);
   line-height: 1.7;
   color: #c8c8c2;
   margin-top: 24px;
-}
-.ab-aside {
-  grid-area: facts;
-  display: flex;
-  flex-direction: column;
 }
 .ab-portrait {
   grid-area: portrait;
   margin: 0;
   max-width: 360px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--bg-2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 .ab-portrait img {
   display: block;
   width: 100%;
   height: auto;
   object-fit: cover;
-}
-.ab-facts {
-  display: flex;
-  flex-direction: column;
-}
-.ab-facts div {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 0;
-}
-.ab-facts dt {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.ab-facts dd {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  color: var(--fg);
-  text-align: right;
 }
 .ab-look {
   margin-top: 72px;
@@ -1716,34 +1537,21 @@ footer {
   justify-content: space-between;
   gap: 24px;
 }
-.ab-look .k {
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 12px;
-}
 .ab-look .t {
   font-family: var(--font-bodoni), Didot, Georgia, serif;
   font-variation-settings: "opsz" 34;
   font-weight: 600;
   font-size: clamp(24px, 3.4vw, 40px);
-  line-height: 1.05;
+  line-height: 1.12;
   letter-spacing: -0.02em;
   max-width: 20ch;
-}
-.ab-look .t em {
-  font-style: italic;
-  color: var(--accent);
 }
 @media (max-width: 860px) {
   .ab-grid {
     grid-template-columns: 1fr;
     grid-template-areas:
       "portrait"
-      "main"
-      "facts";
+      "main";
     gap: 36px;
   }
   .ab-portrait {
@@ -1767,10 +1575,6 @@ footer {
   line-height: 0.88;
   letter-spacing: -0.02em;
   text-wrap: balance;
-}
-.ct-title em {
-  font-style: italic;
-  color: var(--accent);
 }
 .ct-lead {
   font-size: clamp(17px, 2.2vw, 21px);
@@ -1802,10 +1606,9 @@ footer {
   display: block;
   margin-top: 14px;
   min-height: 1em;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
   color: var(--accent);
 }
 .ct-links {
@@ -1814,10 +1617,8 @@ footer {
   gap: 18px 30px;
   margin-top: 68px;
   padding-top: 0;
-  font-family: var(--font-fragment), ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-family: var(--font-news), Georgia, serif;
+  font-size: 17px;
   color: var(--muted);
 }
 .ct-links a {
@@ -1946,9 +1747,6 @@ footer {
   }
   /* Card hover: no movement, the "View case" label still appears. */
   .project:hover .p-visual {
-    transform: none;
-  }
-  .p-view {
     transform: none;
   }
 }

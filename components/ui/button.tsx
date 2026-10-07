@@ -3,20 +3,20 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 // Two variants, per docs/DESIGN-SYSTEM.md:
-//   primary — silver fill, near-black text
-//   ghost   — glass panel with a hairline border, brightening on hover
-// Body-font label (Karla), uppercase, tracked. Ghost is frosted rather than
-// transparent so its label stays readable wherever the field runs bright.
+//   primary — silver fill, near-black text, a squared 3px corner
+//   ghost   — no box at all: a text link whose underline grows on hover
+// Sentence-case Newsreader label. The old uppercase pill pair (filled + outlined)
+// was the stock SaaS button kit; one filled action and one plain link is how
+// the page reads now. The global text-shadow keeps the link legible over the field.
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2.5 rounded-full px-6 py-[15px] font-body text-[13px] font-semibold uppercase tracking-[0.05em] transition-[color,background-color,border-color,transform] duration-300 ease-brand",
+  "inline-flex items-center justify-center gap-2.5 font-body text-[17px] font-medium transition-[color,background-color,border-color,transform,filter] duration-300 ease-brand",
   {
     variants: {
       variant: {
         // dark label on a light fill: the global body text-shadow would muddy it
         primary:
-          "border border-accent-btn bg-accent-btn font-bold text-bg [text-shadow:none] hover:brightness-110",
-        ghost:
-          "border border-line bg-white/[0.06] text-fg backdrop-blur-md hover:border-fg",
+          "rounded-[3px] border border-accent-btn bg-accent-btn px-6 py-[13px] text-bg [text-shadow:none] hover:brightness-110",
+        ghost: "px-1 py-[13px] text-fg hover:text-accent",
       },
     },
     defaultVariants: { variant: "primary" },
@@ -38,6 +38,9 @@ export function Button({
   ariaLabel,
 }: ButtonProps) {
   const cls = cn(buttonVariants({ variant }), className);
+  // The ghost variant's underline sits under the words, not the padded box.
+  const label =
+    variant === "ghost" ? <span className="ulink">{children}</span> : children;
 
   if (href) {
     const external = /^(https?:|mailto:|tel:)/.test(href);
@@ -50,20 +53,20 @@ export function Button({
           aria-label={ariaLabel}
           {...(isHttp ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
-          {children}
+          {label}
         </a>
       );
     }
     return (
       <Link href={href} className={cls} aria-label={ariaLabel}>
-        {children}
+        {label}
       </Link>
     );
   }
 
   return (
     <button type="button" className={cls} aria-label={ariaLabel}>
-      {children}
+      {label}
     </button>
   );
 }

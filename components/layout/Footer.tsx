@@ -13,7 +13,7 @@ export function Footer() {
   if (pathname === "/contact") return null;
 
   return (
-    <footer className="mt-24">
+    <footer className="pt-24">
       <div className="wrap py-27.5">
         <h2 className="font-display text-[clamp(34px,6.5vw,84px)] font-medium leading-[0.95] tracking-[-0.02em]">
           {/* Deliberately the same sentence as the /contact h1: the footer asks
@@ -28,14 +28,14 @@ export function Footer() {
           </Link>
         </h2>
 
-        <ul className="mt-11.5 flex flex-wrap items-center gap-x-8 gap-y-4 font-mono text-xs uppercase tracking-wider text-muted">
+        <ul className="mt-11.5 flex flex-wrap items-center gap-x-8 gap-y-4 text-[17px] text-muted">
           <li>
             <a
               href={`mailto:${EMAIL}`}
               className="inline-flex items-center gap-2.5 py-1 transition-colors hover:text-accent"
             >
               <SocialIcon name="email" />
-              <span className="normal-case tracking-normal">{EMAIL}</span>
+              <span>{EMAIL}</span>
             </a>
           </li>
           {SOCIAL.map((s) => (

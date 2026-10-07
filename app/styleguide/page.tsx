@@ -40,7 +40,7 @@ const typeScale = [
   { label: "h2 / section", cls: "t-h2", sample: "Selected work" },
   { label: "project title", cls: "t-project", sample: "FareWise" },
   { label: "lead", cls: "t-lead max-w-[46ch] text-fg/80", sample: "An AI flight search running on the Claude API. A production site for a client in Germany. A storefront wired to print-on-demand fulfillment." },
-  { label: "body — 16px Karla", cls: "text-base max-w-[46ch] text-fg/80", sample: "Body copy is set in Karla at 16px with a 1.5 line height for comfortable reading." },
+  { label: "body, 18px Newsreader", cls: "text-[18px] max-w-[60ch] text-fg/80", sample: "Body copy is set in Newsreader at 18px with a 1.55 line height for comfortable reading." },
 ];
 
 function Section({
@@ -52,7 +52,7 @@ function Section({
 }) {
   return (
     <section className="border-t border-line py-14">
-      <h2 className="mb-8 font-mono text-xs uppercase tracking-[0.14em] text-muted">
+      <h2 className="mb-8 text-xs text-muted">
         {label}
       </h2>
       {children}
@@ -64,8 +64,8 @@ export default function StyleGuide() {
   return (
     <main id="main" className="wrap pt-30 pb-10">
       <header className="pb-10">
-        <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
-          Internal · not indexed
+        <p className=" text-xs text-muted">
+          Internal, not indexed
         </p>
         <h1 className="t-h2 mt-4">Style guide</h1>
         <p className="t-lead mt-3 max-w-[52ch] text-fg/80">
@@ -83,13 +83,13 @@ export default function StyleGuide() {
               className="rounded-lg border border-line-soft bg-bg-2 p-3"
             >
               <div className={`h-20 w-full rounded-sm ${t.cls}`} />
-              <div className="mt-3 font-mono text-[11px] uppercase tracking-[0.04em]">
+              <div className="mt-3 text-[15px]">
                 <span className="text-fg">{t.name}</span>
               </div>
-              <div className="mt-1 font-mono text-[11px] text-muted">
+              <div className="mt-1 text-[15px] text-muted">
                 {t.value}
               </div>
-              <div className="mt-0.5 font-mono text-[10px] text-muted">
+              <div className="mt-0.5 text-[15px] text-muted">
                 {t.note}
               </div>
             </li>
@@ -102,17 +102,16 @@ export default function StyleGuide() {
         <div className="flex flex-col gap-10">
           {typeScale.map((t) => (
             <div key={t.label}>
-              <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.06em] text-muted">
+              <div className="mb-3 text-[15px] text-muted">
                 {t.label}
               </div>
               <div className={t.cls}>{t.sample}</div>
             </div>
           ))}
           <div>
-            <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.06em] text-muted">
+            <div className="mb-3 text-[15px] text-muted">
               mono label
             </div>
-            <div className="t-mono text-fg">Available · 14:09 CR</div>
           </div>
         </div>
       </Section>
@@ -135,7 +134,7 @@ export default function StyleGuide() {
           href="/work/farewise"
           className="group grid grid-cols-1 items-center gap-3 border-b border-line-soft px-3 py-7 transition-[padding,background] duration-300 ease-brand hover:bg-[linear-gradient(90deg,var(--accent-dim),transparent_55%)] hover:pl-6 sm:grid-cols-[60px_1fr_auto] sm:gap-5"
         >
-          <span className="font-mono text-[13px] text-muted transition-colors group-hover:text-accent">
+          <span className=" text-[13px] text-muted transition-colors group-hover:text-accent">
             01
           </span>
           <span className="t-project transition-transform duration-300 ease-brand group-hover:translate-x-1.5">
@@ -146,13 +145,13 @@ export default function StyleGuide() {
               {["AI Product", "Claude API", "SerpApi"].map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-xs border border-line px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.04em] text-muted"
+                  className="rounded-xs border border-line px-2.5 py-1 text-[15px] text-muted"
                 >
                   {tag}
                 </span>
               ))}
             </span>
-            <span className="font-mono text-xs text-muted">2025</span>
+            <span className=" text-xs text-muted">2025</span>
           </span>
         </Link>
       </Section>
