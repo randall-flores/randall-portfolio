@@ -1,7 +1,28 @@
 # Portfolio Copy Rewrite — Design
 
 **Date:** 2026-08-11
-**Status:** approved, ready for implementation plan
+**Status:** approved, implemented. Revised 2026-10-06 (see below).
+
+## Revision 2026-10-06: de-slop pass
+
+An audit with Impeccable's detector plus a visual review found the copy clean
+of banned words but wrapped in template chrome. Approved by Randall the same
+day; plan in `docs/superpowers/plans/2026-10-06-de-slop-pass.md`. The
+**Final copy** sections below are updated in place to match.
+
+- Hero line "I build the whole product, not the front of it." was a "not X"
+  construction. Now: "I build whole products and hand them over."
+- About said "two of the five projects"; there are six.
+- Every headline lost its single italic accent word (`built.`, `building.`,
+  `whole build.`, `not the front of it.`).
+- Cut as repeating nearby text: home project count, /work kicker and range
+  list, card captions and hover labels, the "Featured" suffix, the About fact
+  sidebar and its "What I'm looking for" kicker, the case-study year above the
+  title, the Capabilities row, and the nav status ("Available" + clock).
+- FareWise lost "the honest read" and "rather than mocked data". Hollow Ronin's
+  outcomes stopped restating its build. Sana's tagline is a sentence.
+- Meta strings join with commas, sentence case. No `·` separators in visible
+  copy.
 
 ## Problem
 
@@ -35,10 +56,10 @@ section of `CLAUDE.md`.
    copy, but every claim anchored to a technology, a number, or an artifact so
    an engineer reading it still nods.
 2. **The pre-code decade appears exactly once**, on /about, doing one job:
-   explaining why two of the five projects are legal-workflow tools. Never a
+   explaining why two of the six projects are legal-workflow tools. Never a
    career-change story. Never the headline. The word "crossover" is retired.
-3. **The hero's job is range**: he builds the whole product, not the front of
-   it, proven with four concrete artifacts rather than adjectives.
+3. **The hero's job is range**: he builds whole products and hands them over,
+   proven with concrete artifacts, not adjectives.
 4. **/about argues "how I work"**, not "who I am". It answers what it is like
    to hire him.
 
@@ -59,6 +80,14 @@ leverage, solutions.
   gimmick", "instead of template-built")
 - Chiasmus and other cute symmetry ("it has to sound like her voice looks")
 
+**Banned display patterns** (added 2026-10-06):
+
+- One word or phrase in a headline set apart in italic or colour
+- Kicker or eyebrow labels above a heading
+- Tracked uppercase or monospace labels; `·` joined meta strings
+- "Name — what it is" captions
+- Any label that repeats text within one screen of it
+
 **Required:**
 
 - Every claim names a technology, a number, or an artifact.
@@ -70,23 +99,26 @@ leverage, solutions.
 
 ### `app/page.tsx` — Home
 
-Eyebrow, unchanged:
+Intro line, italic:
 
-> Full-stack developer · Bilingual EN/ES · San José, CR · **Open to remote**
+> Full-stack developer in San José, Costa Rica. Open to remote work.
 
 `h2`:
 
-> I build the whole product, not the front of it.
+> I build whole products and hand them over.
 
 Lead:
 
 > An AI flight search running on the Claude API. A production site for a client
-> in Germany. A storefront wired to print-on-demand fulfillment. Two apps built
-> around data that has to stay private.
+> in Germany. A storefront wired to print-on-demand fulfillment. A hand-curated
+> product feed on Supabase. Two apps built around data that has to stay
+> private.
 
-Buttons: `See the work` (was "See my work"), `Get in touch` unchanged.
+Buttons: `See the work` (filled), `Get in touch` (text link).
 
-Section heading `Selected work` unchanged.
+Section heading `Selected work`, with no count beside it. The orbit readout
+under each project is `category, year`, plus "Anonymized screens" or
+"Confidential" where the guardrail requires it.
 
 Metadata description:
 
@@ -114,7 +146,7 @@ Lead. This is the only place the pre-code decade appears anywhere on the site:
 
 > I'm Randall, a full-stack developer in Costa Rica, working in English and
 > Spanish. I spent about ten years in legal and operations work before I wrote
-> code for a living, which is why two of the five projects here are tools for
+> code for a living, which is why two of the six projects here are tools for
 > legal workflows.
 
 Four blocks, replacing the three `ab-prose` paragraphs. Each has a bold lead-in:
@@ -135,13 +167,13 @@ Four blocks, replacing the three `ab-prose` paragraphs. Each has a bold lead-in:
 > particularly around legal exposure, security, and how data gets stored. If a
 > request puts you, the project, or me at risk, I say so before it's built.
 
-Closing `ab-look` section:
+Closing `ab-look` section, no kicker:
 
-> **What I'm looking for**
 > Remote full-stack roles and freelance projects where I own the whole build.
 
-Button `Get in touch` unchanged. Portrait and the `facts` sidebar (Location,
-Languages, Focus) unchanged.
+Button `Get in touch`. Portrait stays. The `facts` sidebar (Location,
+Languages, Focus) is removed: the lead already states location and languages,
+and "Focus: Full-stack" said nothing.
 
 Metadata description:
 
@@ -157,7 +189,7 @@ and Hollow Ronin in the work itself.
 
 `h1`:
 
-> Tell me what you're *building.*
+> Tell me what you're building.
 
 Lead:
 
@@ -171,19 +203,21 @@ Metadata description:
 
 ### `app/work/page.tsx` — Work
 
-`h1` "Things I've *built.*" is plain and unpretentious and stays.
+`h1` "Things I've built." is plain and unpretentious and stays, without the
+italic accent.
 
-Second pass, same day, after the first deploy. The `range` chips led with
-"Frontend", which is the same undersell the hero used to make, and headless
-commerce was absent despite being a fifth of the work:
+The kicker and the `range` list are removed (2026-10-06): the filter row
+directly below names the same capabilities. Filters read `All, AI,
+Full-stack, Design, Client`; the count reads `6 of 6`.
 
-    Full-stack · AI integration · Design systems · Headless commerce · i18n
+Metadata description:
 
-Metadata description drops "filterable by capability", which described the
-control rather than the work:
+> Selected work, 2025 to 2026. Full-stack builds, AI integration, design
+> systems, headless commerce, and bilingual sites.
 
-> Selected work, 2025–2026. Full-stack builds, AI integration, design systems,
-> headless commerce, and bilingual sites.
+Work cards: title, italic `category, year`, description, the stack as one
+comma-separated line, then `View case`. The only text on the image is the
+guardrail flag.
 
 ### `app/work/[slug]/page.tsx` — Case studies
 
@@ -196,16 +230,10 @@ Third pass, same day, requested after the second deploy. The `01` markers on
 `cs-num` and `p-num` promised that the order carried meaning a reader needed.
 It did not: `01` only said FareWise is first in an array.
 
-Both now carry the **year**, which is the thing someone actually scans a
-portfolio index for, and which neither surface showed in that position before.
-The featured suffix becomes `· Featured` rather than `— Featured`, matching the
-separator used elsewhere and dropping an em dash from prose.
-
-- `p-num` on the work cards: `2026`, `2026 · Featured`, `2025`. The card had no
-  year anywhere else.
-- `cs-num` on case studies: `2026`. Mildly duplicates the Year row in
-  `cs-meta`, which sits well below the hero video; an eyebrow year above a
-  title is standard editorial practice and worth the overlap.
+Superseded 2026-10-06: both `p-num` and `cs-num` are gone. On cards the year
+rides on the category line (`AI product, full-stack, API integration, 2026`);
+on case studies it lives only in the Role / Year / Stack row. "Featured" is
+dropped: the full-width card already says it.
 
 `components/work/WorkIndex.tsx` carries the same pattern at line 48 and was
 **deliberately left alone**: nothing imports it, so it is dead code. Editing it
@@ -215,14 +243,17 @@ would imply it is maintained. Delete it or revive it, but do not maintain it.
 
 Only the fields listed change. All other fields keep their current values.
 
+`category` on every project is comma-separated and sentence case (2026-10-06), e.g. `AI product, full-stack, API integration`.
+
 #### farewise
 
-- `problem`: People book flights in intent: cheap and direct, mid-March, flexible by a day. A search form makes them translate that into a dozen filter clicks first, and that is where someone gives up and takes the worse fare.
-- `whatIBuilt`: A search that takes a plain-language request, interprets it with the Claude API, and turns it into structured search parameters. SerpApi supplies live fare data, and the results UI keeps the trade-offs visible on each result.
-- `tagline`: Flight search that reads a plain-language request and returns live fares.
-- `roleDetail`: Solo, end to end: the product concept, the interface, and the full build. That includes the prompt design that turns free-form requests into structured queries, the SerpApi integration, and the results UI.
-- `outcomes`: Two live integrations rather than mocked data: Claude interprets the request, SerpApi returns the fares. Ambiguous requests resolve to sensible queries, and the results stay readable when the fare data is messy.
-- `description`: Flight search that reads a plain-language request and returns live fares. Claude interprets the request, SerpApi supplies the results.
+- `tagline`: Flight search that returns live fares and explains each one in plain language.
+- `roleDetail`: Solo, end to end: the product concept, the interface, and the full build. That includes the SerpApi integration and the prompt design behind the per-fare analysis.
+- `problem`: A fare list ranks prices. The reasons a cheap fare is cheap (two stops each way, an overnight arrival, a price so low the airline may cancel it) sit in the fine print, and that is where bad bookings happen.
+- `whatIBuilt`: A round-trip search backed by live SerpApi fare data. Claude reads the results and writes a plain-language read: what each fare trades away, whether the price is typical for the route, and a warning when a fare looks like a mistake the airline can cancel.
+- `outcomes`: SerpApi returns live fares and Claude writes the read on each one. The route summary states the typical price range, and suspiciously low fares carry an explicit mistake-fare warning.
+- `description`: Flight search with live fares. SerpApi supplies the results, Claude explains each fare's trade-offs and flags likely mistake fares.
+- `category`: AI product, full-stack, API integration
 
 #### leonie-dubuc
 
@@ -237,10 +268,11 @@ Only the fields listed change. All other fields keep their current values.
 - `roleDetail`: Founder, designer, and developer. The brand identity, the art direction, the storefront build, and the product pipeline, all of it solo.
 - `problem`: Launch a drop-based streetwear brand with a strong identity and a working storefront, solo. That means brand design, a product pipeline, and commerce infrastructure with no team behind any of it.
 - `whatIBuilt`: A headless Shopify storefront with Printify handling fulfillment, the full brand identity, and an art pipeline where Midjourney and Adobe Firefly generate and refine the artwork behind each drop.
-- `outcomes`: A live store built end to end: headless Shopify wired to Printify for fulfillment, a coherent brand, and Midjourney and Firefly generating the artwork behind each drop.
+- `outcomes`: The store is live with Drop 001 lined up. An order placed at the Shopify checkout goes straight to Printify for printing and shipping, with no manual step in between.
 
 #### sana
 
+- `tagline`: A bilingual companion app for personal-injury clients, with Supabase auth and full EN/ES parity.
 - `outcomes`: Row-level security is enforced in Postgres rather than trusted to the UI, so a client can only ever reach their own records. The i18n structure keeps full parity across both languages.
 
 #### caseflow
@@ -288,8 +320,8 @@ document so they survive future sessions.
   the four About blocks each open with a `<strong>` lead-in inside the existing
   `<p>`, and the footer `h2` loses its `<br>` because the new sentence is one
   line. No CSS changes accompany either.
-- `mediaCaption` values keep their existing " — " separator. It is a consistent
-  display convention across all five projects, not prose.
+- ~~`mediaCaption` values keep their " — " separator.~~ Removed 2026-10-06
+  along with the field: the captions repeated the title beneath each card.
 - `/work` page copy.
 - The `facts` sidebar and portrait on /about.
 

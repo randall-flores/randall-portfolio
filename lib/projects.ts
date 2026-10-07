@@ -60,7 +60,7 @@ export const projects: Project[] = [
     roleDetail:
       "Solo, end to end: the product concept, the interface, and the full build. That includes the SerpApi integration and the prompt design behind the per-fare analysis.",
     problem:
-      "A fare list ranks prices. The reasons a cheap fare is cheap — two stops each way, an overnight arrival, a price so low the airline may cancel it — sit in the fine print, and that is where bad bookings happen.",
+      "A fare list ranks prices. The reasons a cheap fare is cheap (two stops each way, an overnight arrival, a price so low the airline may cancel it) sit in the fine print, and that is where bad bookings happen.",
     whatIBuilt:
       "A round-trip search backed by live SerpApi fare data. Claude reads the results and writes a plain-language read: what each fare trades away, whether the price is typical for the route, and a warning when a fare looks like a mistake the airline can cancel.",
     outcomes:
