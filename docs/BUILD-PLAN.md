@@ -51,12 +51,12 @@ judgment came from Randall.
 - [ ] **FareWise has no live link and no repo**, and it is the featured project.
       A visitor reads the case study and finds nothing to click. Highest-value
       gap on the site: deploy it, or say in the copy why it is not up.
-- [ ] **No project links a repo.** FareWise and Vox public would be the strongest
+- [ ] **No project links a repo.** FareWise and Leonie Dubuc public would be the strongest
       signal for a technical reviewer. Sana and Caseflow must stay private.
-- [ ] **Vox has two conflicting URLs.** `lib/projects.ts` points at
-      `vox-voiceover.vercel.app`; the old docs said `leonie-dubuc.vercel.app`.
-      Confirm which is live — a broken link on a client project is worse than
-      no link.
+- [x] **Leonie Dubuc's live URL.** Resolved 2026-10-05: the site runs on
+      her own domain, `leoniedubuc.com`, and `lib/projects.ts` links there.
+      The project was called "Vox" until then; `/work/vox` redirects to
+      `/work/leonie-dubuc`.
 - [ ] Real screenshots for the confidential projects (Sana, Caseflow),
       anonymized — dummy content only, no client data.
 - [ ] Content pass: copy, spacing, and the case-study bodies.

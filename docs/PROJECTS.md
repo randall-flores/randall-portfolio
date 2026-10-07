@@ -5,9 +5,9 @@ truth.** Every project surface — the home index, `/work`, each case study, and
 the per-project OG images — renders from it.
 
 This document used to hold a second copy of the same content, and the two had
-already drifted: it listed a different live URL for Vox than the site links to,
-and still showed Hollow Ronin's link as TODO after it had shipped. So it is a
-guide now, not data.
+already drifted: it listed a different live URL for Leonie Dubuc (then called
+Vox) than the site links to, and still showed Hollow Ronin's link as TODO after
+it had shipped. So it is a guide now, not data.
 
 ## Adding or editing a project
 
@@ -27,8 +27,8 @@ The fields worth thinking about rather than filling in mechanically:
 - **`links`** — `live` and `repo`. Both optional, but a public project with
   neither reads as unfinished. If there is a reason a link is missing, say it in
   the copy rather than leaving silence.
-- **`video`** — expects `public/cards/{slug}.webm`, `{slug}.mp4`, and
-  `{slug}-poster.jpg`.
+- **`trailer`** — `{ description, duration }`. Expects
+  `public/trailers/{slug}.mp4` and `{slug}.webp` (the poster frame).
 
 ## Client-data guardrail
 
@@ -49,5 +49,3 @@ Tracked in `docs/BUILD-PLAN.md`:
 - FareWise has no `live` or `repo` link. It is the featured project, so this is
   the most visible gap on the site.
 - No project links a repo yet.
-- Confirm Vox's live URL. `lib/projects.ts` points at
-  `vox-voiceover.vercel.app`.

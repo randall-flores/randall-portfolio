@@ -224,7 +224,7 @@ Only the fields listed change. All other fields keep their current values.
 - `outcomes`: Two live integrations rather than mocked data: Claude interprets the request, SerpApi returns the fares. Ambiguous requests resolve to sensible queries, and the results stay readable when the fare data is messy.
 - `description`: Flight search that reads a plain-language request and returns live fares. Claude interprets the request, SerpApi supplies the results.
 
-#### vox
+#### leonie-dubuc
 
 - `tagline`: Production site for a German voice-over actress, with a custom liquid-glass design system and bilingual routing.
 - `role`: Design and build for a client, in production.
